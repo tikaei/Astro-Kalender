@@ -1,6 +1,6 @@
 import json
 import urllib.request
-import urllib.error
+import urllib.parse
 import ssl
 import sys
 from datetime import datetime, timezone
@@ -11,38 +11,38 @@ LONGITUDE = 12.8860  # Längengrad
 LOCATION_NAME = "Neukirchen OT Adorf"
 
 def fetch_weather():
-    # timezone=auto verhindert Umwandlungsfehler in der URL
-    url = (
-        f"https://api.open-meteo.com/v1/forecast?"
-        f"latitude={LATITUDE}&longitude={LONGITUDE}&"
-        f"hourly=cloud_cover&"
-        f"daily=sunrise,sunset&"
-        f"forecast_days=7&timezone=auto"
+    # urllib.parse.urlencode sorgt für eine 100% fehlerfreie URL-Codierung
+    params = {
+        "latitude": LATITUDE,
+        "longitude": LONGITUDE,
+        "hourly": "cloud_cover",
+        "daily": "sunrise,sunset",
+        "timezone": "UTC"
+    }
+    url = "https://api.open-meteo.com/v1/forecast?" + urllib.parse.urlencode(params)
+    
+    req = urllib.request.Request(
+        url, 
+        headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     )
-    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    try:
-        with urllib.request.urlopen(req, context=ctx) as response:
-            return json.loads(response.read().decode('utf-8'))
-    except urllib.error.HTTPError as e:
-        error_body = e.read().decode('utf-8')
-        print(f"API Fehler-Details: {error_body}", file=sys.stderr)
-        raise e
+    with urllib.request.urlopen(req, context=ctx) as response:
+        return json.loads(response.read().decode("utf-8"))
 
 def generate_ics():
-    print("Abruf gestartet...")
+    print("Starte Wetter-Abruf...")
     data = fetch_weather()
-    daily = data.get('daily', {})
-    hourly = data.get('hourly', {})
+    daily = data.get("daily", {})
+    hourly = data.get("hourly", {})
     
-    times = daily.get('time', [])
-    sunrises = daily.get('sunrise', [])
-    sunsets = daily.get('sunset', [])
-    clouds_hourly = hourly.get('cloud_cover', [])
+    times = daily.get("time", [])
+    sunrises = daily.get("sunrise", [])
+    sunsets = daily.get("sunset", [])
+    clouds_hourly = hourly.get("cloud_cover", [])
     
     events = []
     
@@ -64,7 +64,7 @@ def generate_ics():
         summary = f"{status_icon} Deep Sky Score: {score}% (Wolken: {int(avg_cloud)}%)"
         description = (
             f"Ort: {LOCATION_NAME}\\n"
-            f"Sonnenuntergang: {sunset_time} Uhr | Sonnenaufgang: {sunrise_time} Uhr\\n"
+            f"Sonnenuntergang: {sunset_time} UTC | Sonnenaufgang: {sunrise_time} UTC\\n"
             f"Bewölkung im Schnitt: {int(avg_cloud)}%\\n"
             f"Erstellt via Open-Meteo"
         )
