@@ -1,57 +1,67 @@
 import json
 import urllib.request
+import sys
 from datetime import datetime, timezone
 
-# --- DEINE KOORDINATEN (Hier deinen Wohnort eintragen) ---
-LATITUDE = 50.7725   # Breitengrad deines Wohnorts
-LONGITUDE = 12.8860  # Längengrad deines Wohnorts
+# --- DEINE KOORDINATEN ---
+LATITUDE = 50.7725   # Breitengrad
+LONGITUDE = 12.8860  # Längengrad
 LOCATION_NAME = "Home"
 
 def fetch_weather():
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={LATITUDE}&longitude={LONGITUDE}&"
-        f"hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,relative_humidity_2m&"
-        f"daily=astronomical_dusk,astronomical_dawn,moon_phase&"
+        f"hourly=cloud_cover&"
+        f"daily=sunrise,sunset&"
         f"forecast_days=7&timezone=Europe%2FBerlin"
     )
-    req = urllib.request.urlopen(url)
-    return json.loads(req.read().decode('utf-8'))
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (AstroCalendarBot)'})
+    try:
+        with urllib.request.urlopen(req) as response:
+            return json.loads(response.read().decode('utf-8'))
+    except Exception as e:
+        print(f"Fehler beim API-Abruf: {e}", file=sys.stderr)
+        raise e
 
-def calculate_score(cloud_cover, moon_phase):
-    # Mondphase: 0 = Neumond (ideal), 0.5 = Halbmond, 1 = Vollmond
-    moon_penalty = abs(moon_phase - 0.5) * 2
+def calculate_score(cloud_cover):
     cloud_penalty = cloud_cover / 100.0
-    
-    score = int(100 * (1 - (0.6 * cloud_penalty + 0.4 * moon_penalty)))
+    score = int(100 * (1 - cloud_penalty))
     return max(0, min(100, score))
 
 def generate_ics():
+    print("Starte Datenabruf von Open-Meteo...")
     data = fetch_weather()
     daily = data.get('daily', {})
+    hourly = data.get('hourly', {})
     
     events = []
+    times = daily.get('time', [])
+    sunrises = daily.get('sunrise', [])
+    sunsets = daily.get('sunset', [])
+    clouds_hourly = hourly.get('cloud_cover', [])
     
-    for i in range(len(daily.get('time', []))):
-        date_str = daily['time'][i]
-        dusk = daily['astronomical_dusk'][i]
-        dawn = daily['astronomical_dawn'][i]
-        moon_phase = daily['moon_phase'][i]
+    for i in range(len(times)):
+        date_str = times[i]
+        sunset = sunsets[i] if i < len(sunsets) and sunsets[i] else "N/A"
+        sunrise = sunrises[i+1] if (i+1) < len(sunrises) and sunrises[i+1] else "N/A"
         
-        clouds = data['hourly']['cloud_cover'][i * 24:(i + 1) * 24]
+        clouds = clouds_hourly[i * 24:(i + 1) * 24]
         avg_cloud = sum(clouds) / len(clouds) if clouds else 50
         
-        score = calculate_score(avg_cloud, moon_phase)
+        score = calculate_score(avg_cloud)
         
         status_icon = "🟢" if score >= 75 else "🟡" if score >= 50 else "🔴"
+        
+        sunset_time = sunset[-5:] if len(sunset) >= 5 else sunset
+        sunrise_time = sunrise[-5:] if len(sunrise) >= 5 else sunrise
         
         summary = f"{status_icon} Deep Sky Score: {score}% (Wolken: {int(avg_cloud)}%)"
         description = (
             f"Ort: {LOCATION_NAME}\\n"
-            f"Astronomische Nacht: {dusk[-5:]} - {dawn[-5:]} Uhr\\n"
-            f"Bewölkung (Schnitt): {int(avg_cloud)}%\\n"
-            f"Mondphase Wert (0=Neumond, 1=Vollmond): {moon_phase}\\n"
-            f"Erstellt automatisch via Open-Meteo API"
+            f"Nachtfenster (Sonnenunter-/aufgang): {sunset_time} - {sunrise_time} Uhr\\n"
+            f"Bewölkung im Schnitt: {int(avg_cloud)}%\\n"
+            f"Erstellt automatisch via Open-Meteo"
         )
         
         dt_start = date_str.replace("-", "")
@@ -68,6 +78,7 @@ END:VEVENT""")
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
         f.write(ics_content)
+    print("deepsky.ics erfolgreich erstellt!")
 
 if __name__ == "__main__":
     generate_ics()
