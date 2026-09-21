@@ -7,33 +7,70 @@ from datetime import datetime, timezone
 LATITUDE = 50.7725
 LONGITUDE = 12.8860
 
-# Katalog-Objekte für ~51° N (Sichtbarkeit im Zeitfenster 20:00 - 03:00 Uhr nach Monat)
-DSO_TARGETS = [
-    {"cat": "M31", "name": "Andromeda-Galaxie", "months": [8, 9, 10, 11, 12]},
-    {"cat": "M33", "name": "Dreiecks-Galaxie", "months": [9, 10, 11, 12, 1]},
-    {"cat": "M42 / M43", "name": "Orionnebel", "months": [11, 12, 1, 2, 3]},
-    {"cat": "M45", "name": "Plejaden", "months": [10, 11, 12, 1, 2]},
-    {"cat": "NGC 7000", "name": "Nordamerika-Nebel", "months": [6, 7, 8, 9, 10]},
-    {"cat": "IC 1396", "name": "Elefantenrüsselnebel", "months": [7, 8, 9, 10, 11]},
-    {"cat": "IC 1805", "name": "Herznebel", "months": [9, 10, 11, 12, 1]},
-    {"cat": "IC 1848", "name": "Seelennebel", "months": [9, 10, 11, 12, 1]},
-    {"cat": "NGC 6992 / 6960", "name": "Schleiernebel (Veil)", "months": [6, 7, 8, 9, 10]},
-    {"cat": "M27", "name": "Hantelnebel", "months": [6, 7, 8, 9, 10]},
-    {"cat": "M57", "name": "Ringnebel", "months": [5, 6, 7, 8, 9]},
-    {"cat": "M81 / M82", "name": "Bodes Galaxie & Zigarre", "months": [1, 2, 3, 4, 5]},
-    {"cat": "M51", "name": "Whirlpool-Galaxie", "months": [2, 3, 4, 5, 6]},
-    {"cat": "NGC 2237", "name": "Rosettennebel", "months": [12, 1, 2, 3]},
-    {"cat": "IC 434 / B33", "name": "Pferdekopfnebel", "months": [11, 12, 1, 2]},
-    {"cat": "NGC 1499", "name": "Kaliforniennebel", "months": [10, 11, 12, 1, 2]},
-    {"cat": "NGC 869 / 884", "name": "Doppelsternhaufen h & chi", "months": [8, 9, 10, 11, 12, 1]}
+# Erweiterter Katalog für ~50.8° N mit Deklination (dec) zur Zenit-Berechnung
+DSO_CATALOG = [
+    {"cat": "M109", "name": "Spiralgalaxie Ursa Major", "dec": 53.4, "months": [2, 3, 4, 5, 6]},
+    {"cat": "M51", "name": "Whirlpool-Galaxie", "dec": 47.2, "months": [2, 3, 4, 5, 6, 7]},
+    {"cat": "M106", "name": "Spiralgalaxie Canes Venatici", "dec": 47.3, "months": [2, 3, 4, 5, 6]},
+    {"cat": "M101", "name": "Feuerrad-Galaxie", "dec": 54.4, "months": [3, 4, 5, 6, 7]},
+    {"cat": "M97", "name": "Eulennebel", "dec": 55.0, "months": [2, 3, 4, 5, 6]},
+    {"cat": "M63", "name": "Sonnenblumen-Galaxie", "dec": 42.0, "months": [3, 4, 5, 6, 7]},
+    {"cat": "M3", "name": "Kugelsternhaufen Jagdhunde", "dec": 28.4, "months": [3, 4, 5, 6, 7]},
+    {"cat": "M104", "name": "Sombrero-Galaxie", "dec": -11.6, "months": [3, 4, 5, 6]},
+    {"cat": "M13", "name": "Herkules-Kugelsternhaufen", "dec": 36.5, "months": [4, 5, 6, 7, 8, 9]},
+    {"cat": "M92", "name": "Kugelsternhaufen Herkules", "dec": 43.1, "months": [5, 6, 7, 8, 9]},
+    {"cat": "M57", "name": "Ringnebel", "dec": 33.0, "months": [5, 6, 7, 8, 9, 10]},
+    {"cat": "M27", "name": "Hantelnebel", "dec": 22.7, "months": [5, 6, 7, 8, 9, 10]},
+    {"cat": "NGC 7000", "name": "Nordamerika-Nebel", "dec": 44.4, "months": [5, 6, 7, 8, 9, 10]},
+    {"cat": "NGC 6992 / 6960", "name": "Schleiernebel (Veil)", "dec": 31.7, "months": [6, 7, 8, 9, 10, 11]},
+    {"cat": "NGC 6888", "name": "Crescent-Nebel", "dec": 38.4, "months": [6, 7, 8, 9, 10]},
+    {"cat": "IC 1396", "name": "Elefantenrüsselnebel", "dec": 57.5, "months": [7, 8, 9, 10, 11]},
+    {"cat": "IC 5146", "name": "Kokon-Nebel", "dec": 47.3, "months": [7, 8, 9, 10, 11]},
+    {"cat": "M31", "name": "Andromeda-Galaxie", "dec": 41.2, "months": [8, 9, 10, 11, 12, 1]},
+    {"cat": "IC 1805", "name": "Herznebel", "dec": 61.5, "months": [8, 9, 10, 11, 12, 1]},
+    {"cat": "IC 1848", "name": "Seelennebel", "dec": 60.4, "months": [8, 9, 10, 11, 12, 1]},
+    {"cat": "NGC 869 / 884", "name": "Doppelsternhaufen h & chi", "dec": 57.1, "months": [8, 9, 10, 11, 12, 1, 2]},
+    {"cat": "NGC 281", "name": "Pacman-Nebel", "dec": 56.6, "months": [8, 9, 10, 11, 12]},
+    {"cat": "NGC 7331", "name": "Deer Lick Gruppe", "dec": 34.4, "months": [8, 9, 10, 11, 12]},
+    {"cat": "M33", "name": "Dreiecks-Galaxie", "dec": 30.6, "months": [9, 10, 11, 12, 1]},
+    {"cat": "NGC 1499", "name": "Kaliforniennebel", "dec": 36.6, "months": [9, 10, 11, 12, 1, 2]},
+    {"cat": "NGC 891", "name": "Outer Line Galaxie", "dec": 42.4, "months": [9, 10, 11, 12, 1]},
+    {"cat": "NGC 1333", "name": "Reflexionsnebel Perseus", "dec": 31.4, "months": [9, 10, 11, 12, 1]},
+    {"cat": "M74", "name": "Phantom-Galaxie", "dec": 15.8, "months": [9, 10, 11, 12, 1]},
+    {"cat": "M45", "name": "Plejaden", "dec": 24.1, "months": [10, 11, 12, 1, 2]},
+    {"cat": "M42 / M43", "name": "Orionnebel", "dec": -5.4, "months": [11, 12, 1, 2, 3]},
+    {"cat": "IC 434 / B33", "name": "Pferdekopfnebel", "dec": -2.5, "months": [11, 12, 1, 2, 3]},
+    {"cat": "M1", "name": "Krebsnebel", "dec": 22.0, "months": [11, 12, 1, 2, 3, 4]},
+    {"cat": "IC 405", "name": "Flammensternnebel", "dec": 34.4, "months": [11, 12, 1, 2, 3]},
+    {"cat": "NGC 2403", "name": "Spiralgalaxie Camelopardalis", "dec": 65.6, "months": [11, 12, 1, 2, 3, 4]},
+    {"cat": "NGC 2237", "name": "Rosettennebel", "dec": 5.0, "months": [12, 1, 2, 3, 4]},
+    {"cat": "M78", "name": "Reflexionsnebel Orion", "dec": 0.1, "months": [12, 1, 2, 3]},
+    {"cat": "M81 / M82", "name": "Bodes Galaxie & Zigarre", "dec": 69.1, "months": [12, 1, 2, 3, 4, 5]},
+    {"cat": "M16", "name": "Adlernebel (Säulen)", "dec": -13.8, "months": [5, 6, 7, 8]},
+    {"cat": "M17", "name": "Omega- / Schwanennebel", "dec": -16.2, "months": [5, 6, 7, 8]},
+    {"cat": "M8", "name": "Lagunennebel", "dec": -24.4, "months": [6, 7, 8]},
+    {"cat": "M20", "name": "Trifidnebel", "dec": -23.0, "months": [6, 7, 8]}
 ]
 
-def get_recommended_targets(month):
-    matches = [f"• {t['cat']} ({t['name']})" for t in DSO_TARGETS if month in t['months']]
-    return matches[:5] if matches else ["• Keine speziellen Favoriten gelistet"]
+def get_sorted_targets(month):
+    matched = []
+    for t in DSO_CATALOG:
+        if month in t['months']:
+            # Max. Höhe am Süd-Meridian (Zenitnähe): 90 - |Breitengrad - Deklination|
+            max_alt = round(90.0 - abs(LATITUDE - t['dec']))
+            matched.append({
+                "cat": t['cat'],
+                "name": t['name'],
+                "max_alt": max_alt
+            })
+    
+    # Sortierung absteigend nach maximaler Zenit-Höhe (höchster Stand zuerst)
+    matched.sort(key=lambda x: x['max_alt'], reverse=True)
+    
+    formatted = [f"• {t['cat']} ({t['name']}) - Max. Höhe: {t['max_alt']}°" for t in matched]
+    return formatted if formatted else ["• Keine Objekte gelistet"]
 
 def generate_ics():
-    # Wetter, Bewölkung, Luftfeuchtigkeit, Niederschlag, Tag/Nacht & Mondphase abrufen
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={LATITUDE}&longitude={LONGITUDE}&"
@@ -47,7 +84,7 @@ def generate_ics():
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    print("Lade Wetter-, Niederschlags- und Astrodaten...")
+    print("Lade Wetter- und Astrodaten...")
     with urllib.request.urlopen(req, context=ctx) as response:
         data = json.loads(response.read().decode('utf-8'))
 
@@ -68,7 +105,6 @@ def generate_ics():
         start_idx = day * 24
         end_idx = start_idx + 24
         
-        # Auswertung ausschließlich für die Nachtstunden (is_day == 0)
         night_indices = [k for k in range(start_idx, end_idx) if is_day_hourly[k] == 0]
         if not night_indices:
             night_indices = list(range(start_idx, end_idx))
@@ -95,28 +131,29 @@ def generate_ics():
         
         total_score = max(0, min(100, int(cloud_score + moon_score + humidity_score - precip_penalty)))
         
+        # Nur gelb (>=45%) und grün (>=70%) anzeigen
+        if total_score < 45:
+            continue
+            
         date_str = times_hourly[start_idx][:10]
         dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
         
-        status_icon = "🟢" if total_score >= 70 else "🟡" if total_score >= 45 else "🔴"
-        
-        # 1. Kompakter Titel
+        status_icon = "🟢" if total_score >= 70 else "🟡"
         summary = f"🔭 {status_icon} Deep Sky: {total_score}%"
         
-        # Empfehlungen für den Monat
-        targets = get_recommended_targets(dt_obj.month)
+        # Objekte nach Zenitnähe absteigend sortiert abrufen
+        targets = get_sorted_targets(dt_obj.month)
         targets_str = "\\n".join(targets)
         
         dew_warning = " ⚠️ (Tau-Risiko)" if avg_night_humidity >= 85 else ""
         precip_str = f"{max_precip_prob}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
         
-        # 2. Ereignisbeschreibung
         description = (
             f"Bewölkung (Nacht): {int(avg_night_cloud)}%\\n"
             f"Niederschlag: {precip_str}\\n"
             f"Mondbeleuchtung: ~{moon_illumination}%\\n"
             f"Luftfeuchtigkeit: {int(avg_night_humidity)}%{dew_warning}\\n\\n"
-            f"Empfohlene Objekte (20:00-03:00 Uhr):\\n"
+            f"Sichtbare Objekte (sortiert nach Zenithöhe):\\n"
             f"{targets_str}\\n\\n"
             f"Erstellt via Open-Meteo Astro API"
         )
@@ -135,7 +172,7 @@ END:VEVENT""")
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
         f.write(ics_content)
-    print("Optimierte deepsky.ics erfolgreich erstellt!")
+    print("deepsky.ics mit erweitertem Katalog und Zenit-Sortierung erfolgreich erstellt!")
 
 if __name__ == "__main__":
     generate_ics()
