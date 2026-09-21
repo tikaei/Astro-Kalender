@@ -1,6 +1,8 @@
 import json
 import urllib.request
+import urllib.error
 import ssl
+import sys
 from datetime import datetime, timezone
 
 # --- KOORDINATEN (Neukirchen OT Adorf) ---
@@ -79,7 +81,7 @@ def generate_ics():
         f"latitude={LATITUDE}&longitude={LONGITUDE}&"
         f"hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,"
         f"relative_humidity_2m,precipitation_probability,precipitation,is_day&"
-        f"daily=astronomical_dusk,astronomical_dawn,moonrise,moonset,moon_phase&"
+        f"daily=sunrise,sunset,moonrise,moonset,moon_phase&"
         f"forecast_days=7&timezone=auto"
     )
     
@@ -88,9 +90,14 @@ def generate_ics():
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    print("Lade erweiterte Wetter- & Astrodaten...")
-    with urllib.request.urlopen(req, context=ctx) as response:
-        data = json.loads(response.read().decode('utf-8'))
+    print("Lade Wetter- & Astrodaten von Open-Meteo...")
+    try:
+        with urllib.request.urlopen(req, context=ctx) as response:
+            data = json.loads(response.read().decode('utf-8'))
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode('utf-8')
+        print(f"API Fehler-Details: {error_body}", file=sys.stderr)
+        raise e
 
     hourly = data.get("hourly", {})
     daily = data.get("daily", {})
@@ -105,8 +112,8 @@ def generate_ics():
     is_day_hourly = hourly.get("is_day", [])
     times_hourly = hourly.get("time", [])
     
-    dusks = daily.get("astronomical_dusk", [])
-    dawns = daily.get("astronomical_dawn", [])
+    sunsets = daily.get("sunset", [])
+    sunrises = daily.get("sunrise", [])
     moonrises = daily.get("moonrise", [])
     moonsets = daily.get("moonset", [])
     moon_phases = daily.get("moon_phase", [])
@@ -145,14 +152,14 @@ def generate_ics():
         m_rise = format_time_str(moonrises[day] if day < len(moonrises) else "")
         m_set = format_time_str(moonsets[day] if day < len(moonsets) else "")
         
-        # Astronomische Dämmerung / Nacht
-        dusk_raw = dusks[day] if day < len(dusks) else ""
-        dawn_raw = dawns[day+1] if (day+1) < len(dawns) else (dawns[day] if day < len(dawns) else "")
+        # Sonnenuntergang & -aufgang
+        sunset_raw = sunsets[day] if day < len(sunsets) else ""
+        sunrise_raw = sunrises[day+1] if (day+1) < len(sunrises) else (sunrises[day] if day < len(sunrises) else "")
         
-        dusk_time = format_time_str(dusk_raw)
-        dawn_time = format_time_str(dawn_raw)
+        sunset_time = format_time_str(sunset_raw)
+        sunrise_time = format_time_str(sunrise_raw)
         
-        # Gewichtet: Tiefe/Mittlere Wolken schaden mehr als hohe Cirrus-Wolken
+        # Score-Berechnung: Tiefe/Mittlere Wolken wiegen schwerer als hohe Schleierwolken
         weighted_cloud = (avg_low * 0.5) + (avg_mid * 0.3) + (avg_high * 0.2)
         cloud_score = (100 - weighted_cloud) * 0.70
         moon_score = (100 - moon_illumination) * 0.20
@@ -178,7 +185,7 @@ def generate_ics():
         precip_str = f"{max_precip_prob}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
         
         description = (
-            f"Astro-Dunkelheit: {dusk_time} - {dawn_time} Uhr\\n"
+            f"Nachtfenster (Sonnenunter/aufgang): {sunset_time} - {sunrise_time} Uhr\\n"
             f"Bewölkung (Nacht): Tiefe {int(avg_low)}% | Mid {int(avg_mid)}% | High {int(avg_high)}% (Schnitt: {int(avg_cloud)}%)\\n"
             f"Mond: ~{moon_illumination}% | Aufgang: {m_rise} | Untergang: {m_set}\\n"
             f"Niederschlag: {precip_str}\\n"
@@ -188,8 +195,8 @@ def generate_ics():
             f"Erstellt via Open-Meteo Astro API"
         )
         
-        dt_start_ics = iso_to_ics_dt(dusk_raw)
-        dt_end_ics = iso_to_ics_dt(dawn_raw)
+        dt_start_ics = iso_to_ics_dt(sunset_raw)
+        dt_end_ics = iso_to_ics_dt(sunrise_raw)
         
         if dt_start_ics and dt_end_ics:
             dt_lines = f"DTSTART:{dt_start_ics}\nDTEND:{dt_end_ics}"
@@ -197,7 +204,7 @@ def generate_ics():
             dt_start = date_str.replace("-", "")
             dt_lines = f"DTSTART;VALUE=DATE:{dt_start}"
             
-        # VALARM: Sendet genau 6 Stunden vor Beginn der Astro-Dunkelheit eine Mitteilung
+        # VALARM: Sendet genau 6 Stunden vor Beginn des Ereignisses eine Benachrichtigung
         alarm_block = """BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -217,7 +224,7 @@ END:VEVENT""")
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
         f.write(ics_content)
-    print("Vollständig optimierte deepsky.ics mit Alarm, Dämmerung, Mondzeiten & Wolkenschichten erstellt!")
+    print("Vollständig optimierte deepsky.ics erfolgreich erstellt!")
 
 if __name__ == "__main__":
     generate_ics()
