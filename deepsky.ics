@@ -1,54 +1,54 @@
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//DeepSkyForecast//DE
-X-WR-CALNAME:Deep Sky Fotografie Vorhersage
+X-WR-CALNAME:Deep Sky Vorhersage
 BEGIN:VEVENT
 UID:astro-2026-09-22@deepsky
-DTSTAMP:20260921T225706Z
+DTSTAMP:20260921T231651Z
 DTSTART;VALUE=DATE:20260922
-SUMMARY:🟡 Deep Sky: 45% (Nachtwolken: 51%)
-DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung (Nacht): 51%\nMondbeleuchtung: ~71%\nLuftfeuchtigkeit (Nacht): 82% (Gering)\nErstellt via Open-Meteo Astro API
+SUMMARY:🔭 🔴 Deep Sky: 29%
+DESCRIPTION:Bewölkung (Nacht): 51%\nNiederschlag: 53% (0.0 mm)\nMondbeleuchtung: ~71%\nLuftfeuchtigkeit: 82%\n\nEmpfohlene Objekte (20:00-03:00 Uhr):\n• M31 (Andromeda-Galaxie)\n• M33 (Dreiecks-Galaxie)\n• NGC 7000 (Nordamerika-Nebel)\n• IC 1396 (Elefantenrüsselnebel)\n• IC 1805 (Herznebel)\n\nErstellt via Open-Meteo Astro API
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-23@deepsky
-DTSTAMP:20260921T225706Z
+DTSTAMP:20260921T231651Z
 DTSTART;VALUE=DATE:20260923
-SUMMARY:🔴 Deep Sky: 33% (Nachtwolken: 65%)
-DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung (Nacht): 65%\nMondbeleuchtung: ~78%\nLuftfeuchtigkeit (Nacht): 83% (Gering)\nErstellt via Open-Meteo Astro API
+SUMMARY:🔭 🔴 Deep Sky: 33%
+DESCRIPTION:Bewölkung (Nacht): 65%\nNiederschlag: 0% (Trocken)\nMondbeleuchtung: ~78%\nLuftfeuchtigkeit: 83%\n\nEmpfohlene Objekte (20:00-03:00 Uhr):\n• M31 (Andromeda-Galaxie)\n• M33 (Dreiecks-Galaxie)\n• NGC 7000 (Nordamerika-Nebel)\n• IC 1396 (Elefantenrüsselnebel)\n• IC 1805 (Herznebel)\n\nErstellt via Open-Meteo Astro API
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-24@deepsky
-DTSTAMP:20260921T225706Z
+DTSTAMP:20260921T231651Z
 DTSTART;VALUE=DATE:20260924
-SUMMARY:🔴 Deep Sky: 18% (Nachtwolken: 88%)
-DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung (Nacht): 88%\nMondbeleuchtung: ~84%\nLuftfeuchtigkeit (Nacht): 78% (Gering)\nErstellt via Open-Meteo Astro API
+SUMMARY:🔭 🔴 Deep Sky: 6%
+DESCRIPTION:Bewölkung (Nacht): 88%\nNiederschlag: 41% (1.7 mm)\nMondbeleuchtung: ~84%\nLuftfeuchtigkeit: 78%\n\nEmpfohlene Objekte (20:00-03:00 Uhr):\n• M31 (Andromeda-Galaxie)\n• M33 (Dreiecks-Galaxie)\n• NGC 7000 (Nordamerika-Nebel)\n• IC 1396 (Elefantenrüsselnebel)\n• IC 1805 (Herznebel)\n\nErstellt via Open-Meteo Astro API
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-25@deepsky
-DTSTAMP:20260921T225706Z
+DTSTAMP:20260921T231651Z
 DTSTART;VALUE=DATE:20260925
-SUMMARY:🟡 Deep Sky: 47% (Nachtwolken: 44%)
-DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung (Nacht): 44%\nMondbeleuchtung: ~91%\nLuftfeuchtigkeit (Nacht): 80% (Gering)\nErstellt via Open-Meteo Astro API
+SUMMARY:🔭 🔴 Deep Sky: 40%
+DESCRIPTION:Bewölkung (Nacht): 44%\nNiederschlag: 23% (0.0 mm)\nMondbeleuchtung: ~91%\nLuftfeuchtigkeit: 80%\n\nEmpfohlene Objekte (20:00-03:00 Uhr):\n• M31 (Andromeda-Galaxie)\n• M33 (Dreiecks-Galaxie)\n• NGC 7000 (Nordamerika-Nebel)\n• IC 1396 (Elefantenrüsselnebel)\n• IC 1805 (Herznebel)\n\nErstellt via Open-Meteo Astro API
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-26@deepsky
-DTSTAMP:20260921T225706Z
+DTSTAMP:20260921T231651Z
 DTSTART;VALUE=DATE:20260926
-SUMMARY:🟢 Deep Sky: 73% (Nachtwolken: 9%)
-DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung (Nacht): 9%\nMondbeleuchtung: ~98%\nLuftfeuchtigkeit (Nacht): 71% (Gering)\nErstellt via Open-Meteo Astro API
+SUMMARY:🔭 🟢 Deep Sky: 72%
+DESCRIPTION:Bewölkung (Nacht): 9%\nNiederschlag: 3% (0.0 mm)\nMondbeleuchtung: ~98%\nLuftfeuchtigkeit: 71%\n\nEmpfohlene Objekte (20:00-03:00 Uhr):\n• M31 (Andromeda-Galaxie)\n• M33 (Dreiecks-Galaxie)\n• NGC 7000 (Nordamerika-Nebel)\n• IC 1396 (Elefantenrüsselnebel)\n• IC 1805 (Herznebel)\n\nErstellt via Open-Meteo Astro API
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-27@deepsky
-DTSTAMP:20260921T225706Z
+DTSTAMP:20260921T231651Z
 DTSTART;VALUE=DATE:20260927
-SUMMARY:🔴 Deep Sky: 31% (Nachtwolken: 66%)
-DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung (Nacht): 66%\nMondbeleuchtung: ~95%\nLuftfeuchtigkeit (Nacht): 79% (Gering)\nErstellt via Open-Meteo Astro API
+SUMMARY:🔭 🔴 Deep Sky: 31%
+DESCRIPTION:Bewölkung (Nacht): 66%\nNiederschlag: 0% (Trocken)\nMondbeleuchtung: ~95%\nLuftfeuchtigkeit: 79%\n\nEmpfohlene Objekte (20:00-03:00 Uhr):\n• M31 (Andromeda-Galaxie)\n• M33 (Dreiecks-Galaxie)\n• NGC 7000 (Nordamerika-Nebel)\n• IC 1396 (Elefantenrüsselnebel)\n• IC 1805 (Herznebel)\n\nErstellt via Open-Meteo Astro API
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-28@deepsky
-DTSTAMP:20260921T225706Z
+DTSTAMP:20260921T231651Z
 DTSTART;VALUE=DATE:20260928
-SUMMARY:🔴 Deep Sky: 37% (Nachtwolken: 61%)
-DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung (Nacht): 61%\nMondbeleuchtung: ~87%\nLuftfeuchtigkeit (Nacht): 74% (Gering)\nErstellt via Open-Meteo Astro API
+SUMMARY:🔭 🔴 Deep Sky: 37%
+DESCRIPTION:Bewölkung (Nacht): 61%\nNiederschlag: 3% (0.0 mm)\nMondbeleuchtung: ~87%\nLuftfeuchtigkeit: 74%\n\nEmpfohlene Objekte (20:00-03:00 Uhr):\n• M31 (Andromeda-Galaxie)\n• M33 (Dreiecks-Galaxie)\n• NGC 7000 (Nordamerika-Nebel)\n• IC 1396 (Elefantenrüsselnebel)\n• IC 1805 (Herznebel)\n\nErstellt via Open-Meteo Astro API
 END:VEVENT
 END:VCALENDAR
