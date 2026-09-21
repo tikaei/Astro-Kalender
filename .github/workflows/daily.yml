@@ -2,8 +2,8 @@ name: Tägliches Kalender-Update
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Läuft jeden Tag um 06:00 Uhr UTC (7:00/8:00 Uhr deutscher Zeit)
-  workflow_dispatch:      # Erlaubt das manuelle Ausführen per Klick zum Testen
+    - cron: '0 6 * * *'  # Jeden Tag um 06:00 Uhr UTC
+  workflow_dispatch:      # Manuell ausführen
 
 permissions:
   contents: write
@@ -23,10 +23,10 @@ jobs:
       - name: Skript ausführen
         run: python generate_ics.py
 
-      - name: ICS-Datei auf GitHub committen und pushen
+      - name: ICS-Datei auf GitHub speichern
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add deepsky.ics
-          git commit -m "Tägliches Update der Deep Sky Vorausschau" || exit 0
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff-index --quiet HEAD || git commit -m "Tägliches Update der Deep Sky Vorausschau"
           git push
