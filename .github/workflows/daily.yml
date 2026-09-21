@@ -15,18 +15,22 @@ jobs:
       - name: Code auschecken
         uses: actions/checkout@v4
 
+      - name: Wetterdaten herunterladen
+        run: |
+          curl -f -s "https://api.open-meteo.com/v1/forecast?latitude=50.7725&longitude=12.8860&hourly=cloud_cover&forecast_days=7" -o weather.json
+
       - name: Python einrichten
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Skript ausführen
+      - name: ICS-Kalender generieren
         run: python generate_ics.py
 
       - name: ICS-Datei auf GitHub speichern
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add -A
+          git add deepsky.ics
           git diff-index --quiet HEAD || git commit -m "Tägliches Update der Deep Sky Vorausschau"
           git push
