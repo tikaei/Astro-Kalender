@@ -15,16 +15,12 @@ jobs:
       - name: Code auschecken
         uses: actions/checkout@v4
 
-      - name: Wetterdaten herunterladen
-        run: |
-          curl -f -s "https://api.open-meteo.com/v1/forecast?latitude=50.7725&longitude=12.8860&hourly=cloud_cover&forecast_days=7" -o weather.json
-
       - name: Python einrichten
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: ICS-Kalender generieren
+      - name: Skript ausführen
         run: python generate_ics.py
 
       - name: ICS-Datei auf GitHub speichern
