@@ -1,29 +1,21 @@
 import json
 import urllib.request
-import urllib.parse
 import ssl
 import sys
 from datetime import datetime, timezone
 
 # --- DEINE KOORDINATEN ---
-LATITUDE = 50.7725   # Breitengrad
-LONGITUDE = 12.8860  # Längengrad
+LATITUDE = "50.7725"
+LONGITUDE = "12.8860"
 LOCATION_NAME = "Neukirchen OT Adorf"
 
 def fetch_weather():
-    # urllib.parse.urlencode sorgt für eine 100% fehlerfreie URL-Codierung
-    params = {
-        "latitude": LATITUDE,
-        "longitude": LONGITUDE,
-        "hourly": "cloud_cover",
-        "daily": "sunrise,sunset",
-        "timezone": "UTC"
-    }
-    url = "https://api.open-meteo.com/v1/forecast?" + urllib.parse.urlencode(params)
+    # Direkte, saubere URL ohne Sonderzeichen oder Komma-Codierung
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={LATITUDE}&longitude={LONGITUDE}&hourly=cloud_cover&forecast_days=7"
     
     req = urllib.request.Request(
         url, 
-        headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+        headers={"User-Agent": "Mozilla/5.0"}
     )
     
     ctx = ssl.create_default_context()
@@ -36,37 +28,35 @@ def fetch_weather():
 def generate_ics():
     print("Starte Wetter-Abruf...")
     data = fetch_weather()
-    daily = data.get("daily", {})
     hourly = data.get("hourly", {})
     
-    times = daily.get("time", [])
-    sunrises = daily.get("sunrise", [])
-    sunsets = daily.get("sunset", [])
     clouds_hourly = hourly.get("cloud_cover", [])
+    times_hourly = hourly.get("time", [])
     
     events = []
     
-    for i in range(len(times)):
-        date_str = times[i]
+    # 7 Tage durchgehen (jeweils 24 Stunden zusammenfassen)
+    for day in range(7):
+        start_idx = day * 24
+        end_idx = start_idx + 24
         
-        sunset_val = sunsets[i] if i < len(sunsets) else ""
-        sunrise_val = sunrises[i] if i < len(sunrises) else ""
-        
-        sunset_time = sunset_val[-5:] if len(sunset_val) >= 5 else "N/A"
-        sunrise_time = sunrise_val[-5:] if len(sunrise_val) >= 5 else "N/A"
-        
-        clouds = clouds_hourly[i * 24:(i + 1) * 24]
-        avg_cloud = sum(clouds) / len(clouds) if clouds else 50
-        
+        day_clouds = clouds_hourly[start_idx:end_idx]
+        if not day_clouds:
+            continue
+            
+        avg_cloud = sum(day_clouds) / len(day_clouds)
         score = max(0, min(100, int(100 * (1 - (avg_cloud / 100.0)))))
+        
+        # Datum für den jeweiligen Tag ermitteln (YYYY-MM-DD)
+        date_str = times_hourly[start_idx][:10]
+        
         status_icon = "🟢" if score >= 75 else "🟡" if score >= 50 else "🔴"
         
         summary = f"{status_icon} Deep Sky Score: {score}% (Wolken: {int(avg_cloud)}%)"
         description = (
             f"Ort: {LOCATION_NAME}\\n"
-            f"Sonnenuntergang: {sunset_time} UTC | Sonnenaufgang: {sunrise_time} UTC\\n"
             f"Bewölkung im Schnitt: {int(avg_cloud)}%\\n"
-            f"Erstellt via Open-Meteo"
+            f"Erstellt via Open-Meteo API"
         )
         
         dt_start = date_str.replace("-", "")
