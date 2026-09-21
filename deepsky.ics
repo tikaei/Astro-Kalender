@@ -1,0 +1,54 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DeepSkyForecast//DE
+X-WR-CALNAME:Deep Sky Fotografie Vorhersage
+BEGIN:VEVENT
+UID:astro-2026-09-22@deepsky
+DTSTAMP:20260921T225012Z
+DTSTART;VALUE=DATE:20260922
+SUMMARY:🔴 Deep Sky Score: 36% (Wolken: 63%)
+DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung im Schnitt: 63%\nErstellt via Open-Meteo
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-09-23@deepsky
+DTSTAMP:20260921T225012Z
+DTSTART;VALUE=DATE:20260923
+SUMMARY:🟡 Deep Sky Score: 50% (Wolken: 49%)
+DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung im Schnitt: 49%\nErstellt via Open-Meteo
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-09-24@deepsky
+DTSTAMP:20260921T225012Z
+DTSTART;VALUE=DATE:20260924
+SUMMARY:🔴 Deep Sky Score: 10% (Wolken: 89%)
+DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung im Schnitt: 89%\nErstellt via Open-Meteo
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-09-25@deepsky
+DTSTAMP:20260921T225012Z
+DTSTART;VALUE=DATE:20260925
+SUMMARY:🟡 Deep Sky Score: 51% (Wolken: 48%)
+DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung im Schnitt: 48%\nErstellt via Open-Meteo
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-09-26@deepsky
+DTSTAMP:20260921T225012Z
+DTSTART;VALUE=DATE:20260926
+SUMMARY:🟢 Deep Sky Score: 88% (Wolken: 11%)
+DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung im Schnitt: 11%\nErstellt via Open-Meteo
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-09-27@deepsky
+DTSTAMP:20260921T225012Z
+DTSTART;VALUE=DATE:20260927
+SUMMARY:🔴 Deep Sky Score: 48% (Wolken: 51%)
+DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung im Schnitt: 51%\nErstellt via Open-Meteo
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-09-28@deepsky
+DTSTAMP:20260921T225012Z
+DTSTART;VALUE=DATE:20260928
+SUMMARY:🔴 Deep Sky Score: 38% (Wolken: 61%)
+DESCRIPTION:Ort: Neukirchen OT Adorf\nBewölkung im Schnitt: 61%\nErstellt via Open-Meteo
+END:VEVENT
+END:VCALENDAR
