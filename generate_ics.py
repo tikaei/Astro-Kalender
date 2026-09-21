@@ -1,19 +1,30 @@
 import json
+import urllib.request
+import ssl
 from datetime import datetime, timezone
 
+# --- KOORDINATEN ---
+LATITUDE = 50.7725
+LONGITUDE = 12.8860
 LOCATION_NAME = "Neukirchen OT Adorf"
 
 def generate_ics():
-    print("Lese weather.json ein...")
-    with open("weather.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={LATITUDE}&longitude={LONGITUDE}&hourly=cloud_cover&forecast_days=7&timezone=auto"
     
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
+    print(f"Lade Daten von Open-Meteo...")
+    with urllib.request.urlopen(req, context=ctx) as response:
+        data = json.loads(response.read().decode('utf-8'))
+
     hourly = data.get("hourly", {})
     clouds_hourly = hourly.get("cloud_cover", [])
     times_hourly = hourly.get("time", [])
-    
+
     events = []
-    
     for day in range(7):
         start_idx = day * 24
         end_idx = start_idx + 24
@@ -32,7 +43,7 @@ def generate_ics():
         description = (
             f"Ort: {LOCATION_NAME}\\n"
             f"Bewölkung im Schnitt: {int(avg_cloud)}%\\n"
-            f"Erstellt via Open-Meteo API"
+            f"Erstellt via Open-Meteo"
         )
         
         dt_start = date_str.replace("-", "")
