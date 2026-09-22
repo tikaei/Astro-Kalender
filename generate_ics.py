@@ -58,6 +58,30 @@ DSO_CATALOG = [
     {"cat": "M20", "name": "Trifidnebel", "dec": -23.0, "months": [6, 7, 8], "type": "NB"}
 ]
 
+def fold_line(text, limit=75):
+    """Faltet Zeilen gemäß RFC 5545 auf maximal 75 Bytes pro Zeile."""
+    lines = text.split("\r\n")
+    folded_lines = []
+    for line in lines:
+        line_bytes = line.encode('utf-8')
+        if len(line_bytes) <= limit:
+            folded_lines.append(line)
+        else:
+            acc = ""
+            acc_bytes = 0
+            for char in line:
+                cb = len(char.encode('utf-8'))
+                if acc_bytes + cb > (limit if not folded_lines else limit - 1):
+                    folded_lines.append(acc)
+                    acc = " " + char
+                    acc_bytes = 1 + cb
+                else:
+                    acc += char
+                    acc_bytes += cb
+            if acc:
+                folded_lines.append(acc)
+    return "\r\n".join(folded_lines)
+
 def get_val(lst, idx, default=0.0):
     if isinstance(lst, list) and idx < len(lst):
         val = lst[idx]
@@ -254,7 +278,6 @@ def generate_ics():
         else:
             astro_str = f"Sommernacht (Sonnenuntergang: {sunset_time} - {sunrise_time})"
             dt_start = date_str.replace("-", "")
-            # RFC 5545 Pflicht: DTEND für Ganztagsevents
             dt_end_date = (dt_obj + timedelta(days=1)).strftime('%Y%m%d')
             dt_lines = f"DTSTART;VALUE=DATE:{dt_start}\r\nDTEND;VALUE=DATE:{dt_end_date}"
 
@@ -273,7 +296,6 @@ def generate_ics():
             f"Erstellt via Open-Meteo Astro API"
         )
         
-        # RFC 5545 konforme VEVENT-Struktur mit Windows-Zeilenumbrüchen (\r\n)
         vevent_block = (
             "BEGIN:VEVENT\r\n"
             f"UID:astro-{date_str}@deepsky\r\n"
@@ -288,7 +310,7 @@ def generate_ics():
             "END:VALARM\r\n"
             "END:VEVENT"
         )
-        events.append(vevent_block)
+        events.append(fold_line(vevent_block))
 
     header = (
         "BEGIN:VCALENDAR\r\n"
@@ -303,7 +325,7 @@ def generate_ics():
     
     with open("deepsky.ics", "wb") as f:
         f.write(ics_content.encode("utf-8"))
-    print("Erfolgreich generiert mit RFC 5545 Konformität für Apple Calendar / iOS!")
+    print("Erfolgreich generiert mit striktem RFC 5545 Line Folding!")
 
 if __name__ == "__main__":
     generate_ics()
