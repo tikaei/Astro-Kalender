@@ -9,6 +9,7 @@ from datetime import datetime, timezone, timedelta
 # --- KOORDINATEN (Neukirchen OT Adorf) ---
 LATITUDE = 50.7725
 LONGITUDE = 12.8860
+MIN_SCORE = 60  # Mindest-Score für Kalendereintrag (grün)
 
 # Katalog für ~50.8° N mit Deklination (dec) zur Zenit-Berechnung
 DSO_CATALOG = [
@@ -56,37 +57,35 @@ DSO_CATALOG = [
 ]
 
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
-    """
-    Berechnet mathematisch exakt die astronomische Dämmerung (Sonnenstand -18°)
-    für den Standort. Liefert UTC Datetime Objekte für ICS-Kalender.
-    """
-    dt = datetime.strptime(date_str, "%Y-%m-%d")
-    day_of_year = dt.timetuple().tm_yday
-    
-    gamma = (2 * math.pi / 365) * (day_of_year - 1)
-    eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(gamma) - 0.032077 * math.sin(gamma) - 0.014615 * math.cos(2 * gamma) - 0.040849 * math.sin(2 * gamma))
-    decl = 0.006918 - 0.399912 * math.cos(gamma) + 0.070257 * math.sin(gamma) - 0.006758 * math.cos(2 * gamma) + 0.000907 * math.sin(2 * gamma) - 0.002697 * math.cos(3 * gamma) + 0.00148 * math.sin(3 * gamma)
-    
-    lat_rad = math.radians(lat)
-    zenith = math.radians(108.0) # -18° Elevation
-    
-    cos_ha = (math.cos(zenith) / (math.cos(lat_rad) * math.cos(decl))) - (math.tan(lat_rad) * math.tan(decl))
-    
-    if cos_ha > 1.0:
-        # In Sommermonaten (Sommernächte): keine echte astro. Nacht
+    try:
+        dt = datetime.strptime(date_str, "%Y-%m-%d")
+        day_of_year = dt.timetuple().tm_yday
+        
+        gamma = (2 * math.pi / 365) * (day_of_year - 1)
+        eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(gamma) - 0.032077 * math.sin(gamma) - 0.014615 * math.cos(2 * gamma) - 0.040849 * math.sin(2 * gamma))
+        decl = 0.006918 - 0.399912 * math.cos(gamma) + 0.070257 * math.sin(gamma) - 0.006758 * math.cos(2 * gamma) + 0.000907 * math.sin(2 * gamma) - 0.002697 * math.cos(3 * gamma) + 0.00148 * math.sin(3 * gamma)
+        
+        lat_rad = math.radians(lat)
+        zenith = math.radians(108.0) # -18° Elevation
+        
+        cos_ha = (math.cos(zenith) - math.sin(lat_rad) * math.sin(decl)) / (math.cos(lat_rad) * math.cos(decl))
+        
+        if cos_ha > 1.0 or cos_ha < -1.0:
+            return None, None
+        
+        ha_deg = math.degrees(math.acos(cos_ha))
+        ha_minutes = ha_deg * 4.0
+        
+        solar_noon_utc = 720 - (4 * lon) - eqtime
+        dusk_utc_min = solar_noon_utc + ha_minutes
+        dawn_utc_min = solar_noon_utc - ha_minutes
+        
+        dusk_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(minutes=dusk_utc_min)
+        dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min - 1440)
+        
+        return dusk_utc, dawn_utc
+    except Exception:
         return None, None
-    
-    ha_deg = math.degrees(math.acos(cos_ha))
-    ha_minutes = ha_deg * 4.0
-    
-    solar_noon_utc = 720 - (4 * lon) - eqtime
-    dusk_utc_min = solar_noon_utc + ha_minutes
-    dawn_utc_min = solar_noon_utc - ha_minutes
-    
-    dusk_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(minutes=dusk_utc_min)
-    dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min - 1440)
-    
-    return dusk_utc, dawn_utc
 
 def get_sorted_targets(month):
     matched = []
@@ -180,17 +179,17 @@ def generate_ics():
         m_rise = format_time_str(moonrises[day] if day < len(moonrises) else "")
         m_set = format_time_str(moonsets[day] if day < len(moonsets) else "")
         
-        # Score-Berechnung
+        # Angepasste Score-Gewichtung: 75% Wolken, 15% Mond, 10% Feuchtigkeit
         weighted_cloud = (avg_low * 0.5) + (avg_mid * 0.3) + (avg_high * 0.2)
-        cloud_score = (100 - weighted_cloud) * 0.70
-        moon_score = (100 - moon_illumination) * 0.20
+        cloud_score = (100 - weighted_cloud) * 0.75
+        moon_score = (100 - moon_illumination) * 0.15
         humidity_score = (100 - max(0, avg_humidity - 70) * 3.33) * 0.10
         precip_penalty = (max_precip_prob / 100.0) * 30
         
         total_score = max(0, min(100, int(cloud_score + moon_score + humidity_score - precip_penalty)))
         
-        # --- NUR GRÜNE EINTRÄGE (>=70%) IN ICS EINBINDEN ---
-        if total_score < 70:
+        # Nur Einträge ab MIN_SCORE (60%) generieren (einheitlich grün markiert)
+        if total_score < MIN_SCORE:
             continue
             
         date_str = times_hourly[start_idx][:10]
@@ -198,7 +197,7 @@ def generate_ics():
         
         summary = f"🔭 🟢 Deep Sky: {total_score}%"
         
-        # Astronomische Dämmerung berechnen
+        # Mathematische Astronomische Dämmerung
         dusk_utc, dawn_utc = calculate_astronomical_night(date_str)
         
         sunset_raw = sunsets[day] if day < len(sunsets) else ""
@@ -211,7 +210,7 @@ def generate_ics():
             dt_start_ics = dusk_utc.strftime('%Y%m%dT%H%M%SZ')
             dt_end_ics = dawn_utc.strftime('%Y%m%dT%H%M%SZ')
         else:
-            astro_str = f"Sommernacht (Sonnenstand > -18°, Sonnenuntergang: {sunset_time} - {sunrise_time})"
+            astro_str = f"Sommernacht (Sonnenuntergang: {sunset_time} - {sunrise_time})"
             dt_start_ics = None
             dt_end_ics = None
 
@@ -238,11 +237,10 @@ def generate_ics():
             dt_start = date_str.replace("-", "")
             dt_lines = f"DTSTART;VALUE=DATE:{dt_start}"
             
-        # VALARM: Erinnert 6 Stunden vor Beginn der astronomischen Nacht
         alarm_block = """BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
-DESCRIPTION:🔭 Deep Sky Fotografie: Perfekte Bedingungen heute Nacht!
+DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
 END:VALARM"""
 
         events.append(f"""BEGIN:VEVENT
@@ -258,7 +256,7 @@ END:VEVENT""")
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
         f.write(ics_content)
-    print("Green-Only deepsky.ics mit exakter mathematischer Astro-Dämmerung erfolgreich erstellt!")
+    print("Erfolgreich generiert!")
 
 if __name__ == "__main__":
     generate_ics()
