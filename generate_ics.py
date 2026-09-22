@@ -11,6 +11,9 @@ LATITUDE = 50.7725
 LONGITUDE = 12.8860
 MIN_SCORE = 60  # Mindest-Score für Kalendereintrag (grün)
 
+# Katalogsammlung mit Typ-Klassifizierung:
+# 'NB' = Narrowband / Schmalband (Emissionsnebel, Planetarische Nebel, SNR)
+# 'BB' = Broadband / Breitband (Galaxien, Reflexionsnebel, Sternhaufen)
 DSO_CATALOG = [
     # Galaxien & Sternhaufen (BB - Breitband / L-RGB)
     {"cat": "M31", "name": "Andromeda-Galaxie", "dec": 41.2, "months": [8, 9, 10, 11, 12, 1], "type": "BB"},
@@ -60,27 +63,31 @@ DSO_CATALOG = [
 
 def fold_line(text, limit=75):
     """Faltet Zeilen gemäß RFC 5545 auf maximal 75 Bytes pro Zeile."""
-    lines = text.split("\r\n")
-    folded_lines = []
-    for line in lines:
-        line_bytes = line.encode('utf-8')
-        if len(line_bytes) <= limit:
-            folded_lines.append(line)
+    output_lines = []
+    for line in text.split("\r\n"):
+        encoded = line.encode('utf-8')
+        if len(encoded) <= limit:
+            output_lines.append(line)
         else:
-            acc = ""
-            acc_bytes = 0
+            current_line = ""
+            current_bytes = 0
+            is_first_chunk = True
+            
             for char in line:
-                cb = len(char.encode('utf-8'))
-                if acc_bytes + cb > (limit if not folded_lines else limit - 1):
-                    folded_lines.append(acc)
-                    acc = " " + char
-                    acc_bytes = 1 + cb
+                char_bytes = len(char.encode('utf-8'))
+                max_bytes = limit if is_first_chunk else (limit - 1)
+                
+                if current_bytes + char_bytes > max_bytes:
+                    output_lines.append(current_line)
+                    current_line = " " + char
+                    current_bytes = 1 + char_bytes
+                    is_first_chunk = False
                 else:
-                    acc += char
-                    acc_bytes += cb
-            if acc:
-                folded_lines.append(acc)
-    return "\r\n".join(folded_lines)
+                    current_line += char
+                    current_bytes += char_bytes
+            if current_line:
+                output_lines.append(current_line)
+    return "\r\n".join(output_lines)
 
 def get_val(lst, idx, default=0.0):
     if isinstance(lst, list) and idx < len(lst):
@@ -105,7 +112,7 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
         decl = 0.006918 - 0.399912 * math.cos(gamma) + 0.070257 * math.sin(gamma) - 0.006758 * math.cos(2 * gamma) + 0.000907 * math.sin(2 * gamma) - 0.002697 * math.cos(3 * gamma) + 0.00148 * math.sin(3 * gamma)
         
         lat_rad = math.radians(lat)
-        zenith = math.radians(108.0)
+        zenith = math.radians(108.0) # -18° Elevation
         
         cos_ha = (math.cos(zenith) - math.sin(lat_rad) * math.sin(decl)) / (math.cos(lat_rad) * math.cos(decl))
         
@@ -120,7 +127,7 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
         dawn_utc_min = solar_noon_utc - ha_minutes
         
         dusk_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(minutes=dusk_utc_min)
-        dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min - 1440)
+        dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min)
         
         return dusk_utc, dawn_utc
     except Exception:
@@ -316,6 +323,8 @@ def generate_ics():
         "BEGIN:VCALENDAR\r\n"
         "VERSION:2.0\r\n"
         "PRODID:-//DeepSkyForecast//DE\r\n"
+        "CALSCALE:GREGORIAN\r\n"
+        "METHOD:PUBLISH\r\n"
         "X-WR-CALNAME:Deep Sky Vorhersage\r\n"
         "X-WR-TIMEZONE:UTC\r\n"
     )
@@ -325,7 +334,7 @@ def generate_ics():
     
     with open("deepsky.ics", "wb") as f:
         f.write(ics_content.encode("utf-8"))
-    print("Erfolgreich generiert mit striktem RFC 5545 Line Folding!")
+    print("Erfolgreich generiert mit korrigiertem Datum und RFC-Standard!")
 
 if __name__ == "__main__":
     generate_ics()
