@@ -11,9 +11,6 @@ LATITUDE = 50.7725
 LONGITUDE = 12.8860
 MIN_SCORE = 60  # Mindest-Score für Kalendereintrag (grün)
 
-# Katalogsammlung mit Typ-Klassifizierung:
-# 'NB' = Narrowband / Schmalband (Emissionsnebel, Planetarische Nebel, SNR)
-# 'BB' = Broadband / Breitband (Galaxien, Reflexionsnebel, Sternhaufen)
 DSO_CATALOG = [
     # Galaxien & Sternhaufen (BB - Breitband / L-RGB)
     {"cat": "M31", "name": "Andromeda-Galaxie", "dec": 41.2, "months": [8, 9, 10, 11, 12, 1], "type": "BB"},
@@ -84,7 +81,7 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
         decl = 0.006918 - 0.399912 * math.cos(gamma) + 0.070257 * math.sin(gamma) - 0.006758 * math.cos(2 * gamma) + 0.000907 * math.sin(2 * gamma) - 0.002697 * math.cos(3 * gamma) + 0.00148 * math.sin(3 * gamma)
         
         lat_rad = math.radians(lat)
-        zenith = math.radians(108.0) # -18° Elevation
+        zenith = math.radians(108.0)
         
         cos_ha = (math.cos(zenith) - math.sin(lat_rad) * math.sin(decl)) / (math.cos(lat_rad) * math.cos(decl))
         
@@ -129,7 +126,7 @@ def get_sorted_targets_formatted(month, narrowband_only=False):
         
     if not narrowband_only and bb_targets:
         if sections:
-            sections.append("") # Lerzeile als Abstandshalter
+            sections.append("")
         sections.append("📷 Breitband / L-RGB (Galaxien & Sternhaufen):")
         sections.extend([f"  • {t['cat']} ({t['name']}) - Max. Höhe: {t['max_alt']}°" for t in bb_targets])
         
@@ -211,7 +208,6 @@ def generate_ics():
         max_precip_prob = max(n_precip_prob) if n_precip_prob else 0.0
         total_precip = sum(n_precip) if n_precip else 0.0
         
-        # Monddaten
         moon_phase_val = moon_phases[day] if day < len(moon_phases) else 0.5
         moon_illumination = int((1 - abs(moon_phase_val - 0.5) * 2) * 100)
         m_rise = format_time_str(moonrises[day] if day < len(moonrises) else "")
@@ -254,10 +250,13 @@ def generate_ics():
             astro_str = f"{dusk_utc.strftime('%H:%M')} - {dawn_utc.strftime('%H:%M')} UTC"
             dt_start_ics = dusk_utc.strftime('%Y%m%dT%H%M%SZ')
             dt_end_ics = dawn_utc.strftime('%Y%m%dT%H%M%SZ')
+            dt_lines = f"DTSTART:{dt_start_ics}\r\nDTEND:{dt_end_ics}"
         else:
             astro_str = f"Sommernacht (Sonnenuntergang: {sunset_time} - {sunrise_time})"
-            dt_start_ics = None
-            dt_end_ics = None
+            dt_start = date_str.replace("-", "")
+            # RFC 5545 Pflicht: DTEND für Ganztagsevents
+            dt_end_date = (dt_obj + timedelta(days=1)).strftime('%Y%m%d')
+            dt_lines = f"DTSTART;VALUE=DATE:{dt_start}\r\nDTEND;VALUE=DATE:{dt_end_date}"
 
         targets_str = get_sorted_targets_formatted(dt_obj.month, narrowband_only=is_narrowband_night)
         
@@ -274,32 +273,37 @@ def generate_ics():
             f"Erstellt via Open-Meteo Astro API"
         )
         
-        if dt_start_ics and dt_end_ics:
-            dt_lines = f"DTSTART:{dt_start_ics}\nDTEND:{dt_end_ics}"
-        else:
-            dt_start = date_str.replace("-", "")
-            dt_lines = f"DTSTART;VALUE=DATE:{dt_start}"
-            
-        alarm_block = """BEGIN:VALARM
-TRIGGER:-PT6H
-ACTION:DISPLAY
-DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
-END:VALARM"""
+        # RFC 5545 konforme VEVENT-Struktur mit Windows-Zeilenumbrüchen (\r\n)
+        vevent_block = (
+            "BEGIN:VEVENT\r\n"
+            f"UID:astro-{date_str}@deepsky\r\n"
+            f"DTSTAMP:{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}\r\n"
+            f"{dt_lines}\r\n"
+            f"SUMMARY:{summary}\r\n"
+            f"DESCRIPTION:{description}\r\n"
+            "BEGIN:VALARM\r\n"
+            "TRIGGER:-PT6H\r\n"
+            "ACTION:DISPLAY\r\n"
+            "DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!\r\n"
+            "END:VALARM\r\n"
+            "END:VEVENT"
+        )
+        events.append(vevent_block)
 
-        events.append(f"""BEGIN:VEVENT
-UID:astro-{date_str}@deepsky
-DTSTAMP:{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}
-{dt_lines}
-SUMMARY:{summary}
-DESCRIPTION:{description}
-{alarm_block}
-END:VEVENT""")
-
-    ics_content = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//DeepSkyForecast//DE\nX-WR-CALNAME:Deep Sky Vorhersage\n" + "\n".join(events) + "\nEND:VCALENDAR"
+    header = (
+        "BEGIN:VCALENDAR\r\n"
+        "VERSION:2.0\r\n"
+        "PRODID:-//DeepSkyForecast//DE\r\n"
+        "X-WR-CALNAME:Deep Sky Vorhersage\r\n"
+        "X-WR-TIMEZONE:UTC\r\n"
+    )
+    footer = "\r\nEND:VCALENDAR\r\n"
     
-    with open("deepsky.ics", "w", encoding="utf-8") as f:
-        f.write(ics_content)
-    print("Erfolgreich generiert mit kategoriebasierter Filter-Sortierung!")
+    ics_content = header + "\r\n".join(events) + footer
+    
+    with open("deepsky.ics", "wb") as f:
+        f.write(ics_content.encode("utf-8"))
+    print("Erfolgreich generiert mit RFC 5545 Konformität für Apple Calendar / iOS!")
 
 if __name__ == "__main__":
     generate_ics()
