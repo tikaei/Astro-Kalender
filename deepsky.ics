@@ -5,11 +5,30 @@ X-WR-CALNAME:Deep Sky Vorhersage
 X-WR-TIMEZONE:UTC
 BEGIN:VEVENT
 UID:astro-2026-09-23@deepsky
-DTSTAMP:20260922T092104Z
+DTSTAMP:20260922T093741Z
 DTSTART:20260923T185913Z
 DTEND:20260923T030224Z
 SUMMARY:🔭 🟢 Deep Sky: 69%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:59 - 03:02 UTC\nBewölkung (Nacht): Tiefe 14% | Mid 27% | High 14% (Schnitt: 43%)\nMond: ~78% | Aufgang: 17:56 | Untergang: 02:46\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 85% ⚠️ (Tau-Risiko)\n\n🎯 Schmalband / Dual-Band (H-Alpha/OIII Nebel):\n  • IC 5146 (Kokon-Nebel) - Max. Höhe: 87°\n  • NGC 7000 (Nordamerika-Nebel) - Max. Höhe: 84°\n  • NGC 281 (Pacman-Nebel) - Max. Höhe: 84°\n  • IC 1396 (Elefantenrüsselnebel) - Max. Höhe: 83°\n  • IC 1848 (Seelennebel) - Max. Höhe: 80°\n  • IC 1805 (Herznebel) - Max. Höhe: 79°\n  • NGC 6888 (Crescent-Nebel) - Max. Höhe: 78°\n  • NGC 1499 (Kaliforniennebel) - Max. Höhe: 76°\n  • M57 (Ringnebel) - Max. Höhe: 72°\n  • NGC 6992 / 6960 (Schleiernebel (Veil)) - Max. Höhe: 71°\n  • M27 (Hantelnebel) - Max. Höhe: 62°\n\n📷 Breitband / L-RGB (Galaxien & Sternhaufen):\n  • NGC 869 / 884 (Doppelsternhaufen h & chi) - Max. Höhe: 84°\n  • NGC 891 (Outer Line Galaxie) - Max. Höhe: 82°\n  • M92 (Kugelsternhaufen Herkules) - Max. Höhe: 82°\n  • M31 (Andromeda-Galaxie) - Max. Höhe: 80°\n  • M13 (Herkules-Kugelsternhaufen) - Max. Höhe: 76°\n  • NGC 7331 (Deer Lick Gruppe) - Max. Höhe: 74°\n  • NGC 1333 (Reflexionsnebel Perseus) - Max. Höhe: 71°\n  • M33 (Dreiecks-Galaxie) - Max. Höhe: 70°\n  • M74 (Phantom-Galaxie) - Max. Höhe: 55°\n\nErstellt via Open-Meteo Astro API
+DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:59 - 03:02 UTC\nBewölku
+ ng (Nacht): Tiefe 14% | Mid 27% | High 14% (Schnitt: 43%)\nMond: ~78% | A
+ ufgang: 17:56 | Untergang: 02:46\nNiederschlag: 0% (Trocken)\nLuftfeuchti
+ gkeit: 85% ⚠️ (Tau-Risiko)\n\n🎯 Schmalband / Dual-Band (H-Alpha/OI
+ II Nebel):\n  • IC 5146 (Kokon-Nebel) - Max. Höhe: 87°\n  • NGC 700
+ 0 (Nordamerika-Nebel) - Max. Höhe: 84°\n  • NGC 281 (Pacman-Nebel) - 
+ Max. Höhe: 84°\n  • IC 1396 (Elefantenrüsselnebel) - Max. Höhe: 83
+ °\n  • IC 1848 (Seelennebel) - Max. Höhe: 80°\n  • IC 1805 (Herzne
+ bel) - Max. Höhe: 79°\n  • NGC 6888 (Crescent-Nebel) - Max. Höhe: 78
+ °\n  • NGC 1499 (Kaliforniennebel) - Max. Höhe: 76°\n  • M57 (Ring
+ nebel) - Max. Höhe: 72°\n  • NGC 6992 / 6960 (Schleiernebel (Veil)) -
+  Max. Höhe: 71°\n  • M27 (Hantelnebel) - Max. Höhe: 62°\n\n📷 Bre
+ itband / L-RGB (Galaxien & Sternhaufen):\n  • NGC 869 / 884 (Doppelster
+ nhaufen h & chi) - Max. Höhe: 84°\n  • NGC 891 (Outer Line Galaxie) -
+  Max. Höhe: 82°\n  • M92 (Kugelsternhaufen Herkules) - Max. Höhe: 82
+ °\n  • M31 (Andromeda-Galaxie) - Max. Höhe: 80°\n  • M13 (Herkules
+ -Kugelsternhaufen) - Max. Höhe: 76°\n  • NGC 7331 (Deer Lick Gruppe) 
+ - Max. Höhe: 74°\n  • NGC 1333 (Reflexionsnebel Perseus) - Max. Höhe
+ : 71°\n  • M33 (Dreiecks-Galaxie) - Max. Höhe: 70°\n  • M74 (Phant
+ om-Galaxie) - Max. Höhe: 55°\n\nErstellt via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -18,11 +37,23 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-26@deepsky
-DTSTAMP:20260922T092104Z
+DTSTAMP:20260922T093741Z
 DTSTART:20260926T185136Z
 DTEND:20260926T030749Z
 SUMMARY:🔭 🟢 Deep Sky: 80%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:51 - 03:07 UTC\nBewölkung (Nacht): Tiefe 0% | Mid 28% | High 27% (Schnitt: 33%)\nMond: ~98% 🎯 Ideal für Schmalband/Filter | Aufgang: 18:35 | Untergang: 06:35\nNiederschlag: 5% (0.0 mm)\nLuftfeuchtigkeit: 80%\n\n🎯 Schmalband / Dual-Band (H-Alpha/OIII Nebel):\n  • IC 5146 (Kokon-Nebel) - Max. Höhe: 87°\n  • NGC 7000 (Nordamerika-Nebel) - Max. Höhe: 84°\n  • NGC 281 (Pacman-Nebel) - Max. Höhe: 84°\n  • IC 1396 (Elefantenrüsselnebel) - Max. Höhe: 83°\n  • IC 1848 (Seelennebel) - Max. Höhe: 80°\n  • IC 1805 (Herznebel) - Max. Höhe: 79°\n  • NGC 6888 (Crescent-Nebel) - Max. Höhe: 78°\n  • NGC 1499 (Kaliforniennebel) - Max. Höhe: 76°\n  • M57 (Ringnebel) - Max. Höhe: 72°\n  • NGC 6992 / 6960 (Schleiernebel (Veil)) - Max. Höhe: 71°\n  • M27 (Hantelnebel) - Max. Höhe: 62°\n\nErstellt via Open-Meteo Astro API
+DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:51 - 03:07 UTC\nBewölku
+ ng (Nacht): Tiefe 0% | Mid 28% | High 27% (Schnitt: 33%)\nMond: ~98% 🎯
+  Ideal für Schmalband/Filter | Aufgang: 18:35 | Untergang: 06:35\nNieder
+ schlag: 5% (0.0 mm)\nLuftfeuchtigkeit: 80%\n\n🎯 Schmalband / Dual-Band
+  (H-Alpha/OIII Nebel):\n  • IC 5146 (Kokon-Nebel) - Max. Höhe: 87°\n 
+  • NGC 7000 (Nordamerika-Nebel) - Max. Höhe: 84°\n  • NGC 281 (Pacm
+ an-Nebel) - Max. Höhe: 84°\n  • IC 1396 (Elefantenrüsselnebel) - Max
+ . Höhe: 83°\n  • IC 1848 (Seelennebel) - Max. Höhe: 80°\n  • IC 1
+ 805 (Herznebel) - Max. Höhe: 79°\n  • NGC 6888 (Crescent-Nebel) - Max
+ . Höhe: 78°\n  • NGC 1499 (Kaliforniennebel) - Max. Höhe: 76°\n  
+ • M57 (Ringnebel) - Max. Höhe: 72°\n  • NGC 6992 / 6960 (Schleierne
+ bel (Veil)) - Max. Höhe: 71°\n  • M27 (Hantelnebel) - Max. Höhe: 62
+ °\n\nErstellt via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -31,11 +62,23 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-27@deepsky
-DTSTAMP:20260922T092104Z
+DTSTAMP:20260922T093741Z
 DTSTART:20260927T184906Z
 DTEND:20260927T030936Z
-SUMMARY:🔭 🟢 Deep Sky: 82%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:49 - 03:09 UTC\nBewölkung (Nacht): Tiefe 0% | Mid 25% | High 30% (Schnitt: 39%)\nMond: ~95% 🎯 Ideal für Schmalband/Filter | Aufgang: 18:49 | Untergang: 07:56\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 80%\n\n🎯 Schmalband / Dual-Band (H-Alpha/OIII Nebel):\n  • IC 5146 (Kokon-Nebel) - Max. Höhe: 87°\n  • NGC 7000 (Nordamerika-Nebel) - Max. Höhe: 84°\n  • NGC 281 (Pacman-Nebel) - Max. Höhe: 84°\n  • IC 1396 (Elefantenrüsselnebel) - Max. Höhe: 83°\n  • IC 1848 (Seelennebel) - Max. Höhe: 80°\n  • IC 1805 (Herznebel) - Max. Höhe: 79°\n  • NGC 6888 (Crescent-Nebel) - Max. Höhe: 78°\n  • NGC 1499 (Kaliforniennebel) - Max. Höhe: 76°\n  • M57 (Ringnebel) - Max. Höhe: 72°\n  • NGC 6992 / 6960 (Schleiernebel (Veil)) - Max. Höhe: 71°\n  • M27 (Hantelnebel) - Max. Höhe: 62°\n\nErstellt via Open-Meteo Astro API
+SUMMARY:🔭 🟢 Deep Sky: 86%
+DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:49 - 03:09 UTC\nBewölku
+ ng (Nacht): Tiefe 0% | Mid 23% | High 11% (Schnitt: 30%)\nMond: ~95% 🎯
+  Ideal für Schmalband/Filter | Aufgang: 18:49 | Untergang: 07:56\nNieder
+ schlag: 0% (Trocken)\nLuftfeuchtigkeit: 78%\n\n🎯 Schmalband / Dual-Ban
+ d (H-Alpha/OIII Nebel):\n  • IC 5146 (Kokon-Nebel) - Max. Höhe: 87°\n
+   • NGC 7000 (Nordamerika-Nebel) - Max. Höhe: 84°\n  • NGC 281 (Pac
+ man-Nebel) - Max. Höhe: 84°\n  • IC 1396 (Elefantenrüsselnebel) - Ma
+ x. Höhe: 83°\n  • IC 1848 (Seelennebel) - Max. Höhe: 80°\n  • IC 
+ 1805 (Herznebel) - Max. Höhe: 79°\n  • NGC 6888 (Crescent-Nebel) - Ma
+ x. Höhe: 78°\n  • NGC 1499 (Kaliforniennebel) - Max. Höhe: 76°\n  
+ • M57 (Ringnebel) - Max. Höhe: 72°\n  • NGC 6992 / 6960 (Schleierne
+ bel (Veil)) - Max. Höhe: 71°\n  • M27 (Hantelnebel) - Max. Höhe: 62
+ °\n\nErstellt via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -44,11 +87,30 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-28@deepsky
-DTSTAMP:20260922T092104Z
+DTSTAMP:20260922T093741Z
 DTSTART:20260928T184638Z
 DTEND:20260928T031123Z
 SUMMARY:🔭 🟢 Deep Sky: 62%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:46 - 03:11 UTC\nBewölkung (Nacht): Tiefe 14% | Mid 34% | High 34% (Schnitt: 59%)\nMond: ~87% | Aufgang: 19:06 | Untergang: 09:19\nNiederschlag: 5% (0.0 mm)\nLuftfeuchtigkeit: 84%\n\n🎯 Schmalband / Dual-Band (H-Alpha/OIII Nebel):\n  • IC 5146 (Kokon-Nebel) - Max. Höhe: 87°\n  • NGC 7000 (Nordamerika-Nebel) - Max. Höhe: 84°\n  • NGC 281 (Pacman-Nebel) - Max. Höhe: 84°\n  • IC 1396 (Elefantenrüsselnebel) - Max. Höhe: 83°\n  • IC 1848 (Seelennebel) - Max. Höhe: 80°\n  • IC 1805 (Herznebel) - Max. Höhe: 79°\n  • NGC 6888 (Crescent-Nebel) - Max. Höhe: 78°\n  • NGC 1499 (Kaliforniennebel) - Max. Höhe: 76°\n  • M57 (Ringnebel) - Max. Höhe: 72°\n  • NGC 6992 / 6960 (Schleiernebel (Veil)) - Max. Höhe: 71°\n  • M27 (Hantelnebel) - Max. Höhe: 62°\n\n📷 Breitband / L-RGB (Galaxien & Sternhaufen):\n  • NGC 869 / 884 (Doppelsternhaufen h & chi) - Max. Höhe: 84°\n  • NGC 891 (Outer Line Galaxie) - Max. Höhe: 82°\n  • M92 (Kugelsternhaufen Herkules) - Max. Höhe: 82°\n  • M31 (Andromeda-Galaxie) - Max. Höhe: 80°\n  • M13 (Herkules-Kugelsternhaufen) - Max. Höhe: 76°\n  • NGC 7331 (Deer Lick Gruppe) - Max. Höhe: 74°\n  • NGC 1333 (Reflexionsnebel Perseus) - Max. Höhe: 71°\n  • M33 (Dreiecks-Galaxie) - Max. Höhe: 70°\n  • M74 (Phantom-Galaxie) - Max. Höhe: 55°\n\nErstellt via Open-Meteo Astro API
+DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:46 - 03:11 UTC\nBewölku
+ ng (Nacht): Tiefe 14% | Mid 34% | High 34% (Schnitt: 59%)\nMond: ~87% | A
+ ufgang: 19:06 | Untergang: 09:19\nNiederschlag: 5% (0.0 mm)\nLuftfeuchtig
+ keit: 84%\n\n🎯 Schmalband / Dual-Band (H-Alpha/OIII Nebel):\n  • IC 
+ 5146 (Kokon-Nebel) - Max. Höhe: 87°\n  • NGC 7000 (Nordamerika-Nebel)
+  - Max. Höhe: 84°\n  • NGC 281 (Pacman-Nebel) - Max. Höhe: 84°\n  
+ • IC 1396 (Elefantenrüsselnebel) - Max. Höhe: 83°\n  • IC 1848 (Se
+ elennebel) - Max. Höhe: 80°\n  • IC 1805 (Herznebel) - Max. Höhe: 79
+ °\n  • NGC 6888 (Crescent-Nebel) - Max. Höhe: 78°\n  • NGC 1499 (K
+ aliforniennebel) - Max. Höhe: 76°\n  • M57 (Ringnebel) - Max. Höhe: 
+ 72°\n  • NGC 6992 / 6960 (Schleiernebel (Veil)) - Max. Höhe: 71°\n  
+ • M27 (Hantelnebel) - Max. Höhe: 62°\n\n📷 Breitband / L-RGB (Galax
+ ien & Sternhaufen):\n  • NGC 869 / 884 (Doppelsternhaufen h & chi) - Ma
+ x. Höhe: 84°\n  • NGC 891 (Outer Line Galaxie) - Max. Höhe: 82°\n  
+ • M92 (Kugelsternhaufen Herkules) - Max. Höhe: 82°\n  • M31 (Androm
+ eda-Galaxie) - Max. Höhe: 80°\n  • M13 (Herkules-Kugelsternhaufen) - 
+ Max. Höhe: 76°\n  • NGC 7331 (Deer Lick Gruppe) - Max. Höhe: 74°\n 
+  • NGC 1333 (Reflexionsnebel Perseus) - Max. Höhe: 71°\n  • M33 (Dr
+ eiecks-Galaxie) - Max. Höhe: 70°\n  • M74 (Phantom-Galaxie) - Max. H
+ öhe: 55°\n\nErstellt via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
