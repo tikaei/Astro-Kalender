@@ -3,7 +3,8 @@ import urllib.request
 import urllib.error
 import ssl
 import sys
-from datetime import datetime, timezone
+import math
+from datetime import datetime, timezone, timedelta
 
 # --- KOORDINATEN (Neukirchen OT Adorf) ---
 LATITUDE = 50.7725
@@ -54,6 +55,39 @@ DSO_CATALOG = [
     {"cat": "M20", "name": "Trifidnebel", "dec": -23.0, "months": [6, 7, 8]}
 ]
 
+def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
+    """
+    Berechnet mathematisch exakt die astronomische Dämmerung (Sonnenstand -18°)
+    für den Standort. Liefert UTC Datetime Objekte für ICS-Kalender.
+    """
+    dt = datetime.strptime(date_str, "%Y-%m-%d")
+    day_of_year = dt.timetuple().tm_yday
+    
+    gamma = (2 * math.pi / 365) * (day_of_year - 1)
+    eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(gamma) - 0.032077 * math.sin(gamma) - 0.014615 * math.cos(2 * gamma) - 0.040849 * math.sin(2 * gamma))
+    decl = 0.006918 - 0.399912 * math.cos(gamma) + 0.070257 * math.sin(gamma) - 0.006758 * math.cos(2 * gamma) + 0.000907 * math.sin(2 * gamma) - 0.002697 * math.cos(3 * gamma) + 0.00148 * math.sin(3 * gamma)
+    
+    lat_rad = math.radians(lat)
+    zenith = math.radians(108.0) # -18° Elevation
+    
+    cos_ha = (math.cos(zenith) / (math.cos(lat_rad) * math.cos(decl))) - (math.tan(lat_rad) * math.tan(decl))
+    
+    if cos_ha > 1.0:
+        # In Sommermonaten (Sommernächte): keine echte astro. Nacht
+        return None, None
+    
+    ha_deg = math.degrees(math.acos(cos_ha))
+    ha_minutes = ha_deg * 4.0
+    
+    solar_noon_utc = 720 - (4 * lon) - eqtime
+    dusk_utc_min = solar_noon_utc + ha_minutes
+    dawn_utc_min = solar_noon_utc - ha_minutes
+    
+    dusk_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(minutes=dusk_utc_min)
+    dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min - 1440)
+    
+    return dusk_utc, dawn_utc
+
 def get_sorted_targets(month):
     matched = []
     for t in DSO_CATALOG:
@@ -68,12 +102,6 @@ def format_time_str(iso_str):
     if not iso_str or iso_str == "N/A" or len(iso_str) < 16:
         return "N/A"
     return iso_str[-5:]
-
-def iso_to_ics_dt(iso_str):
-    if not iso_str or len(iso_str) < 16:
-        return None
-    clean = iso_str.replace("-", "").replace(":", "")
-    return clean[:15] + "00"
 
 def generate_ics():
     url = (
@@ -152,14 +180,7 @@ def generate_ics():
         m_rise = format_time_str(moonrises[day] if day < len(moonrises) else "")
         m_set = format_time_str(moonsets[day] if day < len(moonsets) else "")
         
-        # Sonnenuntergang & -aufgang
-        sunset_raw = sunsets[day] if day < len(sunsets) else ""
-        sunrise_raw = sunrises[day+1] if (day+1) < len(sunrises) else (sunrises[day] if day < len(sunrises) else "")
-        
-        sunset_time = format_time_str(sunset_raw)
-        sunrise_time = format_time_str(sunrise_raw)
-        
-        # Score-Berechnung: Tiefe/Mittlere Wolken wiegen schwerer als hohe Schleierwolken
+        # Score-Berechnung
         weighted_cloud = (avg_low * 0.5) + (avg_mid * 0.3) + (avg_high * 0.2)
         cloud_score = (100 - weighted_cloud) * 0.70
         moon_score = (100 - moon_illumination) * 0.20
@@ -168,16 +189,32 @@ def generate_ics():
         
         total_score = max(0, min(100, int(cloud_score + moon_score + humidity_score - precip_penalty)))
         
-        # Nur Gelb (>=45%) und Grün (>=70%) anzeigen
-        if total_score < 45:
+        # --- NUR GRÜNE EINTRÄGE (>=70%) IN ICS EINBINDEN ---
+        if total_score < 70:
             continue
             
         date_str = times_hourly[start_idx][:10]
         dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
         
-        status_icon = "🟢" if total_score >= 70 else "🟡"
-        summary = f"🔭 {status_icon} Deep Sky: {total_score}%"
+        summary = f"🔭 🟢 Deep Sky: {total_score}%"
         
+        # Astronomische Dämmerung berechnen
+        dusk_utc, dawn_utc = calculate_astronomical_night(date_str)
+        
+        sunset_raw = sunsets[day] if day < len(sunsets) else ""
+        sunrise_raw = sunrises[day+1] if (day+1) < len(sunrises) else (sunrises[day] if day < len(sunrises) else "")
+        sunset_time = format_time_str(sunset_raw)
+        sunrise_time = format_time_str(sunrise_raw)
+        
+        if dusk_utc and dawn_utc:
+            astro_str = f"{dusk_utc.strftime('%H:%M')} - {dawn_utc.strftime('%H:%M')} UTC"
+            dt_start_ics = dusk_utc.strftime('%Y%m%dT%H%M%SZ')
+            dt_end_ics = dawn_utc.strftime('%Y%m%dT%H%M%SZ')
+        else:
+            astro_str = f"Sommernacht (Sonnenstand > -18°, Sonnenuntergang: {sunset_time} - {sunrise_time})"
+            dt_start_ics = None
+            dt_end_ics = None
+
         targets = get_sorted_targets(dt_obj.month)
         targets_str = "\\n".join(targets)
         
@@ -185,7 +222,7 @@ def generate_ics():
         precip_str = f"{max_precip_prob}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
         
         description = (
-            f"Nachtfenster (Sonnenunter/aufgang): {sunset_time} - {sunrise_time} Uhr\\n"
+            f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\\n"
             f"Bewölkung (Nacht): Tiefe {int(avg_low)}% | Mid {int(avg_mid)}% | High {int(avg_high)}% (Schnitt: {int(avg_cloud)}%)\\n"
             f"Mond: ~{moon_illumination}% | Aufgang: {m_rise} | Untergang: {m_set}\\n"
             f"Niederschlag: {precip_str}\\n"
@@ -195,20 +232,17 @@ def generate_ics():
             f"Erstellt via Open-Meteo Astro API"
         )
         
-        dt_start_ics = iso_to_ics_dt(sunset_raw)
-        dt_end_ics = iso_to_ics_dt(sunrise_raw)
-        
         if dt_start_ics and dt_end_ics:
             dt_lines = f"DTSTART:{dt_start_ics}\nDTEND:{dt_end_ics}"
         else:
             dt_start = date_str.replace("-", "")
             dt_lines = f"DTSTART;VALUE=DATE:{dt_start}"
             
-        # VALARM: Sendet genau 6 Stunden vor Beginn des Ereignisses eine Benachrichtigung
+        # VALARM: Erinnert 6 Stunden vor Beginn der astronomischen Nacht
         alarm_block = """BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
-DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
+DESCRIPTION:🔭 Deep Sky Fotografie: Perfekte Bedingungen heute Nacht!
 END:VALARM"""
 
         events.append(f"""BEGIN:VEVENT
@@ -224,7 +258,7 @@ END:VEVENT""")
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
         f.write(ics_content)
-    print("Vollständig optimierte deepsky.ics erfolgreich erstellt!")
+    print("Green-Only deepsky.ics mit exakter mathematischer Astro-Dämmerung erfolgreich erstellt!")
 
 if __name__ == "__main__":
     generate_ics()
