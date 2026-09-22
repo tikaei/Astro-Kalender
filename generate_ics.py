@@ -61,6 +61,20 @@ DSO_CATALOG = [
     {"cat": "M20", "name": "Trifidnebel", "dec": -23.0, "months": [6, 7, 8], "type": "NB"}
 ]
 
+def get_val(lst, idx, default=0.0):
+    """Extrahiert sicher einen Zahlenwert aus Listen, fängt Verschachtelungen und None ab."""
+    if isinstance(lst, list) and idx < len(lst):
+        val = lst[idx]
+        if isinstance(val, (int, float)):
+            return float(val)
+        if isinstance(val, list) and len(val) > 0:
+            return get_val(val, 0, default)
+        try:
+            return float(val)
+        except (ValueError, TypeError):
+            return default
+    return default
+
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
     try:
         dt = datetime.strptime(date_str, "%Y-%m-%d")
@@ -96,7 +110,6 @@ def get_sorted_targets(month, narrowband_only=False):
     matched = []
     for t in DSO_CATALOG:
         if month in t['months']:
-            # Wenn Schmalband-Nacht, nur Schmalband-Nebel ('NB') ausgeben
             if narrowband_only and t['type'] != 'NB':
                 continue
             max_alt = round(90.0 - abs(LATITUDE - t['dec']))
@@ -160,26 +173,26 @@ def generate_ics():
         start_idx = day * 24
         end_idx = start_idx + 24
         
-        night_indices = [k for k in range(start_idx, end_idx) if is_day_hourly[k] == 0]
+        night_indices = [k for k in range(start_idx, end_idx) if get_val(is_day_hourly, k, 0) == 0]
         if not night_indices:
             night_indices = list(range(start_idx, end_idx))
             
-        n_clouds = [clouds_hourly for k in night_indices]
-        n_low = [clouds_low for k in night_indices] if clouds_low else n_clouds
-        n_mid = [clouds_mid for k in night_indices] if clouds_mid else n_clouds
-        n_high = [clouds_high for k in night_indices] if clouds_high else n_clouds
+        n_clouds = [get_val(clouds_hourly, k, 50.0) for k in night_indices]
+        n_low = [get_val(clouds_low, k, get_val(clouds_hourly, k, 50.0)) for k in night_indices]
+        n_mid = [get_val(clouds_mid, k, get_val(clouds_hourly, k, 50.0)) for k in night_indices]
+        n_high = [get_val(clouds_high, k, get_val(clouds_hourly, k, 50.0)) for k in night_indices]
         
-        n_humidity = [humidity_hourly for k in night_indices]
-        n_precip_prob = [precip_prob_hourly for k in night_indices]
-        n_precip = [precip_hourly for k in night_indices]
+        n_humidity = [get_val(humidity_hourly, k, 50.0) for k in night_indices]
+        n_precip_prob = [get_val(precip_prob_hourly, k, 0.0) for k in night_indices]
+        n_precip = [get_val(precip_hourly, k, 0.0) for k in night_indices]
         
-        avg_cloud = sum(n_clouds) / len(n_clouds) if n_clouds else 50
+        avg_cloud = sum(n_clouds) / len(n_clouds) if n_clouds else 50.0
         avg_low = sum(n_low) / len(n_low) if n_low else avg_cloud
         avg_mid = sum(n_mid) / len(n_mid) if n_mid else avg_cloud
         avg_high = sum(n_high) / len(n_high) if n_high else avg_cloud
         
-        avg_humidity = sum(n_humidity) / len(n_humidity) if n_humidity else 50
-        max_precip_prob = max(n_precip_prob) if n_precip_prob else 0
+        avg_humidity = sum(n_humidity) / len(n_humidity) if n_humidity else 50.0
+        max_precip_prob = max(n_precip_prob) if n_precip_prob else 0.0
         total_precip = sum(n_precip) if n_precip else 0.0
         
         # Monddaten
@@ -191,7 +204,6 @@ def generate_ics():
         weighted_cloud = (avg_low * 0.5) + (avg_mid * 0.3) + (avg_high * 0.2)
         cloud_score = (100 - weighted_cloud) * 0.75
         
-        # SCHMALBAND-FILTER-LOGIK: Bei klarem Himmel und Mond > 30% Schmalband-Objektfilter aktivieren
         is_narrowband_night = (weighted_cloud < 15 and moon_illumination > 30)
         
         if is_narrowband_night:
@@ -210,7 +222,7 @@ def generate_ics():
         if total_score < MIN_SCORE:
             continue
             
-        date_str = times_hourly[start_idx][:10]
+        date_str = times_hourly[start_idx][:10] if start_idx < len(times_hourly) else f"2026-01-0{day+1}"
         dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
         
         summary = f"🔭 🟢 Deep Sky: {total_score}%"
@@ -231,12 +243,11 @@ def generate_ics():
             dt_start_ics = None
             dt_end_ics = None
 
-        # Gefilterte Objektliste abrufen
         targets = get_sorted_targets(dt_obj.month, narrowband_only=is_narrowband_night)
         targets_str = "\\n".join(targets)
         
         dew_warning = " ⚠️ (Tau-Risiko)" if avg_humidity >= 85 else ""
-        precip_str = f"{max_precip_prob}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
+        precip_str = f"{max_precip_prob:.0f}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
         
         section_header = "Sichtbare Schmalband-Objekte (Nebel):" if is_narrowband_night else "Sichtbare Objekte (sortiert nach Zenithöhe):"
         
@@ -276,7 +287,7 @@ END:VEVENT""")
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
         f.write(ics_content)
-    print("Erfolgreich generiert mit dynamischem Objektfilter!")
+    print("Erfolgreich generiert mit typensicherer Bereinigung!")
 
 if __name__ == "__main__":
     generate_ics()
