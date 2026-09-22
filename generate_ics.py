@@ -179,16 +179,25 @@ def generate_ics():
         m_rise = format_time_str(moonrises[day] if day < len(moonrises) else "")
         m_set = format_time_str(moonsets[day] if day < len(moonsets) else "")
         
-        # Angepasste Score-Gewichtung: 75% Wolken, 15% Mond, 10% Feuchtigkeit
+        # Gewichtet Wolken
         weighted_cloud = (avg_low * 0.5) + (avg_mid * 0.3) + (avg_high * 0.2)
         cloud_score = (100 - weighted_cloud) * 0.75
-        moon_score = (100 - moon_illumination) * 0.15
+        
+        # MOONDABZUG-ANPASSUNG: Bei unter 15% Bewölkung wird der Mond-Malus gedrosselt
+        if weighted_cloud < 15:
+            effective_moon_illumination = moon_illumination * 0.25
+            narrowband_note = " 🎯 Ideal für Schmalband/Filter"
+        else:
+            effective_moon_illumination = moon_illumination
+            narrowband_note = ""
+            
+        moon_score = (100 - effective_moon_illumination) * 0.15
         humidity_score = (100 - max(0, avg_humidity - 70) * 3.33) * 0.10
         precip_penalty = (max_precip_prob / 100.0) * 30
         
         total_score = max(0, min(100, int(cloud_score + moon_score + humidity_score - precip_penalty)))
         
-        # Nur Einträge ab MIN_SCORE (60%) generieren (einheitlich grün markiert)
+        # Nur Einträge ab MIN_SCORE (60%) generieren
         if total_score < MIN_SCORE:
             continue
             
@@ -223,7 +232,7 @@ def generate_ics():
         description = (
             f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\\n"
             f"Bewölkung (Nacht): Tiefe {int(avg_low)}% | Mid {int(avg_mid)}% | High {int(avg_high)}% (Schnitt: {int(avg_cloud)}%)\\n"
-            f"Mond: ~{moon_illumination}% | Aufgang: {m_rise} | Untergang: {m_set}\\n"
+            f"Mond: ~{moon_illumination}%{narrowband_note} | Aufgang: {m_rise} | Untergang: {m_set}\\n"
             f"Niederschlag: {precip_str}\\n"
             f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\\n\\n"
             f"Sichtbare Objekte (sortiert nach Zenithöhe):\\n"
