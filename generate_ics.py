@@ -15,7 +15,7 @@ MIN_SCORE = 60  # Mindest-Score für Kalendereintrag (grün)
 # 'NB' = Narrowband / Schmalband (Emissionsnebel, Planetarische Nebel, SNR)
 # 'BB' = Broadband / Breitband (Galaxien, Reflexionsnebel, Sternhaufen)
 DSO_CATALOG = [
-    # Galaxien & Sternhaufen (BB)
+    # Galaxien & Sternhaufen (BB - Breitband / L-RGB)
     {"cat": "M31", "name": "Andromeda-Galaxie", "dec": 41.2, "months": [8, 9, 10, 11, 12, 1], "type": "BB"},
     {"cat": "M33", "name": "Dreiecks-Galaxie", "dec": 30.6, "months": [9, 10, 11, 12, 1], "type": "BB"},
     {"cat": "M81 / M82", "name": "Bodes Galaxie & Zigarre", "dec": 69.1, "months": [12, 1, 2, 3, 4, 5], "type": "BB"},
@@ -37,7 +37,7 @@ DSO_CATALOG = [
     {"cat": "M3", "name": "Kugelsternhaufen Jagdhunde", "dec": 28.4, "months": [3, 4, 5, 6, 7], "type": "BB"},
     {"cat": "NGC 869 / 884", "name": "Doppelsternhaufen h & chi", "dec": 57.1, "months": [8, 9, 10, 11, 12, 1, 2], "type": "BB"},
 
-    # Nebel-Objekte (NB - Schmalband-geeignet)
+    # Nebel-Objekte (NB - Schmalband / Nebelfilter geeignet)
     {"cat": "NGC 7000", "name": "Nordamerika-Nebel", "dec": 44.4, "months": [5, 6, 7, 8, 9, 10], "type": "NB"},
     {"cat": "NGC 6992 / 6960", "name": "Schleiernebel (Veil)", "dec": 31.7, "months": [6, 7, 8, 9, 10, 11], "type": "NB"},
     {"cat": "NGC 6888", "name": "Crescent-Nebel", "dec": 38.4, "months": [6, 7, 8, 9, 10], "type": "NB"},
@@ -62,7 +62,6 @@ DSO_CATALOG = [
 ]
 
 def get_val(lst, idx, default=0.0):
-    """Extrahiert sicher einen Zahlenwert aus Listen, fängt Verschachtelungen und None ab."""
     if isinstance(lst, list) and idx < len(lst):
         val = lst[idx]
         if isinstance(val, (int, float)):
@@ -106,18 +105,35 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
     except Exception:
         return None, None
 
-def get_sorted_targets(month, narrowband_only=False):
-    matched = []
+def get_sorted_targets_formatted(month, narrowband_only=False):
+    nb_targets = []
+    bb_targets = []
+    
     for t in DSO_CATALOG:
         if month in t['months']:
-            if narrowband_only and t['type'] != 'NB':
-                continue
             max_alt = round(90.0 - abs(LATITUDE - t['dec']))
-            matched.append({"cat": t['cat'], "name": t['name'], "max_alt": max_alt})
-            
-    matched.sort(key=lambda x: x['max_alt'], reverse=True)
-    formatted = [f"• {t['cat']} ({t['name']}) - Max. Höhe: {t['max_alt']}°" for t in matched]
-    return formatted if formatted else ["• Keine passenden Objekte gelistet"]
+            item = {"cat": t['cat'], "name": t['name'], "max_alt": max_alt}
+            if t['type'] == 'NB':
+                nb_targets.append(item)
+            else:
+                bb_targets.append(item)
+                
+    nb_targets.sort(key=lambda x: x['max_alt'], reverse=True)
+    bb_targets.sort(key=lambda x: x['max_alt'], reverse=True)
+    
+    sections = []
+    
+    if nb_targets:
+        sections.append("🎯 Schmalband / Dual-Band (H-Alpha/OIII Nebel):")
+        sections.extend([f"  • {t['cat']} ({t['name']}) - Max. Höhe: {t['max_alt']}°" for t in nb_targets])
+        
+    if not narrowband_only and bb_targets:
+        if sections:
+            sections.append("") # Lerzeile als Abstandshalter
+        sections.append("📷 Breitband / L-RGB (Galaxien & Sternhaufen):")
+        sections.extend([f"  • {t['cat']} ({t['name']}) - Max. Höhe: {t['max_alt']}°" for t in bb_targets])
+        
+    return "\\n".join(sections) if sections else "• Keine passenden Objekte gelistet"
 
 def format_time_str(iso_str):
     if not iso_str or iso_str == "N/A" or len(iso_str) < 16:
@@ -243,13 +259,10 @@ def generate_ics():
             dt_start_ics = None
             dt_end_ics = None
 
-        targets = get_sorted_targets(dt_obj.month, narrowband_only=is_narrowband_night)
-        targets_str = "\\n".join(targets)
+        targets_str = get_sorted_targets_formatted(dt_obj.month, narrowband_only=is_narrowband_night)
         
         dew_warning = " ⚠️ (Tau-Risiko)" if avg_humidity >= 85 else ""
         precip_str = f"{max_precip_prob:.0f}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
-        
-        section_header = "Sichtbare Schmalband-Objekte (Nebel):" if is_narrowband_night else "Sichtbare Objekte (sortiert nach Zenithöhe):"
         
         description = (
             f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\\n"
@@ -257,7 +270,6 @@ def generate_ics():
             f"Mond: ~{moon_illumination}%{narrowband_note} | Aufgang: {m_rise} | Untergang: {m_set}\\n"
             f"Niederschlag: {precip_str}\\n"
             f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\\n\\n"
-            f"{section_header}\\n"
             f"{targets_str}\\n\\n"
             f"Erstellt via Open-Meteo Astro API"
         )
@@ -287,7 +299,7 @@ END:VEVENT""")
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
         f.write(ics_content)
-    print("Erfolgreich generiert mit typensicherer Bereinigung!")
+    print("Erfolgreich generiert mit kategoriebasierter Filter-Sortierung!")
 
 if __name__ == "__main__":
     generate_ics()
