@@ -94,7 +94,8 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
         dawn_utc_min = solar_noon_utc - ha_minutes
         
         dusk_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(minutes=dusk_utc_min)
-        dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min - 1440)
+        # KORREKTUR: Morgendämmerung fällt auf den Folgetag (+1 Tag)
+        dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min)
         return dusk_utc, dawn_utc
     except Exception:
         return None, None
@@ -246,16 +247,12 @@ def generate_ics():
         
         total_score = max(0, min(100, int(cloud_score + moon_score + humidity_score - precip_penalty)))
         
-        # --- SCORE-EINTEILUNG & FILTER ---
         # Rot (<= 60%): Überspringen
         if total_score <= 60:
             continue
             
         # Gelb (61 - 80%) vs. Grün (> 80%)
-        if total_score > 80:
-            status_icon = "🟢"
-        else:
-            status_icon = "🟡"
+        status_icon = "🟢" if total_score > 80 else "🟡"
             
         date_str = times_hourly[start_idx][:10]
         dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
@@ -336,7 +333,7 @@ def generate_ics():
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
         f.write(vcal_str)
-    print("Strict RFC 5545 deepsky.ics erfolgreich generiert!")
+    print("Green/Yellow RFC 5545 deepsky.ics erfolgreich generiert!")
 
 if __name__ == "__main__":
     generate_ics()
