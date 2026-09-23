@@ -6,6 +6,9 @@ import sys
 import math
 from datetime import datetime, timezone, timedelta
 
+# Import des unantastbaren ICS-Formatierers
+import ics_builder
+
 # --- KOORDINATEN (Neukirchen OT Adorf) ---
 LATITUDE = 50.7725
 LONGITUDE = 12.8860
@@ -51,27 +54,8 @@ DSO_CATALOG = [
     {"cat": "NGC 2403", "name": "Spiralgalaxie Camelopardalis", "ra": 7.61, "dec": 65.6, "months": [10, 11, 12, 1, 2, 3, 4, 5]}
 ]
 
-def fold_line(text, limit=75):
-    """ RFC 5545 strikt konformes Line-Folding (max. 75 Bytes pro Zeile) """
-    encoded = text.encode('utf-8')
-    if len(encoded) <= limit:
-        return text
-    lines = []
-    while len(encoded) > limit:
-        split_at = limit
-        while split_at > 0 and (encoded[split_at] & 0xC0) == 0x80:
-            split_at -= 1
-        lines.append(encoded[:split_at].decode('utf-8'))
-        encoded = b' ' + encoded[split_at:]
-    if encoded:
-        lines.append(encoded.decode('utf-8'))
-    return "\r\n ".join(lines)
-
-def escape_ics_text(text):
-    """ Escaping für iCalendar Syntax """
-    return text.replace('\\', '\\\\').replace(';', '\\;').replace(',', '\\,').replace('\n', '\\n')
-
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
+    """ Exakte astronomische Dämmerung (-18°) mit korrekter Mitternachtsfolge """
     try:
         dt = datetime.strptime(date_str, "%Y-%m-%d")
         day_of_year = dt.timetuple().tm_yday
@@ -94,13 +78,14 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
         dawn_utc_min = solar_noon_utc - ha_minutes
         
         dusk_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(minutes=dusk_utc_min)
-        # KORREKTUR: Morgendämmerung fällt auf den Folgetag (+1 Tag)
+        # Morgendämmerung fällt auf den Folgetag (+1 Tag)
         dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min)
         return dusk_utc, dawn_utc
     except Exception:
         return None, None
 
 def calculate_transit_time_str(date_str, ra_hours, lon=LONGITUDE):
+    """ Kulmination in deutscher Ortszeit """
     dt = datetime.strptime(date_str, "%Y-%m-%d")
     Y, M, D = dt.year, dt.month, dt.day
     if M <= 2:
@@ -267,12 +252,8 @@ def generate_ics():
         
         if dusk_utc and dawn_utc:
             astro_str = f"{dusk_utc.strftime('%H:%M')} - {dawn_utc.strftime('%H:%M')} UTC"
-            dt_start_ics = dusk_utc.strftime('%Y%m%dT%H%M%SZ')
-            dt_end_ics = dawn_utc.strftime('%Y%m%dT%H%M%SZ')
         else:
             astro_str = f"Sommernacht (Sonnenuntergang: {sunset_time} - {sunrise_time})"
-            dt_start_ics = None
-            dt_end_ics = None
 
         targets = get_sorted_targets(date_str, dt_obj.month)
         targets_str = "\n".join(targets)
@@ -291,49 +272,20 @@ def generate_ics():
             f"Erstellt via Open-Meteo Astro API"
         )
         
-        escaped_desc = escape_ics_text(raw_description)
-        
-        vevent = []
-        vevent.append("BEGIN:VEVENT")
-        vevent.append(f"UID:astro-{date_str}@deepsky")
-        vevent.append(f"DTSTAMP:{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}")
-        
-        if dt_start_ics and dt_end_ics:
-            vevent.append(f"DTSTART:{dt_start_ics}")
-            vevent.append(f"DTEND:{dt_end_ics}")
-        else:
-            dt_start = date_str.replace("-", "")
-            vevent.append(f"DTSTART;VALUE=DATE:{dt_start}")
-            
-        vevent.append(fold_line(f"SUMMARY:{summary}"))
-        vevent.append(fold_line(f"DESCRIPTION:{escaped_desc}"))
-        
-        vevent.append("BEGIN:VALARM")
-        vevent.append("TRIGGER:-PT6H")
-        vevent.append("ACTION:DISPLAY")
-        vevent.append(fold_line("DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!"))
-        vevent.append("END:VALARM")
-        
-        vevent.append("END:VEVENT")
-        vevents.append("\r\n".join(vevent))
+        # Aufruf des separaten, geschützten Moduls für das VEVENT
+        vevent_str = ics_builder.create_vevent(
+            uid=f"astro-{date_str}@deepsky",
+            dt_start_utc=dusk_utc,
+            dt_end_utc=dawn_utc,
+            summary=summary,
+            description_text=raw_description,
+            alarm_hours_before=6
+        )
+        vevents.append(vevent_str)
 
-    vcal = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//DeepSkyForecast//DE",
-        "X-WR-CALNAME:Deep Sky Vorhersage",
-        "REFRESH-INTERVAL;VALUE=DURATION:PT6H",
-        "X-PUBLISHED-TTL:PT6H"
-    ]
-    
-    if vevents:
-        vcal_str = "\r\n".join(vcal) + "\r\n" + "\r\n".join(vevents) + "\r\nEND:VCALENDAR\r\n"
-    else:
-        vcal_str = "\r\n".join(vcal) + "\r\nEND:VCALENDAR\r\n"
-    
-    with open("deepsky.ics", "w", encoding="utf-8") as f:
-        f.write(vcal_str)
-    print("Green/Yellow RFC 5545 deepsky.ics erfolgreich generiert!")
+    # Zusammenbauen & Speichern über das Modul
+    vcal_str = ics_builder.build_calendar_ics(vevents)
+    ics_builder.save_ics("deepsky.ics", vcal_str)
 
 if __name__ == "__main__":
     generate_ics()
