@@ -9,9 +9,8 @@ from datetime import datetime, timezone, timedelta
 # --- KOORDINATEN (Neukirchen OT Adorf) ---
 LATITUDE = 50.7725
 LONGITUDE = 12.8860
-MIN_SCORE = 50  # Schwelle auf 50% gesenkt für herbstliche Vollmondnächte
 
-# Erweiterter Katalog (~50.8° N) mit Rektaszension (ra in Std.) & Deklination (dec in Grad)
+# Katalog für ~50.8° N mit Rektaszension (ra in Std.) & Deklination (dec in Grad)
 DSO_CATALOG = [
     {"cat": "M31", "name": "Andromeda-Galaxie", "ra": 0.71, "dec": 41.2, "months": [8, 9, 10, 11, 12, 1]},
     {"cat": "M33", "name": "Dreiecks-Galaxie", "ra": 1.56, "dec": 30.6, "months": [8, 9, 10, 11, 12, 1]},
@@ -49,18 +48,33 @@ DSO_CATALOG = [
     {"cat": "NGC 891", "name": "Outer Line Galaxie", "ra": 2.38, "dec": 42.4, "months": [8, 9, 10, 11, 12, 1]},
     {"cat": "NGC 1333", "name": "Reflexionsnebel Perseus", "ra": 3.49, "dec": 31.4, "months": [8, 9, 10, 11, 12, 1, 2]},
     {"cat": "M74", "name": "Phantom-Galaxie", "ra": 1.61, "dec": 15.8, "months": [8, 9, 10, 11, 12, 1]},
-    {"cat": "NGC 2403", "name": "Spiralgalaxie Camelopardalis", "ra": 7.61, "dec": 65.6, "months": [10, 11, 12, 1, 2, 3, 4, 5]},
-    {"cat": "M16", "name": "Adlernebel (Säulen)", "ra": 18.31, "dec": -13.8, "months": [5, 6, 7, 8, 9]},
-    {"cat": "M17", "name": "Omega- / Schwanennebel", "ra": 18.35, "dec": -16.2, "months": [5, 6, 7, 8, 9]},
-    {"cat": "M8", "name": "Lagunennebel", "ra": 18.06, "dec": -24.4, "months": [5, 6, 7, 8]},
-    {"cat": "M20", "name": "Trifidnebel", "ra": 18.04, "dec": -23.0, "months": [5, 6, 7, 8]}
+    {"cat": "NGC 2403", "name": "Spiralgalaxie Camelopardalis", "ra": 7.61, "dec": 65.6, "months": [10, 11, 12, 1, 2, 3, 4, 5]}
 ]
+
+def fold_line(text, limit=75):
+    """ RFC 5545 strikt konformes Line-Folding (max. 75 Bytes pro Zeile) """
+    encoded = text.encode('utf-8')
+    if len(encoded) <= limit:
+        return text
+    lines = []
+    while len(encoded) > limit:
+        split_at = limit
+        while split_at > 0 and (encoded[split_at] & 0xC0) == 0x80:
+            split_at -= 1
+        lines.append(encoded[:split_at].decode('utf-8'))
+        encoded = b' ' + encoded[split_at:]
+    if encoded:
+        lines.append(encoded.decode('utf-8'))
+    return "\r\n ".join(lines)
+
+def escape_ics_text(text):
+    """ Escaping für iCalendar Syntax """
+    return text.replace('\\', '\\\\').replace(';', '\\;').replace(',', '\\,').replace('\n', '\\n')
 
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
     try:
         dt = datetime.strptime(date_str, "%Y-%m-%d")
         day_of_year = dt.timetuple().tm_yday
-        
         gamma = (2 * math.pi / 365) * (day_of_year - 1)
         eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(gamma) - 0.032077 * math.sin(gamma) - 0.014615 * math.cos(2 * gamma) - 0.040849 * math.sin(2 * gamma))
         decl = 0.006918 - 0.399912 * math.cos(gamma) + 0.070257 * math.sin(gamma) - 0.006758 * math.cos(2 * gamma) + 0.000907 * math.sin(2 * gamma) - 0.002697 * math.cos(3 * gamma) + 0.00148 * math.sin(3 * gamma)
@@ -69,7 +83,6 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
         zenith = math.radians(108.0) # -18° Elevation
         
         cos_ha = (math.cos(zenith) - math.sin(lat_rad) * math.sin(decl)) / (math.cos(lat_rad) * math.cos(decl))
-        
         if cos_ha > 1.0 or cos_ha < -1.0:
             return None, None
         
@@ -82,13 +95,11 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
         
         dusk_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(minutes=dusk_utc_min)
         dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min - 1440)
-        
         return dusk_utc, dawn_utc
     except Exception:
         return None, None
 
 def calculate_transit_time_str(date_str, ra_hours, lon=LONGITUDE):
-    """ Berechnet die exakte Uhrzeit des Zenitdurchgangs (Kulmination) in deutscher Ortszeit """
     dt = datetime.strptime(date_str, "%Y-%m-%d")
     Y, M, D = dt.year, dt.month, dt.day
     if M <= 2:
@@ -109,7 +120,6 @@ def calculate_transit_time_str(date_str, ra_hours, lon=LONGITUDE):
     
     transit_dt_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(hours=transit_utc_hours)
     
-    # Sommerzeit / Winterzeit Bestimmung (Deutschland)
     m_last_sun = 31 - (datetime(dt.year, 3, 31).weekday() + 1) % 7
     o_last_sun = 31 - (datetime(dt.year, 10, 31).weekday() + 1) % 7
     dst_start = datetime(dt.year, 3, m_last_sun, 2, 0, tzinfo=timezone.utc)
@@ -135,7 +145,8 @@ def get_sorted_targets(date_str, month):
                     "transit": transit_time
                 })
     matched.sort(key=lambda x: x['max_alt'], reverse=True)
-    formatted = [f"• {t['cat']} ({t['name']}) - Max. Höhe: {t['max_alt']}° (Zenit: {t['transit']} Uhr)" for t in matched]
+    top_targets = matched[:15]
+    formatted = [f"• {t['cat']} ({t['name']}) - Max: {t['max_alt']}° (Zenit: {t['transit']} Uhr)" for t in top_targets]
     return formatted if formatted else ["• Keine Objekte gelistet"]
 
 def format_time_str(iso_str):
@@ -158,13 +169,13 @@ def generate_ics():
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    print("Lade Wetter- & Astrodaten von Open-Meteo...")
+    print("Lade Wetter- & Astrodaten...")
     try:
         with urllib.request.urlopen(req, context=ctx) as response:
             data = json.loads(response.read().decode('utf-8'))
     except urllib.error.HTTPError as e:
         error_body = e.read().decode('utf-8')
-        print(f"API Fehler-Details: {error_body}", file=sys.stderr)
+        print(f"API Fehler: {error_body}", file=sys.stderr)
         raise e
 
     hourly = data.get("hourly", {})
@@ -186,7 +197,7 @@ def generate_ics():
     moonsets = daily.get("moonset", [])
     moon_phases = daily.get("moon_phase", [])
 
-    events = []
+    vevents = []
 
     for day in range(7):
         start_idx = day * 24
@@ -222,9 +233,8 @@ def generate_ics():
         weighted_cloud = (avg_low * 0.5) + (avg_mid * 0.3) + (avg_high * 0.2)
         cloud_score = (100 - weighted_cloud) * 0.75
         
-        # MOONDABZUG-ANPASSUNG: Bis 35% Bewölkung wird der Mond-Malus stark gedrosselt
         if weighted_cloud < 35:
-            effective_moon_illumination = moon_illumination * 0.20
+            effective_moon_illumination = moon_illumination * 0.15
             narrowband_note = " 🎯 Ideal für Schmalband/Filter" if moon_illumination >= 50 else ""
         else:
             effective_moon_illumination = moon_illumination
@@ -236,17 +246,23 @@ def generate_ics():
         
         total_score = max(0, min(100, int(cloud_score + moon_score + humidity_score - precip_penalty)))
         
-        # Schwellenwert auf MIN_SCORE (50%)
-        if total_score < MIN_SCORE:
+        # --- SCORE-EINTEILUNG & FILTER ---
+        # Rot (<= 60%): Überspringen
+        if total_score <= 60:
             continue
+            
+        # Gelb (61 - 80%) vs. Grün (> 80%)
+        if total_score > 80:
+            status_icon = "🟢"
+        else:
+            status_icon = "🟡"
             
         date_str = times_hourly[start_idx][:10]
         dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
         
-        summary = f"🔭 🟢 Deep Sky: {total_score}%"
+        summary = f"🔭 {status_icon} Deep Sky: {total_score}%"
         
         dusk_utc, dawn_utc = calculate_astronomical_night(date_str)
-        
         sunset_raw = sunsets[day] if day < len(sunsets) else ""
         sunrise_raw = sunrises[day+1] if (day+1) < len(sunrises) else (sunrises[day] if day < len(sunrises) else "")
         sunset_time = format_time_str(sunset_raw)
@@ -262,48 +278,65 @@ def generate_ics():
             dt_end_ics = None
 
         targets = get_sorted_targets(date_str, dt_obj.month)
-        targets_str = "\\n".join(targets)
+        targets_str = "\n".join(targets)
         
         dew_warning = " ⚠️ (Tau-Risiko)" if avg_humidity >= 85 else ""
         precip_str = f"{max_precip_prob}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
         
-        description = (
-            f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\\n"
-            f"Bewölkung (Nacht): Tiefe {int(avg_low)}% | Mid {int(avg_mid)}% | High {int(avg_high)}% (Schnitt: {int(avg_cloud)}%)\\n"
-            f"Mond: ~{moon_illumination}%{narrowband_note} | Aufgang: {m_rise} | Untergang: {m_set}\\n"
-            f"Niederschlag: {precip_str}\\n"
-            f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\\n\\n"
-            f"Sichtbare Objekte (sortiert nach Zenithöhe):\\n"
-            f"{targets_str}\\n\\n"
+        raw_description = (
+            f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\n"
+            f"Bewölkung (Nacht): Tiefe {int(avg_low)}% | Mid {int(avg_mid)}% | High {int(avg_high)}% (Schnitt: {int(avg_cloud)}%)\n"
+            f"Mond: ~{moon_illumination}%{narrowband_note} | Aufgang: {m_rise} | Untergang: {m_set}\n"
+            f"Niederschlag: {precip_str}\n"
+            f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\n\n"
+            f"Sichtbare Objekte (sortiert nach Zenithöhe):\n"
+            f"{targets_str}\n\n"
             f"Erstellt via Open-Meteo Astro API"
         )
         
+        escaped_desc = escape_ics_text(raw_description)
+        
+        vevent = []
+        vevent.append("BEGIN:VEVENT")
+        vevent.append(f"UID:astro-{date_str}@deepsky")
+        vevent.append(f"DTSTAMP:{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}")
+        
         if dt_start_ics and dt_end_ics:
-            dt_lines = f"DTSTART:{dt_start_ics}\nDTEND:{dt_end_ics}"
+            vevent.append(f"DTSTART:{dt_start_ics}")
+            vevent.append(f"DTEND:{dt_end_ics}")
         else:
             dt_start = date_str.replace("-", "")
-            dt_lines = f"DTSTART;VALUE=DATE:{dt_start}"
+            vevent.append(f"DTSTART;VALUE=DATE:{dt_start}")
             
-        alarm_block = """BEGIN:VALARM
-TRIGGER:-PT6H
-ACTION:DISPLAY
-DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
-END:VALARM"""
+        vevent.append(fold_line(f"SUMMARY:{summary}"))
+        vevent.append(fold_line(f"DESCRIPTION:{escaped_desc}"))
+        
+        vevent.append("BEGIN:VALARM")
+        vevent.append("TRIGGER:-PT6H")
+        vevent.append("ACTION:DISPLAY")
+        vevent.append(fold_line("DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!"))
+        vevent.append("END:VALARM")
+        
+        vevent.append("END:VEVENT")
+        vevents.append("\r\n".join(vevent))
 
-        events.append(f"""BEGIN:VEVENT
-UID:astro-{date_str}@deepsky
-DTSTAMP:{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}
-{dt_lines}
-SUMMARY:{summary}
-DESCRIPTION:{description}
-{alarm_block}
-END:VALARM""")
-
-    ics_content = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//DeepSkyForecast//DE\nX-WR-CALNAME:Deep Sky Vorhersage\n" + "\n".join(events) + "\nEND:VCALENDAR"
+    vcal = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//DeepSkyForecast//DE",
+        "X-WR-CALNAME:Deep Sky Vorhersage",
+        "REFRESH-INTERVAL;VALUE=DURATION:PT6H",
+        "X-PUBLISHED-TTL:PT6H"
+    ]
+    
+    if vevents:
+        vcal_str = "\r\n".join(vcal) + "\r\n" + "\r\n".join(vevents) + "\r\nEND:VCALENDAR\r\n"
+    else:
+        vcal_str = "\r\n".join(vcal) + "\r\nEND:VCALENDAR\r\n"
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
-        f.write(ics_content)
-    print("Green-Only deepsky.ics erfolgreich mit Kulminationszeiten generiert!")
+        f.write(vcal_str)
+    print("Strict RFC 5545 deepsky.ics erfolgreich generiert!")
 
 if __name__ == "__main__":
     generate_ics()
