@@ -9,7 +9,7 @@ from datetime import datetime, timezone, timedelta
 # --- KOORDINATEN (Neukirchen OT Adorf) ---
 LATITUDE = 50.7725
 LONGITUDE = 12.8860
-MIN_SCORE = 60  # Mindest-Score für Kalendereintrag (grün)
+MIN_SCORE = 50  # Schwelle auf 50% gesenkt für herbstliche Vollmondnächte
 
 # Erweiterter Katalog (~50.8° N) mit Rektaszension (ra in Std.) & Deklination (dec in Grad)
 DSO_CATALOG = [
@@ -126,7 +126,7 @@ def get_sorted_targets(date_str, month):
     for t in DSO_CATALOG:
         if month in t['months']:
             max_alt = round(90.0 - abs(LATITUDE - t['dec']))
-            if max_alt > 10:  # Mindestens 10° über Horizont
+            if max_alt > 10:
                 transit_time = calculate_transit_time_str(date_str, t['ra'])
                 matched.append({
                     "cat": t['cat'],
@@ -134,7 +134,6 @@ def get_sorted_targets(date_str, month):
                     "max_alt": max_alt,
                     "transit": transit_time
                 })
-    # Sortierung absteigend nach Höhe des Zenits
     matched.sort(key=lambda x: x['max_alt'], reverse=True)
     formatted = [f"• {t['cat']} ({t['name']}) - Max. Höhe: {t['max_alt']}° (Zenit: {t['transit']} Uhr)" for t in matched]
     return formatted if formatted else ["• Keine Objekte gelistet"]
@@ -223,9 +222,10 @@ def generate_ics():
         weighted_cloud = (avg_low * 0.5) + (avg_mid * 0.3) + (avg_high * 0.2)
         cloud_score = (100 - weighted_cloud) * 0.75
         
-        if weighted_cloud < 15:
-            effective_moon_illumination = moon_illumination * 0.25
-            narrowband_note = " 🎯 Ideal für Schmalband/Filter"
+        # MOONDABZUG-ANPASSUNG: Bis 35% Bewölkung wird der Mond-Malus stark gedrosselt
+        if weighted_cloud < 35:
+            effective_moon_illumination = moon_illumination * 0.20
+            narrowband_note = " 🎯 Ideal für Schmalband/Filter" if moon_illumination >= 50 else ""
         else:
             effective_moon_illumination = moon_illumination
             narrowband_note = ""
@@ -236,6 +236,7 @@ def generate_ics():
         
         total_score = max(0, min(100, int(cloud_score + moon_score + humidity_score - precip_penalty)))
         
+        # Schwellenwert auf MIN_SCORE (50%)
         if total_score < MIN_SCORE:
             continue
             
@@ -296,13 +297,13 @@ DTSTAMP:{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}
 SUMMARY:{summary}
 DESCRIPTION:{description}
 {alarm_block}
-END:VEVENT""")
+END:VALARM""")
 
     ics_content = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//DeepSkyForecast//DE\nX-WR-CALNAME:Deep Sky Vorhersage\n" + "\n".join(events) + "\nEND:VCALENDAR"
     
     with open("deepsky.ics", "w", encoding="utf-8") as f:
         f.write(ics_content)
-    print("Erfolgreich generiert!")
+    print("Green-Only deepsky.ics erfolgreich mit Kulminationszeiten generiert!")
 
 if __name__ == "__main__":
     generate_ics()
