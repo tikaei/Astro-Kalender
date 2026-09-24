@@ -5,29 +5,29 @@ X-WR-CALNAME:Deep Sky Vorhersage
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:astro-2026-09-23@deepsky
-DTSTAMP:20260923T064903Z
-DTSTART:20260923T185913Z
-DTEND:20260924T030224Z
-SUMMARY:🔭 🟡 Deep Sky: 78%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:59 - 03:02 UTC\nBewölkun
-  g (Nacht): Tiefe 9% | Mid 26% | High 27% (Schnitt: 47%)\nMond: ~78% 🎯 I
-  deal für Schmalband/Filter | Aufgang: 17:56 | Untergang: 02:46\nNiedersch
-  lag: 0% (Trocken)\nLuftfeuchtigkeit: 89% ⚠️ (Tau-Risiko)\n\nSichtbare 
+UID:astro-2026-09-25@deepsky
+DTSTAMP:20260924T061102Z
+DTSTART:20260925T185407Z
+DTEND:20260926T030602Z
+SUMMARY:🔭 🟡 Deep Sky: 65%
+DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:54 - 03:06 UTC\nBewölkun
+  g (Nacht): Tiefe 39% | Mid 28% | High 0% (Schnitt: 48%)\nMond: ~91% 🎯 I
+  deal für Schmalband/Filter | Aufgang: 18:22 | Untergang: 05:18\nNiedersch
+  lag: 20% (0.0 mm)\nLuftfeuchtigkeit: 87% ⚠️ (Tau-Risiko)\n\nSichtbare 
   Objekte (sortiert nach Zenithöhe):\n• IC 5146 (Kokon-Nebel) - Max: 87°
-   (Zenit: 22:51 Uhr)\n• NGC 7000 (Nordamerika-Nebel) - Max: 84° (Zenit: 
-  21:56 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) - Max: 84° (Zen
-  it: 03:20 Uhr)\n• NGC 281 (Pacman-Nebel) - Max: 84° (Zenit: 01:49 Uhr)\
-  n• IC 1396 (Elefantenrüsselnebel) - Max: 83° (Zenit: 22:33 Uhr)\n• M
-  92 (Kugelsternhaufen Herkules) - Max: 82° (Zenit: 18:15 Uhr)\n• NGC 891
-   (Outer Line Galaxie) - Max: 82° (Zenit: 03:23 Uhr)\n• M31 (Andromeda-G
-  alaxie) - Max: 80° (Zenit: 01:39 Uhr)\n• IC 1848 (Seelennebel) - Max: 8
-  0° (Zenit: 03:51 Uhr)\n• IC 1805 (Herznebel) - Max: 79° (Zenit: 03:33 
-  Uhr)\n• NGC 6888 (Crescent-Nebel) - Max: 78° (Zenit: 21:09 Uhr)\n• NG
-  C 1499 (Kaliforniennebel) - Max: 76° (Zenit: 05:03 Uhr)\n• M13 (Herkule
-  s-Kugelsternhaufen) - Max: 76° (Zenit: 17:39 Uhr)\n• NGC 7331 (Deer Lic
-  k Gruppe) - Max: 74° (Zenit: 23:34 Uhr)\n• M57 (Ringnebel) - Max: 72° 
-  (Zenit: 19:51 Uhr)\n\nErstellt via Open-Meteo Astro API
+   (Zenit: 22:43 Uhr)\n• NGC 7000 (Nordamerika-Nebel) - Max: 84° (Zenit: 
+  21:48 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) - Max: 84° (Zen
+  it: 03:12 Uhr)\n• NGC 281 (Pacman-Nebel) - Max: 84° (Zenit: 01:42 Uhr)\
+  n• IC 1396 (Elefantenrüsselnebel) - Max: 83° (Zenit: 22:25 Uhr)\n• M
+  92 (Kugelsternhaufen Herkules) - Max: 82° (Zenit: 18:07 Uhr)\n• NGC 891
+   (Outer Line Galaxie) - Max: 82° (Zenit: 03:15 Uhr)\n• M31 (Andromeda-G
+  alaxie) - Max: 80° (Zenit: 01:31 Uhr)\n• IC 1848 (Seelennebel) - Max: 8
+  0° (Zenit: 03:43 Uhr)\n• IC 1805 (Herznebel) - Max: 79° (Zenit: 03:25 
+  Uhr)\n• NGC 6888 (Crescent-Nebel) - Max: 78° (Zenit: 21:02 Uhr)\n• NG
+  C 1499 (Kaliforniennebel) - Max: 76° (Zenit: 04:55 Uhr)\n• M13 (Herkule
+  s-Kugelsternhaufen) - Max: 76° (Zenit: 17:31 Uhr)\n• NGC 7331 (Deer Lic
+  k Gruppe) - Max: 74° (Zenit: 23:26 Uhr)\n• M57 (Ringnebel) - Max: 72° 
+  (Zenit: 19:43 Uhr)\n\nErstellt via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -36,14 +36,14 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-26@deepsky
-DTSTAMP:20260923T064903Z
+DTSTAMP:20260924T061102Z
 DTSTART:20260926T185136Z
 DTEND:20260927T030749Z
-SUMMARY:🔭 🟢 Deep Sky: 89%
+SUMMARY:🔭 🟢 Deep Sky: 81%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:51 - 03:07 UTC\nBewölkun
-  g (Nacht): Tiefe 0% | Mid 19% | High 19% (Schnitt: 33%)\nMond: ~98% 🎯 I
+  g (Nacht): Tiefe 0% | Mid 35% | High 29% (Schnitt: 42%)\nMond: ~98% 🎯 I
   deal für Schmalband/Filter | Aufgang: 18:35 | Untergang: 06:35\nNiedersch
-  lag: 1% (0.0 mm)\nLuftfeuchtigkeit: 72%\n\nSichtbare Objekte (sortiert nac
+  lag: 3% (0.0 mm)\nLuftfeuchtigkeit: 79%\n\nSichtbare Objekte (sortiert nac
   h Zenithöhe):\n• IC 5146 (Kokon-Nebel) - Max: 87° (Zenit: 22:39 Uhr)\n
   • NGC 7000 (Nordamerika-Nebel) - Max: 84° (Zenit: 21:44 Uhr)\n• NGC 8
   69 / 884 (Doppelsternhaufen h & chi) - Max: 84° (Zenit: 03:08 Uhr)\n• N
@@ -66,28 +66,28 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-27@deepsky
-DTSTAMP:20260923T064903Z
+DTSTAMP:20260924T061102Z
 DTSTART:20260927T184906Z
 DTEND:20260928T030936Z
-SUMMARY:🔭 🟢 Deep Sky: 82%
+SUMMARY:🔭 🟡 Deep Sky: 70%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:49 - 03:09 UTC\nBewölkun
-  g (Nacht): Tiefe 0% | Mid 38% | High 46% (Schnitt: 65%)\nMond: ~95% 🎯 I
+  g (Nacht): Tiefe 0% | Mid 74% | High 57% (Schnitt: 80%)\nMond: ~95% 🎯 I
   deal für Schmalband/Filter | Aufgang: 18:49 | Untergang: 07:56\nNiedersch
-  lag: 0% (Trocken)\nLuftfeuchtigkeit: 68%\n\nSichtbare Objekte (sortiert na
-  ch Zenithöhe):\n• IC 5146 (Kokon-Nebel) - Max: 87° (Zenit: 22:35 Uhr)\
-  n• NGC 7000 (Nordamerika-Nebel) - Max: 84° (Zenit: 21:40 Uhr)\n• NGC 
-  869 / 884 (Doppelsternhaufen h & chi) - Max: 84° (Zenit: 03:04 Uhr)\n• 
-  NGC 281 (Pacman-Nebel) - Max: 84° (Zenit: 01:34 Uhr)\n• IC 1396 (Elefan
-  tenrüsselnebel) - Max: 83° (Zenit: 22:17 Uhr)\n• M92 (Kugelsternhaufen
-   Herkules) - Max: 82° (Zenit: 17:59 Uhr)\n• NGC 891 (Outer Line Galaxie
-  ) - Max: 82° (Zenit: 03:07 Uhr)\n• M31 (Andromeda-Galaxie) - Max: 80° 
-  (Zenit: 01:24 Uhr)\n• IC 1848 (Seelennebel) - Max: 80° (Zenit: 03:35 Uh
-  r)\n• IC 1805 (Herznebel) - Max: 79° (Zenit: 03:18 Uhr)\n• NGC 6888 (
-  Crescent-Nebel) - Max: 78° (Zenit: 20:54 Uhr)\n• NGC 1499 (Kalifornienn
-  ebel) - Max: 76° (Zenit: 04:47 Uhr)\n• M13 (Herkules-Kugelsternhaufen) 
-  - Max: 76° (Zenit: 17:24 Uhr)\n• NGC 7331 (Deer Lick Gruppe) - Max: 74
-  ° (Zenit: 23:18 Uhr)\n• M57 (Ringnebel) - Max: 72° (Zenit: 19:35 Uhr)\
-  n\nErstellt via Open-Meteo Astro API
+  lag: 3% (0.0 mm)\nLuftfeuchtigkeit: 71%\n\nSichtbare Objekte (sortiert nac
+  h Zenithöhe):\n• IC 5146 (Kokon-Nebel) - Max: 87° (Zenit: 22:35 Uhr)\n
+  • NGC 7000 (Nordamerika-Nebel) - Max: 84° (Zenit: 21:40 Uhr)\n• NGC 8
+  69 / 884 (Doppelsternhaufen h & chi) - Max: 84° (Zenit: 03:04 Uhr)\n• N
+  GC 281 (Pacman-Nebel) - Max: 84° (Zenit: 01:34 Uhr)\n• IC 1396 (Elefant
+  enrüsselnebel) - Max: 83° (Zenit: 22:17 Uhr)\n• M92 (Kugelsternhaufen 
+  Herkules) - Max: 82° (Zenit: 17:59 Uhr)\n• NGC 891 (Outer Line Galaxie)
+   - Max: 82° (Zenit: 03:07 Uhr)\n• M31 (Andromeda-Galaxie) - Max: 80° (
+  Zenit: 01:24 Uhr)\n• IC 1848 (Seelennebel) - Max: 80° (Zenit: 03:35 Uhr
+  )\n• IC 1805 (Herznebel) - Max: 79° (Zenit: 03:18 Uhr)\n• NGC 6888 (C
+  rescent-Nebel) - Max: 78° (Zenit: 20:54 Uhr)\n• NGC 1499 (Kalifornienne
+  bel) - Max: 76° (Zenit: 04:47 Uhr)\n• M13 (Herkules-Kugelsternhaufen) -
+   Max: 76° (Zenit: 17:24 Uhr)\n• NGC 7331 (Deer Lick Gruppe) - Max: 74°
+   (Zenit: 23:18 Uhr)\n• M57 (Ringnebel) - Max: 72° (Zenit: 19:35 Uhr)\n\
+  nErstellt via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -96,15 +96,15 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-28@deepsky
-DTSTAMP:20260923T064903Z
+DTSTAMP:20260924T061102Z
 DTSTART:20260928T184638Z
 DTEND:20260929T031123Z
-SUMMARY:🔭 🟢 Deep Sky: 95%
+SUMMARY:🔭 🟡 Deep Sky: 79%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:46 - 03:11 UTC\nBewölkun
-  g (Nacht): Tiefe 0% | Mid 1% | High 2% (Schnitt: 3%)\nMond: ~87% 🎯 Idea
-  l für Schmalband/Filter | Aufgang: 19:06 | Untergang: 09:19\nNiederschlag
-  : 0% (Trocken)\nLuftfeuchtigkeit: 75%\n\nSichtbare Objekte (sortiert nach 
-  Zenithöhe):\n• IC 5146 (Kokon-Nebel) - Max: 87° (Zenit: 22:31 Uhr)\n
+  g (Nacht): Tiefe 0% | Mid 69% | High 13% (Schnitt: 69%)\nMond: ~87% 🎯 I
+  deal für Schmalband/Filter | Aufgang: 19:06 | Untergang: 09:19\nNiedersch
+  lag: 3% (0.0 mm)\nLuftfeuchtigkeit: 61%\n\nSichtbare Objekte (sortiert nac
+  h Zenithöhe):\n• IC 5146 (Kokon-Nebel) - Max: 87° (Zenit: 22:31 Uhr)\n
   • NGC 7000 (Nordamerika-Nebel) - Max: 84° (Zenit: 21:36 Uhr)\n• NGC 8
   69 / 884 (Doppelsternhaufen h & chi) - Max: 84° (Zenit: 03:00 Uhr)\n• N
   GC 281 (Pacman-Nebel) - Max: 84° (Zenit: 01:30 Uhr)\n• IC 1396 (Elefant
@@ -126,28 +126,58 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-29@deepsky
-DTSTAMP:20260923T064903Z
+DTSTAMP:20260924T061102Z
 DTSTART:20260929T184411Z
 DTEND:20260930T031308Z
-SUMMARY:🔭 🟢 Deep Sky: 93%
+SUMMARY:🔭 🟢 Deep Sky: 89%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:44 - 03:13 UTC\nBewölkun
-  g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~80% 🎯 Idea
-  l für Schmalband/Filter | Aufgang: 19:28 | Untergang: 10:45\nNiederschlag
-  : 3% (0.0 mm)\nLuftfeuchtigkeit: 79%\n\nSichtbare Objekte (sortiert nach Z
-  enithöhe):\n• IC 5146 (Kokon-Nebel) - Max: 87° (Zenit: 22:27 Uhr)\n•
-   NGC 7000 (Nordamerika-Nebel) - Max: 84° (Zenit: 21:32 Uhr)\n• NGC 869 
-  / 884 (Doppelsternhaufen h & chi) - Max: 84° (Zenit: 02:56 Uhr)\n• NGC 
-  281 (Pacman-Nebel) - Max: 84° (Zenit: 01:26 Uhr)\n• IC 1396 (Elefantenr
-  üsselnebel) - Max: 83° (Zenit: 22:10 Uhr)\n• M92 (Kugelsternhaufen Her
-  kules) - Max: 82° (Zenit: 17:51 Uhr)\n• NGC 891 (Outer Line Galaxie) - 
-  Max: 82° (Zenit: 03:00 Uhr)\n• M31 (Andromeda-Galaxie) - Max: 80° (Zen
-  it: 01:16 Uhr)\n• IC 1848 (Seelennebel) - Max: 80° (Zenit: 03:28 Uhr)\n
-  • IC 1805 (Herznebel) - Max: 79° (Zenit: 03:10 Uhr)\n• NGC 6888 (Cres
-  cent-Nebel) - Max: 78° (Zenit: 20:46 Uhr)\n• NGC 1499 (Kaliforniennebel
-  ) - Max: 76° (Zenit: 04:39 Uhr)\n• M13 (Herkules-Kugelsternhaufen) - Ma
-  x: 76° (Zenit: 17:16 Uhr)\n• NGC 7331 (Deer Lick Gruppe) - Max: 74° (Z
-  enit: 23:11 Uhr)\n• M57 (Ringnebel) - Max: 72° (Zenit: 19:27 Uhr)\n\nEr
-  stellt via Open-Meteo Astro API
+  g (Nacht): Tiefe 0% | Mid 10% | High 5% (Schnitt: 15%)\nMond: ~80% 🎯 Id
+  eal für Schmalband/Filter | Aufgang: 19:28 | Untergang: 10:45\nNiederschl
+  ag: 5% (0.0 mm)\nLuftfeuchtigkeit: 82%\n\nSichtbare Objekte (sortiert nach
+   Zenithöhe):\n• IC 5146 (Kokon-Nebel) - Max: 87° (Zenit: 22:27 Uhr)\n
+  • NGC 7000 (Nordamerika-Nebel) - Max: 84° (Zenit: 21:32 Uhr)\n• NGC 8
+  69 / 884 (Doppelsternhaufen h & chi) - Max: 84° (Zenit: 02:56 Uhr)\n• N
+  GC 281 (Pacman-Nebel) - Max: 84° (Zenit: 01:26 Uhr)\n• IC 1396 (Elefant
+  enrüsselnebel) - Max: 83° (Zenit: 22:10 Uhr)\n• M92 (Kugelsternhaufen 
+  Herkules) - Max: 82° (Zenit: 17:51 Uhr)\n• NGC 891 (Outer Line Galaxie)
+   - Max: 82° (Zenit: 03:00 Uhr)\n• M31 (Andromeda-Galaxie) - Max: 80° (
+  Zenit: 01:16 Uhr)\n• IC 1848 (Seelennebel) - Max: 80° (Zenit: 03:28 Uhr
+  )\n• IC 1805 (Herznebel) - Max: 79° (Zenit: 03:10 Uhr)\n• NGC 6888 (C
+  rescent-Nebel) - Max: 78° (Zenit: 20:46 Uhr)\n• NGC 1499 (Kalifornienne
+  bel) - Max: 76° (Zenit: 04:39 Uhr)\n• M13 (Herkules-Kugelsternhaufen) -
+   Max: 76° (Zenit: 17:16 Uhr)\n• NGC 7331 (Deer Lick Gruppe) - Max: 74°
+   (Zenit: 23:11 Uhr)\n• M57 (Ringnebel) - Max: 72° (Zenit: 19:27 Uhr)\n\
+  nErstellt via Open-Meteo Astro API
+BEGIN:VALARM
+TRIGGER:-PT6H
+ACTION:DISPLAY
+DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-09-30@deepsky
+DTSTAMP:20260924T061102Z
+DTSTART:20260930T184144Z
+DTEND:20261001T031454Z
+SUMMARY:🔭 🟢 Deep Sky: 95%
+DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:41 - 03:14 UTC\nBewölkun
+  g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~73% 🎯 Idea
+  l für Schmalband/Filter | Aufgang: 19:58 | Untergang: 12:12\nNiederschlag
+  : 0% (Trocken)\nLuftfeuchtigkeit: 77%\n\nSichtbare Objekte (sortiert nach 
+  Zenithöhe):\n• IC 5146 (Kokon-Nebel) - Max: 87° (Zenit: 22:23 Uhr)\n
+  • NGC 7000 (Nordamerika-Nebel) - Max: 84° (Zenit: 21:29 Uhr)\n• NGC 8
+  69 / 884 (Doppelsternhaufen h & chi) - Max: 84° (Zenit: 02:52 Uhr)\n• N
+  GC 281 (Pacman-Nebel) - Max: 84° (Zenit: 01:22 Uhr)\n• IC 1396 (Elefant
+  enrüsselnebel) - Max: 83° (Zenit: 22:06 Uhr)\n• M92 (Kugelsternhaufen 
+  Herkules) - Max: 82° (Zenit: 17:47 Uhr)\n• NGC 891 (Outer Line Galaxie)
+   - Max: 82° (Zenit: 02:56 Uhr)\n• M31 (Andromeda-Galaxie) - Max: 80° (
+  Zenit: 01:12 Uhr)\n• IC 1848 (Seelennebel) - Max: 80° (Zenit: 03:24 Uhr
+  )\n• IC 1805 (Herznebel) - Max: 79° (Zenit: 03:06 Uhr)\n• NGC 6888 (C
+  rescent-Nebel) - Max: 78° (Zenit: 20:42 Uhr)\n• NGC 1499 (Kalifornienne
+  bel) - Max: 76° (Zenit: 04:36 Uhr)\n• M13 (Herkules-Kugelsternhaufen) -
+   Max: 76° (Zenit: 17:12 Uhr)\n• NGC 7331 (Deer Lick Gruppe) - Max: 74°
+   (Zenit: 23:07 Uhr)\n• M57 (Ringnebel) - Max: 72° (Zenit: 19:23 Uhr)\n\
+  nErstellt via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
