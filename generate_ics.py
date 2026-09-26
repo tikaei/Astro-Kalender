@@ -13,49 +13,55 @@ import ics_builder
 LATITUDE = 50.7725
 LONGITUDE = 12.8860
 
-# Katalog für ~50.8° N mit Rektaszension (ra in Std.) & Deklination (dec in Grad)
+# Katalog mit Spektralklassen-Klassifizierung
 DSO_CATALOG = [
-    {"cat": "M31", "name": "Andromeda-Galaxie", "ra": 0.71, "dec": 41.2, "months": [8, 9, 10, 11, 12, 1]},
-    {"cat": "M33", "name": "Dreiecks-Galaxie", "ra": 1.56, "dec": 30.6, "months": [8, 9, 10, 11, 12, 1]},
-    {"cat": "M42 / M43", "name": "Orionnebel", "ra": 5.59, "dec": -5.4, "months": [10, 11, 12, 1, 2, 3, 4]},
-    {"cat": "M45", "name": "Plejaden", "ra": 3.79, "dec": 24.1, "months": [9, 10, 11, 12, 1, 2, 3]},
-    {"cat": "NGC 7000", "name": "Nordamerika-Nebel", "ra": 20.98, "dec": 44.4, "months": [5, 6, 7, 8, 9, 10, 11]},
-    {"cat": "IC 1396", "name": "Elefantenrüsselnebel", "ra": 21.60, "dec": 57.5, "months": [6, 7, 8, 9, 10, 11, 12]},
-    {"cat": "IC 1805", "name": "Herznebel", "ra": 2.55, "dec": 61.5, "months": [8, 9, 10, 11, 12, 1, 2]},
-    {"cat": "IC 1848", "name": "Seelennebel", "ra": 2.85, "dec": 60.4, "months": [8, 9, 10, 11, 12, 1, 2]},
-    {"cat": "NGC 6992 / 6960", "name": "Schleiernebel (Veil)", "ra": 20.93, "dec": 31.7, "months": [6, 7, 8, 9, 10, 11]},
-    {"cat": "M27", "name": "Hantelnebel", "ra": 19.99, "dec": 22.7, "months": [5, 6, 7, 8, 9, 10, 11]},
-    {"cat": "M57", "name": "Ringnebel", "ra": 18.89, "dec": 33.0, "months": [5, 6, 7, 8, 9, 10, 11]},
-    {"cat": "M81 / M82", "name": "Bodes Galaxie & Zigarre", "ra": 9.92, "dec": 69.1, "months": [11, 12, 1, 2, 3, 4, 5, 6]},
-    {"cat": "M51", "name": "Whirlpool-Galaxie", "ra": 13.50, "dec": 47.2, "months": [1, 2, 3, 4, 5, 6, 7]},
-    {"cat": "NGC 2237", "name": "Rosettennebel", "ra": 6.53, "dec": 5.0, "months": [11, 12, 1, 2, 3, 4]},
-    {"cat": "IC 434 / B33", "name": "Pferdekopfnebel", "ra": 5.68, "dec": -2.5, "months": [10, 11, 12, 1, 2, 3]},
-    {"cat": "NGC 1499", "name": "Kaliforniennebel", "ra": 4.05, "dec": 36.6, "months": [9, 10, 11, 12, 1, 2]},
-    {"cat": "NGC 869 / 884", "name": "Doppelsternhaufen h & chi", "ra": 2.32, "dec": 57.1, "months": [8, 9, 10, 11, 12, 1, 2]},
-    {"cat": "M13", "name": "Herkules-Kugelsternhaufen", "ra": 16.69, "dec": 36.5, "months": [4, 5, 6, 7, 8, 9, 10]},
-    {"cat": "M101", "name": "Feuerrad-Galaxie", "ra": 14.05, "dec": 54.4, "months": [2, 3, 4, 5, 6, 7, 8]},
-    {"cat": "M104", "name": "Sombrero-Galaxie", "ra": 12.66, "dec": -11.6, "months": [2, 3, 4, 5, 6]},
-    {"cat": "M1", "name": "Krebsnebel", "ra": 5.58, "dec": 22.0, "months": [10, 11, 12, 1, 2, 3, 4]},
-    {"cat": "M78", "name": "Reflexionsnebel Orion", "ra": 5.78, "dec": 0.1, "months": [11, 12, 1, 2, 3, 4]},
-    {"cat": "NGC 281", "name": "Pacman-Nebel", "ra": 0.88, "dec": 56.6, "months": [8, 9, 10, 11, 12, 1]},
-    {"cat": "NGC 7331", "name": "Deer Lick Gruppe", "ra": 22.62, "dec": 34.4, "months": [7, 8, 9, 10, 11, 12]},
-    {"cat": "M63", "name": "Sonnenblumen-Galaxie", "ra": 13.26, "dec": 42.0, "months": [2, 3, 4, 5, 6, 7, 8]},
-    {"cat": "M106", "name": "Spiralgalaxie Canes Venatici", "ra": 12.31, "dec": 47.3, "months": [1, 2, 3, 4, 5, 6, 7]},
-    {"cat": "IC 405", "name": "Flammensternnebel", "ra": 5.27, "dec": 34.4, "months": [10, 11, 12, 1, 2, 3, 4]},
-    {"cat": "M109", "name": "Spiralgalaxie Ursa Major", "ra": 11.96, "dec": 53.4, "months": [1, 2, 3, 4, 5, 6]},
-    {"cat": "M97", "name": "Eulennebel", "ra": 11.25, "dec": 55.0, "months": [1, 2, 3, 4, 5, 6]},
-    {"cat": "M3", "name": "Kugelsternhaufen Jagdhunde", "ra": 13.71, "dec": 28.4, "months": [2, 3, 4, 5, 6, 7, 8]},
-    {"cat": "M92", "name": "Kugelsternhaufen Herkules", "ra": 17.28, "dec": 43.1, "months": [4, 5, 6, 7, 8, 9, 10]},
-    {"cat": "NGC 6888", "name": "Crescent-Nebel", "ra": 20.20, "dec": 38.4, "months": [5, 6, 7, 8, 9, 10, 11]},
-    {"cat": "IC 5146", "name": "Kokon-Nebel", "ra": 21.89, "dec": 47.3, "months": [6, 7, 8, 9, 10, 11, 12]},
-    {"cat": "NGC 891", "name": "Outer Line Galaxie", "ra": 2.38, "dec": 42.4, "months": [8, 9, 10, 11, 12, 1]},
-    {"cat": "NGC 1333", "name": "Reflexionsnebel Perseus", "ra": 3.49, "dec": 31.4, "months": [8, 9, 10, 11, 12, 1, 2]},
-    {"cat": "M74", "name": "Phantom-Galaxie", "ra": 1.61, "dec": 15.8, "months": [8, 9, 10, 11, 12, 1]},
-    {"cat": "NGC 2403", "name": "Spiralgalaxie Camelopardalis", "ra": 7.61, "dec": 65.6, "months": [10, 11, 12, 1, 2, 3, 4, 5]}
+    # --- NARROWBAND (Emissionsnebel / SNR / Planetarische Nebel) ---
+    {"cat": "NGC 7000", "name": "Nordamerika-Nebel", "ra": 20.98, "dec": 44.4, "months": [5, 6, 7, 8, 9, 10, 11], "type": "narrowband"},
+    {"cat": "NGC 6992 / 6960", "name": "Schleiernebel (Veil)", "ra": 20.93, "dec": 31.7, "months": [6, 7, 8, 9, 10, 11], "type": "narrowband"},
+    {"cat": "IC 1396", "name": "Elefantenrüsselnebel", "ra": 21.60, "dec": 57.5, "months": [6, 7, 8, 9, 10, 11, 12], "type": "narrowband"},
+    {"cat": "IC 1805", "name": "Herznebel", "ra": 2.55, "dec": 61.5, "months": [8, 9, 10, 11, 12, 1, 2], "type": "narrowband"},
+    {"cat": "IC 1848", "name": "Seelennebel", "ra": 2.85, "dec": 60.4, "months": [8, 9, 10, 11, 12, 1, 2], "type": "narrowband"},
+    {"cat": "NGC 281", "name": "Pacman-Nebel", "ra": 0.88, "dec": 56.6, "months": [8, 9, 10, 11, 12, 1], "type": "narrowband"},
+    {"cat": "NGC 6888", "name": "Crescent-Nebel", "ra": 20.20, "dec": 38.4, "months": [5, 6, 7, 8, 9, 10, 11], "type": "narrowband"},
+    {"cat": "NGC 1499", "name": "Kaliforniennebel", "ra": 4.05, "dec": 36.6, "months": [9, 10, 11, 12, 1, 2], "type": "narrowband"},
+    {"cat": "NGC 2237", "name": "Rosettennebel", "ra": 6.53, "dec": 5.0, "months": [11, 12, 1, 2, 3, 4], "type": "narrowband"},
+    {"cat": "IC 434 / B33", "name": "Pferdekopfnebel", "ra": 5.68, "dec": -2.5, "months": [10, 11, 12, 1, 2, 3], "type": "narrowband"},
+    {"cat": "M27", "name": "Hantelnebel", "ra": 19.99, "dec": 22.7, "months": [5, 6, 7, 8, 9, 10, 11], "type": "narrowband"},
+    {"cat": "M57", "name": "Ringnebel", "ra": 18.89, "dec": 33.0, "months": [5, 6, 7, 8, 9, 10, 11], "type": "narrowband"},
+    {"cat": "M97", "name": "Eulennebel", "ra": 11.25, "dec": 55.0, "months": [1, 2, 3, 4, 5, 6], "type": "narrowband"},
+
+    # --- HYBRID (Mischobjekte) ---
+    {"cat": "M42 / M43", "name": "Orionnebel", "ra": 5.59, "dec": -5.4, "months": [10, 11, 12, 1, 2, 3, 4], "type": "hybrid"},
+    {"cat": "IC 405", "name": "Flammensternnebel", "ra": 5.27, "dec": 34.4, "months": [10, 11, 12, 1, 2, 3, 4], "type": "hybrid"},
+    {"cat": "M1", "name": "Krebsnebel", "ra": 5.58, "dec": 22.0, "months": [10, 11, 12, 1, 2, 3, 4], "type": "hybrid"},
+
+    # --- BROADBAND (Galaxien, Reflexions- & Dunkelnebel -> Neumond-Pflicht) ---
+    {"cat": "IC 5146", "name": "Kokon-Nebel (B168)", "ra": 21.89, "dec": 47.3, "months": [6, 7, 8, 9, 10, 11, 12], "type": "broadband"},
+    {"cat": "M31", "name": "Andromeda-Galaxie", "ra": 0.71, "dec": 41.2, "months": [8, 9, 10, 11, 12, 1], "type": "broadband"},
+    {"cat": "M33", "name": "Dreiecks-Galaxie", "ra": 1.56, "dec": 30.6, "months": [8, 9, 10, 11, 12, 1], "type": "broadband"},
+    {"cat": "M45", "name": "Plejaden", "ra": 3.79, "dec": 24.1, "months": [9, 10, 11, 12, 1, 2, 3], "type": "broadband"},
+    {"cat": "M78", "name": "Reflexionsnebel Orion", "ra": 5.78, "dec": 0.1, "months": [11, 12, 1, 2, 3, 4], "type": "broadband"},
+    {"cat": "NGC 1333", "name": "Reflexionsnebel Perseus", "ra": 3.49, "dec": 31.4, "months": [8, 9, 10, 11, 12, 1, 2], "type": "broadband"},
+    {"cat": "M51", "name": "Whirlpool-Galaxie", "ra": 13.50, "dec": 47.2, "months": [1, 2, 3, 4, 5, 6, 7], "type": "broadband"},
+    {"cat": "M81 / M82", "name": "Bodes Galaxie & Zigarre", "ra": 9.92, "dec": 69.1, "months": [11, 12, 1, 2, 3, 4, 5, 6], "type": "broadband"},
+    {"cat": "M101", "name": "Feuerrad-Galaxie", "ra": 14.05, "dec": 54.4, "months": [2, 3, 4, 5, 6, 7, 8], "type": "broadband"},
+    {"cat": "M104", "name": "Sombrero-Galaxie", "ra": 12.66, "dec": -11.6, "months": [2, 3, 4, 5, 6], "type": "broadband"},
+    {"cat": "NGC 7331", "name": "Deer Lick Gruppe", "ra": 22.62, "dec": 34.4, "months": [7, 8, 9, 10, 11, 12], "type": "broadband"},
+    {"cat": "M63", "name": "Sonnenblumen-Galaxie", "ra": 13.26, "dec": 42.0, "months": [2, 3, 4, 5, 6, 7, 8], "type": "broadband"},
+    {"cat": "M106", "name": "Spiralgalaxie Canes Venatici", "ra": 12.31, "dec": 47.3, "months": [1, 2, 3, 4, 5, 6, 7], "type": "broadband"},
+    {"cat": "M109", "name": "Spiralgalaxie Ursa Major", "ra": 11.96, "dec": 53.4, "months": [1, 2, 3, 4, 5, 6], "type": "broadband"},
+    {"cat": "NGC 891", "name": "Outer Line Galaxie", "ra": 2.38, "dec": 42.4, "months": [8, 9, 10, 11, 12, 1], "type": "broadband"},
+    {"cat": "M74", "name": "Phantom-Galaxie", "ra": 1.61, "dec": 15.8, "months": [8, 9, 10, 11, 12, 1], "type": "broadband"},
+    {"cat": "NGC 2403", "name": "Spiralgalaxie Camelopardalis", "ra": 7.61, "dec": 65.6, "months": [10, 11, 12, 1, 2, 3, 4, 5], "type": "broadband"},
+
+    # --- CLUSTER (Sternhaufen) ---
+    {"cat": "NGC 869 / 884", "name": "Doppelsternhaufen h & chi", "ra": 2.32, "dec": 57.1, "months": [8, 9, 10, 11, 12, 1, 2], "type": "cluster"},
+    {"cat": "M13", "name": "Herkules-Kugelsternhaufen", "ra": 16.69, "dec": 36.5, "months": [4, 5, 6, 7, 8, 9, 10], "type": "cluster"},
+    {"cat": "M3", "name": "Kugelsternhaufen Jagdhunde", "ra": 13.71, "dec": 28.4, "months": [2, 3, 4, 5, 6, 7, 8], "type": "cluster"},
+    {"cat": "M92", "name": "Kugelsternhaufen Herkules", "ra": 17.28, "dec": 43.1, "months": [4, 5, 6, 7, 8, 9, 10], "type": "cluster"}
 ]
 
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
-    """ Exakte astronomische Dämmerung (-18°) mit korrekter Mitternachtsfolge """
     try:
         dt = datetime.strptime(date_str, "%Y-%m-%d")
         day_of_year = dt.timetuple().tm_yday
@@ -78,14 +84,12 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
         dawn_utc_min = solar_noon_utc - ha_minutes
         
         dusk_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(minutes=dusk_utc_min)
-        # Morgendämmerung fällt auf den Folgetag (+1 Tag)
         dawn_utc = datetime(dt.year, dt.month, dt.day, tzinfo=timezone.utc) + timedelta(days=1, minutes=dawn_utc_min)
         return dusk_utc, dawn_utc
     except Exception:
         return None, None
 
 def calculate_transit_time_str(date_str, ra_hours, lon=LONGITUDE):
-    """ Kulmination in deutscher Ortszeit """
     dt = datetime.strptime(date_str, "%Y-%m-%d")
     Y, M, D = dt.year, dt.month, dt.day
     if M <= 2:
@@ -117,22 +121,55 @@ def calculate_transit_time_str(date_str, ra_hours, lon=LONGITUDE):
     transit_dt_local = transit_dt_utc + local_offset
     return transit_dt_local.strftime("%H:%M")
 
-def get_sorted_targets(date_str, month):
+def get_sorted_targets(date_str, month, moon_illumination):
     matched = []
     for t in DSO_CATALOG:
         if month in t['months']:
             max_alt = round(90.0 - abs(LATITUDE - t['dec']))
             if max_alt > 10:
                 transit_time = calculate_transit_time_str(date_str, t['ra'])
+                obj_type = t.get("type", "broadband")
+                
+                # Zuweisung von Tags & Prioritäten basierend auf Mondlicht
+                if moon_illumination >= 50:
+                    if obj_type == "narrowband":
+                        rec_tag = "[🟢 Schmalband]"
+                        priority = 1
+                    elif obj_type == "hybrid":
+                        rec_tag = "[🟡 Schmalband ok]"
+                        priority = 2
+                    elif obj_type == "cluster":
+                        rec_tag = "[🟡 Breitband ok]"
+                        priority = 3
+                    else: # broadband (Kokon-Nebel, Galaxien, Reflexionsnebel)
+                        rec_tag = "[🔴 Breitband / Vollmond-Tabu!]"
+                        priority = 4
+                else:
+                    if obj_type in ["broadband", "cluster"]:
+                        rec_tag = "[🟢 Breitband/LRGB]"
+                    elif obj_type == "narrowband":
+                        rec_tag = "[🟢 Schmalband/Dual-Band]"
+                    else:
+                        rec_tag = "[🟢 Breitband oder Schmalband]"
+                    priority = 1
+                
                 matched.append({
                     "cat": t['cat'],
                     "name": t['name'],
                     "max_alt": max_alt,
-                    "transit": transit_time
+                    "transit": transit_time,
+                    "rec_tag": rec_tag,
+                    "priority": priority
                 })
-    matched.sort(key=lambda x: x['max_alt'], reverse=True)
+                
+    # Bei Mondschein erst nach Priorität (Schmalband zuerst), dann nach Höhe
+    if moon_illumination >= 50:
+        matched.sort(key=lambda x: (x['priority'], -x['max_alt']))
+    else:
+        matched.sort(key=lambda x: -x['max_alt'])
+        
     top_targets = matched[:15]
-    formatted = [f"• {t['cat']} ({t['name']}) - Max: {t['max_alt']}° (Zenit: {t['transit']} Uhr)" for t in top_targets]
+    formatted = [f"• {t['cat']} ({t['name']}) {t['rec_tag']} - Max: {t['max_alt']}° (Zenit: {t['transit']} Uhr)" for t in top_targets]
     return formatted if formatted else ["• Keine Objekte gelistet"]
 
 def format_time_str(iso_str):
@@ -221,10 +258,8 @@ def generate_ics():
         
         if weighted_cloud < 35:
             effective_moon_illumination = moon_illumination * 0.15
-            narrowband_note = " 🎯 Ideal für Schmalband/Filter" if moon_illumination >= 50 else ""
         else:
             effective_moon_illumination = moon_illumination
-            narrowband_note = ""
             
         moon_score = (100 - effective_moon_illumination) * 0.15
         humidity_score = (100 - max(0, avg_humidity - 70) * 3.33) * 0.10
@@ -255,7 +290,7 @@ def generate_ics():
         else:
             astro_str = f"Sommernacht (Sonnenuntergang: {sunset_time} - {sunrise_time})"
 
-        targets = get_sorted_targets(date_str, dt_obj.month)
+        targets = get_sorted_targets(date_str, dt_obj.month, moon_illumination)
         targets_str = "\n".join(targets)
         
         dew_warning = " ⚠️ (Tau-Risiko)" if avg_humidity >= 85 else ""
@@ -264,15 +299,14 @@ def generate_ics():
         raw_description = (
             f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\n"
             f"Bewölkung (Nacht): Tiefe {int(avg_low)}% | Mid {int(avg_mid)}% | High {int(avg_high)}% (Schnitt: {int(avg_cloud)}%)\n"
-            f"Mond: ~{moon_illumination}%{narrowband_note} | Aufgang: {m_rise} | Untergang: {m_set}\n"
+            f"Mond: ~{moon_illumination}% | Aufgang: {m_rise} | Untergang: {m_set}\n"
             f"Niederschlag: {precip_str}\n"
             f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\n\n"
-            f"Sichtbare Objekte (sortiert nach Zenithöhe):\n"
+            f"Empfohlene Objekte & Filter (nach Zenit): \n"
             f"{targets_str}\n\n"
             f"Erstellt via Open-Meteo Astro API"
         )
         
-        # Aufruf des separaten, geschützten Moduls für das VEVENT
         vevent_str = ics_builder.create_vevent(
             uid=f"astro-{date_str}@deepsky",
             dt_start_utc=dusk_utc,
@@ -283,7 +317,6 @@ def generate_ics():
         )
         vevents.append(vevent_str)
 
-    # Zusammenbauen & Speichern über das Modul
     vcal_str = ics_builder.build_calendar_ics(vevents)
     ics_builder.save_ics("deepsky.ics", vcal_str)
 
