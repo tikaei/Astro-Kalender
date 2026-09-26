@@ -162,7 +162,7 @@ def get_sorted_targets(date_str, month, moon_illumination):
                     elif obj_type == "cluster":
                         rec_tag = "[🟡 DWARF 3: Astro Filter (Mond ok)]"
                         priority = 3
-                    else: # broadband (Galaxien, Reflexions- & Dunkelnebel)
+                    else: # broadband
                         rec_tag = "[🔴 DWARF 3: Astro Filter (Vollmond-Tabu!)]"
                         priority = 4
                 else:
@@ -207,19 +207,31 @@ def generate_ics():
         f"forecast_days=7&timezone=auto"
     )
     
-    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/json'
+    }
+    
+    req = urllib.request.Request(url, headers=headers)
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
     print("Lade Wetter- & Astrodaten...")
     try:
-        with urllib.request.urlopen(req, context=ctx) as response:
-            data = json.loads(response.read().decode('utf-8'))
+        with urllib.request.urlopen(req, context=ctx, timeout=15) as response:
+            raw_response = response.read().decode('utf-8')
+            if not raw_response or not raw_response.strip().startswith('{'):
+                print("Fehler: API hat kein gültiges JSON geliefert.", file=sys.stderr)
+                return
+            data = json.loads(raw_response)
     except urllib.error.HTTPError as e:
         error_body = e.read().decode('utf-8')
         print(f"API Fehler: {error_body}", file=sys.stderr)
         raise e
+    except Exception as e:
+        print(f"Netzwerk- oder Parsing-Fehler: {e}", file=sys.stderr)
+        return
 
     hourly = data.get("hourly", {})
     daily = data.get("daily", {})
@@ -246,9 +258,9 @@ def generate_ics():
         start_idx = day * 24
         end_idx = start_idx + 24
         
-        night_indices = [k for k in range(start_idx, end_idx) if is_day_hourly[k] == 0]
+        night_indices = [k for k in range(start_idx, end_idx) if k < len(is_day_hourly) and is_day_hourly[k] == 0]
         if not night_indices:
-            night_indices = list(range(start_idx, end_idx))
+            night_indices = [k for k in range(start_idx, end_idx) if k < len(times_hourly)]
             
         n_clouds = [clouds_hourly for k in night_indices if k < len(clouds_hourly)]
         n_low = [clouds_low for k in night_indices if k < len(clouds_low)] if clouds_low else n_clouds
