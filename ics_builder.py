@@ -2,17 +2,19 @@ import sys
 from datetime import datetime, timezone
 
 def fold_line(text, limit=75):
-    """ Striktes RFC 5545 Line-Folding (max 75 Bytes pro Zeile) """
+    """ RFC 5545 strikt konformes Line-Folding ohne doppelte Leerzeichen """
     encoded = text.encode('utf-8')
     if len(encoded) <= limit:
         return text
     lines = []
     while len(encoded) > limit:
         split_at = limit
+        # UTF-8 Fortsetzungsbytes (0x80-0xBF) nicht mitten entzweischneiden
         while split_at > 0 and (encoded[split_at] & 0xC0) == 0x80:
             split_at -= 1
         lines.append(encoded[:split_at].decode('utf-8'))
-        encoded = b' ' + encoded[split_at:]
+        # KORREKTUR: Kein zusätzliches b' ' einfügen, da "\r\n " bereits das Trennzeichen bildet
+        encoded = encoded[split_at:]
     if encoded:
         lines.append(encoded.decode('utf-8'))
     return "\r\n ".join(lines)
@@ -24,7 +26,6 @@ def escape_text(text):
 def create_vevent(uid, dt_start_utc, dt_end_utc, summary, description_text, alarm_hours_before=6):
     """ Erstellt einen RFC 5545-konformen VEVENT-Eintrag für Apple iCloud """
     if dt_start_utc and dt_end_utc:
-        # Garantiert Apple-Kompatibilität: DTEND muss nach DTSTART liegen
         if dt_end_utc <= dt_start_utc:
             raise ValueError(f"Sicherheitsblockade: DTEND ({dt_end_utc}) liegt nicht nach DTSTART ({dt_start_utc})!")
         
