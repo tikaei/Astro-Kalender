@@ -5,67 +5,35 @@ X-WR-CALNAME:Deep Sky Vorhersage
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:astro-2026-09-26@deepsky
-DTSTAMP:20260926T111900Z
-DTSTART:20260926T185136Z
-DTEND:20260927T030749Z
-SUMMARY:🔭 🟢 Deep Sky: 84%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:51 - 03:07 UTC\nBewölkun
- g (Nacht): Tiefe 3% | Mid 22% | High 15% (Schnitt: 29%)\nMond: ~98% | Aufga
- ng: 18:35 | Untergang: 06:35\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit:
-  83%\n\nEmpfohlene Objekte & Filter (nach Zenit): \n• NGC 7000 (Nordameri
- ka-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 21:44 Uhr)\n• NGC 281 (Pa
- cman-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 01:38 Uhr)\n• IC 1396 (
- Elefantenrüsselnebel) [🟢 Schmalband] - Max: 83° (Zenit: 22:21 Uhr)\n
- • IC 1848 (Seelennebel) [🟢 Schmalband] - Max: 80° (Zenit: 03:39 Uhr)\
- n• IC 1805 (Herznebel) [🟢 Schmalband] - Max: 79° (Zenit: 03:21 Uhr)\n
- • NGC 6888 (Crescent-Nebel) [🟢 Schmalband] - Max: 78° (Zenit: 20:58 U
- hr)\n• NGC 1499 (Kaliforniennebel) [🟢 Schmalband] - Max: 76° (Zenit: 
- 04:51 Uhr)\n• M57 (Ringnebel) [🟢 Schmalband] - Max: 72° (Zenit: 19:39
-  Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [🟢 Schmalband] - Max: 
- 71° (Zenit: 21:41 Uhr)\n• M27 (Hantelnebel) [🟢 Schmalband] - Max: 62
- ° (Zenit: 20:45 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟡 
- Breitband ok] - Max: 84° (Zenit: 03:08 Uhr)\n• M92 (Kugelsternhaufen Her
- kules) [🟡 Breitband ok] - Max: 82° (Zenit: 18:03 Uhr)\n• M13 (Herkule
- s-Kugelsternhaufen) [🟡 Breitband ok] - Max: 76° (Zenit: 17:28 Uhr)\n•
-  IC 5146 (Kokon-Nebel (B168)) [🔴 Breitband / Vollmond-Tabu!] - Max: 87°
-  (Zenit: 22:39 Uhr)\n• NGC 891 (Outer Line Galaxie) [🔴 Breitband / Vol
- lmond-Tabu!] - Max: 82° (Zenit: 03:11 Uhr)\n\nErstellt via Open-Meteo Astr
- o API
-BEGIN:VALARM
-TRIGGER:-PT6H
-ACTION:DISPLAY
-DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
 UID:astro-2026-09-27@deepsky
-DTSTAMP:20260926T111900Z
+DTSTAMP:20260926T225311Z
 DTSTART:20260927T184906Z
 DTEND:20260928T030936Z
-SUMMARY:🔭 🟡 Deep Sky: 72%
+SUMMARY:🔭 🟢 Deep Sky: 97%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:49 - 03:09 UTC\nBewölkun
- g (Nacht): Tiefe 4% | Mid 60% | High 48% (Schnitt: 77%)\nMond: ~95% | Aufga
- ng: 18:49 | Untergang: 07:56\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit:
-  80%\n\nEmpfohlene Objekte & Filter (nach Zenit): \n• NGC 7000 (Nordameri
- ka-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 21:40 Uhr)\n• NGC 281 (Pa
- cman-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 01:34 Uhr)\n• IC 1396 (
- Elefantenrüsselnebel) [🟢 Schmalband] - Max: 83° (Zenit: 22:17 Uhr)\n
- • IC 1848 (Seelennebel) [🟢 Schmalband] - Max: 80° (Zenit: 03:35 Uhr)\
- n• IC 1805 (Herznebel) [🟢 Schmalband] - Max: 79° (Zenit: 03:18 Uhr)\n
- • NGC 6888 (Crescent-Nebel) [🟢 Schmalband] - Max: 78° (Zenit: 20:54 U
- hr)\n• NGC 1499 (Kaliforniennebel) [🟢 Schmalband] - Max: 76° (Zenit: 
- 04:47 Uhr)\n• M57 (Ringnebel) [🟢 Schmalband] - Max: 72° (Zenit: 19:35
-  Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [🟢 Schmalband] - Max: 
- 71° (Zenit: 21:37 Uhr)\n• M27 (Hantelnebel) [🟢 Schmalband] - Max: 62
- ° (Zenit: 20:41 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟡 
- Breitband ok] - Max: 84° (Zenit: 03:04 Uhr)\n• M92 (Kugelsternhaufen Her
- kules) [🟡 Breitband ok] - Max: 82° (Zenit: 17:59 Uhr)\n• M13 (Herkule
- s-Kugelsternhaufen) [🟡 Breitband ok] - Max: 76° (Zenit: 17:24 Uhr)\n•
-  IC 5146 (Kokon-Nebel (B168)) [🔴 Breitband / Vollmond-Tabu!] - Max: 87°
-  (Zenit: 22:35 Uhr)\n• NGC 891 (Outer Line Galaxie) [🔴 Breitband / Vol
- lmond-Tabu!] - Max: 82° (Zenit: 03:07 Uhr)\n\nErstellt via Open-Meteo Astr
- o API
+ g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~95% | Aufgang:
+  18:49 | Untergang: 07:56\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 0%
+ \n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• NGC 7000 (Nordamerika-
+ Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 21:40 Uhr)\n• 
+ IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 
+ 21:33 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Ma
+ x: 84° (Zenit: 01:34 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF
+  3: Duo-Band Filter] - Max: 83° (Zenit: 22:17 Uhr)\n• Sh2-157 (Hummerneb
+ el (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 23:57 Uhr
+ )\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Z
+ enit: 03:35 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Ba
+ nd Filter] - Max: 80° (Zenit: 00:02 Uhr)\n• IC 1805 (Herznebel) [🟢 DW
+ ARF 3: Duo-Band Filter] - Max: 79° (Zenit: 03:18 Uhr)\n• NGC 6888 (Cresc
+ ent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 20:54 Uhr)\n
+ • NGC 1499 (Kaliforniennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 76°
+  (Zenit: 04:47 Uhr)\n• M57 (Ringnebel) [🟢 DWARF 3: Duo-Band Filter] - 
+ Max: 72° (Zenit: 19:35 Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [
+ 🟢 DWARF 3: Duo-Band Filter] - Max: 71° (Zenit: 21:37 Uhr)\n• M27 (Han
+ telnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 62° (Zenit: 20:41 Uhr)\n
+ • NGC 7293 (Helixnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 18° (Zeni
+ t: 23:11 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟡 DWARF 3:
+  Astro Filter (Mond ok)] - Max: 84° (Zenit: 03:04 Uhr)\n\nErstellt via Ope
+ n-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -74,32 +42,34 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-28@deepsky
-DTSTAMP:20260926T111900Z
+DTSTAMP:20260926T225311Z
 DTSTART:20260928T184638Z
 DTEND:20260929T031123Z
-SUMMARY:🔭 🟢 Deep Sky: 91%
+SUMMARY:🔭 🟢 Deep Sky: 98%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:46 - 03:11 UTC\nBewölkun
- g (Nacht): Tiefe 0% | Mid 25% | High 3% (Schnitt: 26%)\nMond: ~87% | Aufgan
- g: 19:06 | Untergang: 09:19\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 
- 69%\n\nEmpfohlene Objekte & Filter (nach Zenit): \n• NGC 7000 (Nordamerik
- a-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 21:36 Uhr)\n• NGC 281 (Pac
- man-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 01:30 Uhr)\n• IC 1396 (E
- lefantenrüsselnebel) [🟢 Schmalband] - Max: 83° (Zenit: 22:13 Uhr)\n•
-  IC 1848 (Seelennebel) [🟢 Schmalband] - Max: 80° (Zenit: 03:32 Uhr)\n
- • IC 1805 (Herznebel) [🟢 Schmalband] - Max: 79° (Zenit: 03:14 Uhr)\n
- • NGC 6888 (Crescent-Nebel) [🟢 Schmalband] - Max: 78° (Zenit: 20:50 U
- hr)\n• NGC 1499 (Kaliforniennebel) [🟢 Schmalband] - Max: 76° (Zenit: 
- 04:43 Uhr)\n• M57 (Ringnebel) [🟢 Schmalband] - Max: 72° (Zenit: 19:31
-  Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [🟢 Schmalband] - Max: 
- 71° (Zenit: 21:33 Uhr)\n• M27 (Hantelnebel) [🟢 Schmalband] - Max: 62
- ° (Zenit: 20:37 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟡 
- Breitband ok] - Max: 84° (Zenit: 03:00 Uhr)\n• M92 (Kugelsternhaufen Her
- kules) [🟡 Breitband ok] - Max: 82° (Zenit: 17:55 Uhr)\n• M13 (Herkule
- s-Kugelsternhaufen) [🟡 Breitband ok] - Max: 76° (Zenit: 17:20 Uhr)\n•
-  IC 5146 (Kokon-Nebel (B168)) [🔴 Breitband / Vollmond-Tabu!] - Max: 87°
-  (Zenit: 22:31 Uhr)\n• NGC 891 (Outer Line Galaxie) [🔴 Breitband / Vol
- lmond-Tabu!] - Max: 82° (Zenit: 03:03 Uhr)\n\nErstellt via Open-Meteo Astr
- o API
+ g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~87% | Aufgang:
+  19:06 | Untergang: 09:19\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 0%
+ \n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• NGC 7000 (Nordamerika-
+ Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 21:36 Uhr)\n• 
+ IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 
+ 21:29 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Ma
+ x: 84° (Zenit: 01:30 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF
+  3: Duo-Band Filter] - Max: 83° (Zenit: 22:13 Uhr)\n• Sh2-157 (Hummerneb
+ el (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 23:53 Uhr
+ )\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Z
+ enit: 03:32 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Ba
+ nd Filter] - Max: 80° (Zenit: 23:58 Uhr)\n• IC 1805 (Herznebel) [🟢 DW
+ ARF 3: Duo-Band Filter] - Max: 79° (Zenit: 03:14 Uhr)\n• NGC 6888 (Cresc
+ ent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 20:50 Uhr)\n
+ • NGC 1499 (Kaliforniennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 76°
+  (Zenit: 04:43 Uhr)\n• M57 (Ringnebel) [🟢 DWARF 3: Duo-Band Filter] - 
+ Max: 72° (Zenit: 19:31 Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [
+ 🟢 DWARF 3: Duo-Band Filter] - Max: 71° (Zenit: 21:33 Uhr)\n• M27 (Han
+ telnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 62° (Zenit: 20:37 Uhr)\n
+ • NGC 7293 (Helixnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 18° (Zeni
+ t: 23:07 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟡 DWARF 3:
+  Astro Filter (Mond ok)] - Max: 84° (Zenit: 03:00 Uhr)\n\nErstellt via Ope
+ n-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -108,32 +78,34 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-29@deepsky
-DTSTAMP:20260926T111900Z
+DTSTAMP:20260926T225311Z
 DTSTART:20260929T184411Z
 DTEND:20260930T031308Z
-SUMMARY:🔭 🟢 Deep Sky: 94%
+SUMMARY:🔭 🟢 Deep Sky: 98%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:44 - 03:13 UTC\nBewölkun
- g (Nacht): Tiefe 0% | Mid 2% | High 22% (Schnitt: 24%)\nMond: ~80% | Aufgan
- g: 19:28 | Untergang: 10:45\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 
- 69%\n\nEmpfohlene Objekte & Filter (nach Zenit): \n• NGC 7000 (Nordamerik
- a-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 21:32 Uhr)\n• NGC 281 (Pac
- man-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 01:26 Uhr)\n• IC 1396 (E
- lefantenrüsselnebel) [🟢 Schmalband] - Max: 83° (Zenit: 22:10 Uhr)\n•
-  IC 1848 (Seelennebel) [🟢 Schmalband] - Max: 80° (Zenit: 03:28 Uhr)\n
- • IC 1805 (Herznebel) [🟢 Schmalband] - Max: 79° (Zenit: 03:10 Uhr)\n
- • NGC 6888 (Crescent-Nebel) [🟢 Schmalband] - Max: 78° (Zenit: 20:46 U
- hr)\n• NGC 1499 (Kaliforniennebel) [🟢 Schmalband] - Max: 76° (Zenit: 
- 04:39 Uhr)\n• M57 (Ringnebel) [🟢 Schmalband] - Max: 72° (Zenit: 19:27
-  Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [🟢 Schmalband] - Max: 
- 71° (Zenit: 21:29 Uhr)\n• M27 (Hantelnebel) [🟢 Schmalband] - Max: 62
- ° (Zenit: 20:33 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟡 
- Breitband ok] - Max: 84° (Zenit: 02:56 Uhr)\n• M92 (Kugelsternhaufen Her
- kules) [🟡 Breitband ok] - Max: 82° (Zenit: 17:51 Uhr)\n• M13 (Herkule
- s-Kugelsternhaufen) [🟡 Breitband ok] - Max: 76° (Zenit: 17:16 Uhr)\n•
-  IC 5146 (Kokon-Nebel (B168)) [🔴 Breitband / Vollmond-Tabu!] - Max: 87°
-  (Zenit: 22:27 Uhr)\n• NGC 891 (Outer Line Galaxie) [🔴 Breitband / Vol
- lmond-Tabu!] - Max: 82° (Zenit: 03:00 Uhr)\n\nErstellt via Open-Meteo Astr
- o API
+ g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~80% | Aufgang:
+  19:28 | Untergang: 10:45\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 0%
+ \n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• NGC 7000 (Nordamerika-
+ Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 21:32 Uhr)\n• 
+ IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 
+ 21:25 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Ma
+ x: 84° (Zenit: 01:26 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF
+  3: Duo-Band Filter] - Max: 83° (Zenit: 22:10 Uhr)\n• Sh2-157 (Hummerneb
+ el (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 23:49 Uhr
+ )\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Z
+ enit: 03:28 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Ba
+ nd Filter] - Max: 80° (Zenit: 23:54 Uhr)\n• IC 1805 (Herznebel) [🟢 DW
+ ARF 3: Duo-Band Filter] - Max: 79° (Zenit: 03:10 Uhr)\n• NGC 6888 (Cresc
+ ent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 20:46 Uhr)\n
+ • NGC 1499 (Kaliforniennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 76°
+  (Zenit: 04:39 Uhr)\n• M57 (Ringnebel) [🟢 DWARF 3: Duo-Band Filter] - 
+ Max: 72° (Zenit: 19:27 Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [
+ 🟢 DWARF 3: Duo-Band Filter] - Max: 71° (Zenit: 21:29 Uhr)\n• M27 (Han
+ telnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 62° (Zenit: 20:33 Uhr)\n
+ • NGC 7293 (Helixnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 18° (Zeni
+ t: 23:03 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟡 DWARF 3:
+  Astro Filter (Mond ok)] - Max: 84° (Zenit: 02:56 Uhr)\n\nErstellt via Ope
+ n-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -142,31 +114,34 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-09-30@deepsky
-DTSTAMP:20260926T111900Z
+DTSTAMP:20260926T225311Z
 DTSTART:20260930T184144Z
 DTEND:20261001T031454Z
 SUMMARY:🔭 🟢 Deep Sky: 98%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:41 - 03:14 UTC\nBewölkun
  g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~73% | Aufgang:
-  19:58 | Untergang: 12:12\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 65
- %\n\nEmpfohlene Objekte & Filter (nach Zenit): \n• NGC 7000 (Nordamerika-
- Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 21:29 Uhr)\n• NGC 281 (Pacma
- n-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 01:22 Uhr)\n• IC 1396 (Ele
- fantenrüsselnebel) [🟢 Schmalband] - Max: 83° (Zenit: 22:06 Uhr)\n• I
- C 1848 (Seelennebel) [🟢 Schmalband] - Max: 80° (Zenit: 03:24 Uhr)\n• 
- IC 1805 (Herznebel) [🟢 Schmalband] - Max: 79° (Zenit: 03:06 Uhr)\n• N
- GC 6888 (Crescent-Nebel) [🟢 Schmalband] - Max: 78° (Zenit: 20:42 Uhr)\n
- • NGC 1499 (Kaliforniennebel) [🟢 Schmalband] - Max: 76° (Zenit: 04:36
-  Uhr)\n• M57 (Ringnebel) [🟢 Schmalband] - Max: 72° (Zenit: 19:23 Uhr)
- \n• NGC 6992 / 6960 (Schleiernebel (Veil)) [🟢 Schmalband] - Max: 71° 
- (Zenit: 21:26 Uhr)\n• M27 (Hantelnebel) [🟢 Schmalband] - Max: 62° (Ze
- nit: 20:29 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟡 Breitb
- and ok] - Max: 84° (Zenit: 02:52 Uhr)\n• M92 (Kugelsternhaufen Herkules)
-  [🟡 Breitband ok] - Max: 82° (Zenit: 17:47 Uhr)\n• M13 (Herkules-Kuge
- lsternhaufen) [🟡 Breitband ok] - Max: 76° (Zenit: 17:12 Uhr)\n• IC 51
- 46 (Kokon-Nebel (B168)) [🔴 Breitband / Vollmond-Tabu!] - Max: 87° (Zeni
- t: 22:23 Uhr)\n• NGC 891 (Outer Line Galaxie) [🔴 Breitband / Vollmond-
- Tabu!] - Max: 82° (Zenit: 02:56 Uhr)\n\nErstellt via Open-Meteo Astro API
+  19:58 | Untergang: 12:12\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 0%
+ \n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• NGC 7000 (Nordamerika-
+ Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 21:29 Uhr)\n• 
+ IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 
+ 21:21 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Ma
+ x: 84° (Zenit: 01:22 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF
+  3: Duo-Band Filter] - Max: 83° (Zenit: 22:06 Uhr)\n• Sh2-157 (Hummerneb
+ el (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 23:45 Uhr
+ )\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Z
+ enit: 03:24 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Ba
+ nd Filter] - Max: 80° (Zenit: 23:50 Uhr)\n• IC 1805 (Herznebel) [🟢 DW
+ ARF 3: Duo-Band Filter] - Max: 79° (Zenit: 03:06 Uhr)\n• NGC 6888 (Cresc
+ ent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 20:42 Uhr)\n
+ • NGC 1499 (Kaliforniennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 76°
+  (Zenit: 04:36 Uhr)\n• M57 (Ringnebel) [🟢 DWARF 3: Duo-Band Filter] - 
+ Max: 72° (Zenit: 19:23 Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [
+ 🟢 DWARF 3: Duo-Band Filter] - Max: 71° (Zenit: 21:26 Uhr)\n• M27 (Han
+ telnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 62° (Zenit: 20:29 Uhr)\n
+ • NGC 7293 (Helixnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 18° (Zeni
+ t: 22:59 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟡 DWARF 3:
+  Astro Filter (Mond ok)] - Max: 84° (Zenit: 02:52 Uhr)\n\nErstellt via Ope
+ n-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -175,31 +150,33 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-10-01@deepsky
-DTSTAMP:20260926T111900Z
+DTSTAMP:20260926T225311Z
 DTSTART:20261001T183919Z
 DTEND:20261002T031638Z
-SUMMARY:🔭 🟢 Deep Sky: 96%
+SUMMARY:🔭 🟢 Deep Sky: 98%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:39 - 03:16 UTC\nBewölkun
- g (Nacht): Tiefe 0% | Mid 0% | High 5% (Schnitt: 5%)\nMond: ~65% | Aufgang:
-  20:41 | Untergang: 13:35\nNiederschlag: 3% (0.0 mm)\nLuftfeuchtigkeit: 65%
- \n\nEmpfohlene Objekte & Filter (nach Zenit): \n• NGC 7000 (Nordamerika-N
- ebel) [🟢 Schmalband] - Max: 84° (Zenit: 21:25 Uhr)\n• NGC 281 (Pacman
- -Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 01:18 Uhr)\n• IC 1396 (Elef
- antenrüsselnebel) [🟢 Schmalband] - Max: 83° (Zenit: 22:02 Uhr)\n• IC
-  1848 (Seelennebel) [🟢 Schmalband] - Max: 80° (Zenit: 03:20 Uhr)\n• I
- C 1805 (Herznebel) [🟢 Schmalband] - Max: 79° (Zenit: 03:02 Uhr)\n• NG
- C 6888 (Crescent-Nebel) [🟢 Schmalband] - Max: 78° (Zenit: 20:38 Uhr)\n
- • NGC 1499 (Kaliforniennebel) [🟢 Schmalband] - Max: 76° (Zenit: 04:32
-  Uhr)\n• M57 (Ringnebel) [🟢 Schmalband] - Max: 72° (Zenit: 19:20 Uhr)
- \n• NGC 6992 / 6960 (Schleiernebel (Veil)) [🟢 Schmalband] - Max: 71° 
- (Zenit: 21:22 Uhr)\n• M27 (Hantelnebel) [🟢 Schmalband] - Max: 62° (Ze
- nit: 20:25 Uhr)\n• IC 434 / B33 (Pferdekopfnebel) [🟢 Schmalband] - Max
- : 37° (Zenit: 06:09 Uhr)\n• IC 405 (Flammensternnebel) [🟡 Schmalband 
- ok] - Max: 74° (Zenit: 05:45 Uhr)\n• M1 (Krebsnebel) [🟡 Schmalband ok
- ] - Max: 61° (Zenit: 06:03 Uhr)\n• M42 / M43 (Orionnebel) [🟡 Schmalba
- nd ok] - Max: 34° (Zenit: 06:04 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen
-  h & chi) [🟡 Breitband ok] - Max: 84° (Zenit: 02:48 Uhr)\n\nErstellt vi
- a Open-Meteo Astro API
+ g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~65% | Aufgang:
+  20:41 | Untergang: 13:35\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 0%
+ \n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• NGC 7000 (Nordamerika-
+ Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 21:25 Uhr)\n• 
+ IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 
+ 21:17 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Ma
+ x: 84° (Zenit: 01:18 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF
+  3: Duo-Band Filter] - Max: 83° (Zenit: 22:02 Uhr)\n• Sh2-157 (Hummerneb
+ el (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 23:41 Uhr
+ )\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Z
+ enit: 03:20 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Ba
+ nd Filter] - Max: 80° (Zenit: 23:46 Uhr)\n• IC 1805 (Herznebel) [🟢 DW
+ ARF 3: Duo-Band Filter] - Max: 79° (Zenit: 03:02 Uhr)\n• NGC 6888 (Cresc
+ ent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 20:38 Uhr)\n
+ • NGC 1499 (Kaliforniennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 76°
+  (Zenit: 04:32 Uhr)\n• M57 (Ringnebel) [🟢 DWARF 3: Duo-Band Filter] - 
+ Max: 72° (Zenit: 19:20 Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [
+ 🟢 DWARF 3: Duo-Band Filter] - Max: 71° (Zenit: 21:22 Uhr)\n• M27 (Han
+ telnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 62° (Zenit: 20:25 Uhr)\n
+ • IC 434 / B33 (Pferdekopfnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 3
+ 7° (Zenit: 06:09 Uhr)\n• NGC 7293 (Helixnebel) [🟢 DWARF 3: Duo-Band F
+ ilter] - Max: 18° (Zenit: 22:55 Uhr)\n\nErstellt via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
@@ -208,31 +185,68 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-10-02@deepsky
-DTSTAMP:20260926T111900Z
+DTSTAMP:20260926T225311Z
 DTSTART:20261002T183656Z
 DTEND:20261003T031822Z
-SUMMARY:🔭 🟡 Deep Sky: 73%
+SUMMARY:🔭 🟢 Deep Sky: 98%
 DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:36 - 03:18 UTC\nBewölkun
- g (Nacht): Tiefe 29% | Mid 0% | High 31% (Schnitt: 44%)\nMond: ~58% | Aufga
- ng: 21:41 | Untergang: 14:45\nNiederschlag: 21% (0.0 mm)\nLuftfeuchtigkeit:
-  80%\n\nEmpfohlene Objekte & Filter (nach Zenit): \n• NGC 7000 (Nordameri
- ka-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 21:21 Uhr)\n• NGC 281 (Pa
- cman-Nebel) [🟢 Schmalband] - Max: 84° (Zenit: 01:14 Uhr)\n• IC 1396 (
- Elefantenrüsselnebel) [🟢 Schmalband] - Max: 83° (Zenit: 21:58 Uhr)\n
- • IC 1848 (Seelennebel) [🟢 Schmalband] - Max: 80° (Zenit: 03:16 Uhr)\
- n• IC 1805 (Herznebel) [🟢 Schmalband] - Max: 79° (Zenit: 02:58 Uhr)\n
- • NGC 6888 (Crescent-Nebel) [🟢 Schmalband] - Max: 78° (Zenit: 20:34 U
- hr)\n• NGC 1499 (Kaliforniennebel) [🟢 Schmalband] - Max: 76° (Zenit: 
- 04:28 Uhr)\n• M57 (Ringnebel) [🟢 Schmalband] - Max: 72° (Zenit: 19:16
-  Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [🟢 Schmalband] - Max: 
- 71° (Zenit: 21:18 Uhr)\n• M27 (Hantelnebel) [🟢 Schmalband] - Max: 62
- ° (Zenit: 20:21 Uhr)\n• IC 434 / B33 (Pferdekopfnebel) [🟢 Schmalband]
-  - Max: 37° (Zenit: 06:05 Uhr)\n• IC 405 (Flammensternnebel) [🟡 Schma
- lband ok] - Max: 74° (Zenit: 05:41 Uhr)\n• M1 (Krebsnebel) [🟡 Schmalb
- and ok] - Max: 61° (Zenit: 05:59 Uhr)\n• M42 / M43 (Orionnebel) [🟡 Sc
- hmalband ok] - Max: 34° (Zenit: 06:00 Uhr)\n• NGC 869 / 884 (Doppelstern
- haufen h & chi) [🟡 Breitband ok] - Max: 84° (Zenit: 02:44 Uhr)\n\nErste
- llt via Open-Meteo Astro API
+ g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~58% | Aufgang:
+  21:41 | Untergang: 14:45\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 0%
+ \n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• NGC 7000 (Nordamerika-
+ Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 21:21 Uhr)\n• 
+ IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 
+ 21:13 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Ma
+ x: 84° (Zenit: 01:14 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF
+  3: Duo-Band Filter] - Max: 83° (Zenit: 21:58 Uhr)\n• Sh2-157 (Hummerneb
+ el (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 23:37 Uhr
+ )\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Z
+ enit: 03:16 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Ba
+ nd Filter] - Max: 80° (Zenit: 23:42 Uhr)\n• IC 1805 (Herznebel) [🟢 DW
+ ARF 3: Duo-Band Filter] - Max: 79° (Zenit: 02:58 Uhr)\n• NGC 6888 (Cresc
+ ent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 20:34 Uhr)\n
+ • NGC 1499 (Kaliforniennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 76°
+  (Zenit: 04:28 Uhr)\n• M57 (Ringnebel) [🟢 DWARF 3: Duo-Band Filter] - 
+ Max: 72° (Zenit: 19:16 Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [
+ 🟢 DWARF 3: Duo-Band Filter] - Max: 71° (Zenit: 21:18 Uhr)\n• M27 (Han
+ telnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 62° (Zenit: 20:21 Uhr)\n
+ • IC 434 / B33 (Pferdekopfnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 3
+ 7° (Zenit: 06:05 Uhr)\n• NGC 7293 (Helixnebel) [🟢 DWARF 3: Duo-Band F
+ ilter] - Max: 18° (Zenit: 22:51 Uhr)\n\nErstellt via Open-Meteo Astro API
+BEGIN:VALARM
+TRIGGER:-PT6H
+ACTION:DISPLAY
+DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-10-03@deepsky
+DTSTAMP:20260926T225311Z
+DTSTART:20261003T183434Z
+DTEND:20261004T032005Z
+SUMMARY:🔭 🟢 Deep Sky: 98%
+DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:34 - 03:20 UTC\nBewölkun
+ g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~51% | Aufgang:
+  22:56 | Untergang: 15:39\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 0%
+ \n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• NGC 7000 (Nordamerika-
+ Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 21:17 Uhr)\n• 
+ IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 
+ 21:09 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Ma
+ x: 84° (Zenit: 01:10 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF
+  3: Duo-Band Filter] - Max: 83° (Zenit: 21:54 Uhr)\n• Sh2-157 (Hummerneb
+ el (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 23:33 Uhr
+ )\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Z
+ enit: 03:12 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Ba
+ nd Filter] - Max: 80° (Zenit: 23:39 Uhr)\n• IC 1805 (Herznebel) [🟢 DW
+ ARF 3: Duo-Band Filter] - Max: 79° (Zenit: 02:54 Uhr)\n• NGC 6888 (Cresc
+ ent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 20:30 Uhr)\n
+ • NGC 1499 (Kaliforniennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 76°
+  (Zenit: 04:24 Uhr)\n• M57 (Ringnebel) [🟢 DWARF 3: Duo-Band Filter] - 
+ Max: 72° (Zenit: 19:12 Uhr)\n• NGC 6992 / 6960 (Schleiernebel (Veil)) [
+ 🟢 DWARF 3: Duo-Band Filter] - Max: 71° (Zenit: 21:14 Uhr)\n• M27 (Han
+ telnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 62° (Zenit: 20:17 Uhr)\n
+ • IC 434 / B33 (Pferdekopfnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 3
+ 7° (Zenit: 06:01 Uhr)\n• NGC 7293 (Helixnebel) [🟢 DWARF 3: Duo-Band F
+ ilter] - Max: 18° (Zenit: 22:47 Uhr)\n\nErstellt via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
 ACTION:DISPLAY
