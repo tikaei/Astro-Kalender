@@ -13,7 +13,7 @@ import ics_builder
 LATITUDE = 50.7725
 LONGITUDE = 12.8860
 
-# Katalog mit DWARF 3 Filter-Klassifizierung
+# Katalog mit DWARF 3 Filter-Klassifizierung (Nördliche Hemisphäre)
 DSO_CATALOG = [
     # --- STERNHAUFEN (DWARF 3 Filter: Astro) ---
     {"cat": "NGC 457", "name": "Eulenhaufen / ET-Cluster", "ra": 1.33, "dec": 58.3, "months": [8, 9, 10, 11, 12, 1], "type": "cluster"},
@@ -250,14 +250,14 @@ def generate_ics():
         if not night_indices:
             night_indices = list(range(start_idx, end_idx))
             
-        n_clouds = [clouds_hourly for k in night_indices]
-        n_low = [clouds_low for k in night_indices] if clouds_low else n_clouds
-        n_mid = [clouds_mid for k in night_indices] if clouds_mid else n_clouds
-        n_high = [clouds_high for k in night_indices] if clouds_high else n_clouds
+        n_clouds = [clouds_hourly for k in night_indices if k < len(clouds_hourly)]
+        n_low = [clouds_low for k in night_indices if k < len(clouds_low)] if clouds_low else n_clouds
+        n_mid = [clouds_mid for k in night_indices if k < len(clouds_mid)] if clouds_mid else n_clouds
+        n_high = [clouds_high for k in night_indices if k < len(clouds_high)] if clouds_high else n_clouds
         
-        n_humidity = [humidity_hourly for k in night_indices]
-        n_precip_prob = [precip_prob_hourly for k in night_indices]
-        n_precip = [precip_hourly for k in night_indices]
+        n_humidity = [humidity_hourly for k in night_indices if k < len(humidity_hourly)]
+        n_precip_prob = [precip_prob_hourly for k in night_indices if k < len(precip_prob_hourly)]
+        n_precip = [precip_hourly for k in night_indices if k < len(precip_hourly)]
         
         avg_cloud = sum(n_clouds) / len(n_clouds) if n_clouds else 50
         avg_low = sum(n_low) / len(n_low) if n_low else avg_cloud
