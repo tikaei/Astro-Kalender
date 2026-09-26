@@ -197,6 +197,20 @@ def format_time_str(iso_str):
         return "N/A"
     return iso_str[-5:]
 
+def extract_numbers(data_list, indices):
+    """ Hilfsfunktion: Wandelt API-Listen sicher in flache float-Zahlen um """
+    result = []
+    for k in indices:
+        if k < len(data_list):
+            val = data_list
+            if isinstance(val, list):
+                val = val if val else 0.0
+            try:
+                result.append(float(val))
+            except (ValueError, TypeError):
+                result.append(0.0)
+    return result
+
 def generate_ics():
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
@@ -262,26 +276,29 @@ def generate_ics():
         if not night_indices:
             night_indices = [k for k in range(start_idx, end_idx) if k < len(times_hourly)]
             
-        n_clouds = [clouds_hourly for k in night_indices if k < len(clouds_hourly)]
-        n_low = [clouds_low for k in night_indices if k < len(clouds_low)] if clouds_low else n_clouds
-        n_mid = [clouds_mid for k in night_indices if k < len(clouds_mid)] if clouds_mid else n_clouds
-        n_high = [clouds_high for k in night_indices if k < len(clouds_high)] if clouds_high else n_clouds
+        n_clouds = extract_numbers(clouds_hourly, night_indices)
+        n_low = extract_numbers(clouds_low, night_indices) if clouds_low else n_clouds
+        n_mid = extract_numbers(clouds_mid, night_indices) if clouds_mid else n_clouds
+        n_high = extract_numbers(clouds_high, night_indices) if clouds_high else n_clouds
         
-        n_humidity = [humidity_hourly for k in night_indices if k < len(humidity_hourly)]
-        n_precip_prob = [precip_prob_hourly for k in night_indices if k < len(precip_prob_hourly)]
-        n_precip = [precip_hourly for k in night_indices if k < len(precip_hourly)]
+        n_humidity = extract_numbers(humidity_hourly, night_indices)
+        n_precip_prob = extract_numbers(precip_prob_hourly, night_indices)
+        n_precip = extract_numbers(precip_hourly, night_indices)
         
-        avg_cloud = sum(n_clouds) / len(n_clouds) if n_clouds else 50
+        avg_cloud = sum(n_clouds) / len(n_clouds) if n_clouds else 50.0
         avg_low = sum(n_low) / len(n_low) if n_low else avg_cloud
         avg_mid = sum(n_mid) / len(n_mid) if n_mid else avg_cloud
         avg_high = sum(n_high) / len(n_high) if n_high else avg_cloud
         
-        avg_humidity = sum(n_humidity) / len(n_humidity) if n_humidity else 50
-        max_precip_prob = max(n_precip_prob) if n_precip_prob else 0
+        avg_humidity = sum(n_humidity) / len(n_humidity) if n_humidity else 50.0
+        max_precip_prob = max(n_precip_prob) if n_precip_prob else 0.0
         total_precip = sum(n_precip) if n_precip else 0.0
         
         moon_phase_val = moon_phases[day] if day < len(moon_phases) else 0.5
-        moon_illumination = int((1 - abs(moon_phase_val - 0.5) * 2) * 100)
+        if isinstance(moon_phase_val, list):
+            moon_phase_val = moon_phase_val if moon_phase_val else 0.5
+        moon_illumination = int((1 - abs(float(moon_phase_val) - 0.5) * 2) * 100)
+        
         m_rise = format_time_str(moonrises[day] if day < len(moonrises) else "")
         m_set = format_time_str(moonsets[day] if day < len(moonsets) else "")
         
@@ -324,7 +341,7 @@ def generate_ics():
         targets_str = "\n".join(targets)
         
         dew_warning = " ⚠️ (Tau-Risiko)" if avg_humidity >= 85 else ""
-        precip_str = f"{max_precip_prob}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
+        precip_str = f"{int(max_precip_prob)}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
         
         raw_description = (
             f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\n"
