@@ -5,44 +5,8 @@ X-WR-CALNAME:Deep Sky Vorhersage
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
-UID:astro-2026-10-07@deepsky
-DTSTAMP:20261007T061032Z
-DTSTART:20261007T182518Z
-DTEND:20261008T032653Z
-SUMMARY:🔭 🟢 Deep Sky: 99%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:25 - 03:26 UTC\nBewölkun
- g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~22% | Aufgang:
-  03:11 | Untergang: 17:17\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 0%
- \n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• IC 5146 (Kokon-Nebel (
- B168)) [🟢 DWARF 3: Astro Filter] - Max: 87° (Zenit: 21:55 Uhr)\n• NGC
-  869 / 884 (Doppelsternhaufen h & chi) [🟢 DWARF 3: Astro Filter] - Max: 
- 84° (Zenit: 02:24 Uhr)\n• NGC 7789 (Caroline's Rose) [🟢 DWARF 3: Astr
- o Filter] - Max: 84° (Zenit: 23:59 Uhr)\n• NGC 7000 (Nordamerika-Nebel) 
- [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 21:01 Uhr)\n• IC 5070
-  (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:53 U
- hr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84°
-  (Zenit: 00:54 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF 3: Duo
- -Band Filter] - Max: 83° (Zenit: 21:38 Uhr)\n• NGC 457 (Eulenhaufen / ET
- -Cluster) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 01:21 Uhr)\n• 
- M92 (Kugelsternhaufen Herkules) [🟢 DWARF 3: Astro Filter] - Max: 82° (Z
- enit: 17:20 Uhr)\n• M34 (Offener Haufen Perseus) [🟢 DWARF 3: Astro Fil
- ter] - Max: 82° (Zenit: 02:47 Uhr)\n• NGC 891 (Outer Line Galaxie) [🟢
-  DWARF 3: Astro Filter] - Max: 82° (Zenit: 02:28 Uhr)\n• Sh2-157 (Hummer
- nebel (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 23:17 
- Uhr)\n• NGC 6946 (Supernova-Galaxie) [🟢 DWARF 3: Astro Filter] - Max: 
- 81° (Zenit: 20:37 Uhr)\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band 
- Filter] - Max: 80° (Zenit: 02:56 Uhr)\n• NGC 7635 (Blasennebel (Bubble))
-  [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 23:23 Uhr)\n\nErstellt
-  via Open-Meteo Astro API
-BEGIN:VALARM
-TRIGGER:-PT6H
-ACTION:DISPLAY
-DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
 UID:astro-2026-10-08@deepsky
-DTSTAMP:20261007T061032Z
+DTSTAMP:20261008T061254Z
 DTSTART:20261008T182302Z
 DTEND:20261009T032834Z
 SUMMARY:🔭 🟢 Deep Sky: 99%
@@ -78,7 +42,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-10-09@deepsky
-DTSTAMP:20261007T061032Z
+DTSTAMP:20261008T061254Z
 DTSTART:20261009T182048Z
 DTEND:20261010T033015Z
 SUMMARY:🔭 🟢 Deep Sky: 99%
@@ -114,7 +78,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-10-10@deepsky
-DTSTAMP:20261007T061032Z
+DTSTAMP:20261008T061254Z
 DTSTART:20261010T181836Z
 DTEND:20261011T033155Z
 SUMMARY:🔭 🟢 Deep Sky: 99%
@@ -150,7 +114,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-10-11@deepsky
-DTSTAMP:20261007T061032Z
+DTSTAMP:20261008T061254Z
 DTSTART:20261011T181625Z
 DTEND:20261012T033334Z
 SUMMARY:🔭 🟢 Deep Sky: 99%
@@ -186,7 +150,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-10-12@deepsky
-DTSTAMP:20261007T061032Z
+DTSTAMP:20261008T061254Z
 DTSTART:20261012T181415Z
 DTEND:20261013T033514Z
 SUMMARY:🔭 🟢 Deep Sky: 99%
@@ -222,7 +186,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:astro-2026-10-13@deepsky
-DTSTAMP:20261007T061032Z
+DTSTAMP:20261008T061254Z
 DTSTART:20261013T181207Z
 DTEND:20261014T033653Z
 SUMMARY:🔭 🟢 Deep Sky: 99%
@@ -249,6 +213,42 @@ DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:12 - 03:36 UTC\nBewölkun
  81° (Zenit: 20:13 Uhr)\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band 
  Filter] - Max: 80° (Zenit: 02:33 Uhr)\n• NGC 7635 (Blasennebel (Bubble))
   [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 22:59 Uhr)\n\nErstellt
+  via Open-Meteo Astro API
+BEGIN:VALARM
+TRIGGER:-PT6H
+ACTION:DISPLAY
+DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-10-14@deepsky
+DTSTAMP:20261008T061254Z
+DTSTART:20261014T181000Z
+DTEND:20261015T033831Z
+SUMMARY:🔭 🟢 Deep Sky: 99%
+DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:10 - 03:38 UTC\nBewölkun
+ g (Nacht): Tiefe 0% | Mid 0% | High 0% (Schnitt: 0%)\nMond: ~24% | Aufgang:
+  12:11 | Untergang: 19:25\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 0%
+ \n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• IC 5146 (Kokon-Nebel (
+ B168)) [🟢 DWARF 3: Astro Filter] - Max: 87° (Zenit: 21:28 Uhr)\n• NGC
+  869 / 884 (Doppelsternhaufen h & chi) [🟢 DWARF 3: Astro Filter] - Max: 
+ 84° (Zenit: 01:53 Uhr)\n• NGC 7789 (Caroline's Rose) [🟢 DWARF 3: Astr
+ o Filter] - Max: 84° (Zenit: 23:31 Uhr)\n• NGC 7000 (Nordamerika-Nebel) 
+ [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:33 Uhr)\n• IC 5070
+  (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:26 U
+ hr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84°
+  (Zenit: 00:27 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF 3: Duo
+ -Band Filter] - Max: 83° (Zenit: 21:11 Uhr)\n• NGC 457 (Eulenhaufen / ET
+ -Cluster) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 00:54 Uhr)\n• 
+ M92 (Kugelsternhaufen Herkules) [🟢 DWARF 3: Astro Filter] - Max: 82° (Z
+ enit: 16:52 Uhr)\n• M34 (Offener Haufen Perseus) [🟢 DWARF 3: Astro Fil
+ ter] - Max: 82° (Zenit: 02:20 Uhr)\n• NGC 891 (Outer Line Galaxie) [🟢
+  DWARF 3: Astro Filter] - Max: 82° (Zenit: 02:01 Uhr)\n• Sh2-157 (Hummer
+ nebel (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 22:50 
+ Uhr)\n• NGC 6946 (Supernova-Galaxie) [🟢 DWARF 3: Astro Filter] - Max: 
+ 81° (Zenit: 20:10 Uhr)\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band 
+ Filter] - Max: 80° (Zenit: 02:29 Uhr)\n• NGC 7635 (Blasennebel (Bubble))
+  [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 22:55 Uhr)\n\nErstellt
   via Open-Meteo Astro API
 BEGIN:VALARM
 TRIGGER:-PT6H
