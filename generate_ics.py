@@ -198,13 +198,12 @@ def format_time_str(iso_str):
     return iso_str[-5:]
 
 def extract_numbers(data_list, indices):
-    """ Hilfsfunktion: Wandelt API-Listen sicher in flache float-Zahlen um """
     result = []
     for k in indices:
         if k < len(data_list):
-            val = data_list
+            val = data_list[k]
             if isinstance(val, list):
-                val = val if val else 0.0
+                val = val[0] if val else 0.0
             try:
                 result.append(float(val))
             except (ValueError, TypeError):
@@ -285,10 +284,23 @@ def generate_ics():
         n_precip_prob = extract_numbers(precip_prob_hourly, night_indices)
         n_precip = extract_numbers(precip_hourly, night_indices)
         
+        # --- STRENGERE WOLKEN-LOGIK (MAX & DURCHSCHNITT) ---
         avg_cloud = sum(n_clouds) / len(n_clouds) if n_clouds else 50.0
         avg_low = sum(n_low) / len(n_low) if n_low else avg_cloud
         avg_mid = sum(n_mid) / len(n_mid) if n_mid else avg_cloud
         avg_high = sum(n_high) / len(n_high) if n_high else avg_cloud
+        
+        max_cloud = max(n_clouds) if n_clouds else 0.0
+        max_low = max(n_low) if n_low else 0.0
+        max_mid = max(n_mid) if n_mid else 0.0
+        
+        # Gewichtiges Mittel + Malus für die stärkste Wolkenstunde der Nacht
+        weighted_avg_cloud = (avg_low * 0.4) + (avg_mid * 0.3) + (avg_high * 0.2) + (avg_cloud * 0.1)
+        weighted_max_cloud = (max_low * 0.5) + (max_mid * 0.3) + (max_cloud * 0.2)
+        
+        # Kombination: 60% Nachtschnitt, 40% schlechteste Stunde
+        effective_cloud = (weighted_avg_cloud * 0.6) + (weighted_max_cloud * 0.4)
+        cloud_score = (100 - effective_cloud) * 0.75
         
         avg_humidity = sum(n_humidity) / len(n_humidity) if n_humidity else 50.0
         max_precip_prob = max(n_precip_prob) if n_precip_prob else 0.0
@@ -296,17 +308,15 @@ def generate_ics():
         
         moon_phase_val = moon_phases[day] if day < len(moon_phases) else 0.5
         if isinstance(moon_phase_val, list):
-            moon_phase_val = moon_phase_val if moon_phase_val else 0.5
+            moon_phase_val = moon_phase_val[0] if moon_phase_val else 0.5
         moon_illumination = int((1 - abs(float(moon_phase_val) - 0.5) * 2) * 100)
         
         m_rise = format_time_str(moonrises[day] if day < len(moonrises) else "")
         m_set = format_time_str(moonsets[day] if day < len(moonsets) else "")
         
-        weighted_cloud = (avg_low * 0.5) + (avg_mid * 0.3) + (avg_high * 0.2)
-        cloud_score = (100 - weighted_cloud) * 0.75
-        
-        if weighted_cloud < 35:
-            effective_moon_illumination = moon_illumination * 0.15
+        # Mond-Drosselung NUR bei wirklich klarem Himmel (<15% effektive Wolken)
+        if effective_cloud < 15:
+            effective_moon_illumination = moon_illumination * 0.20
         else:
             effective_moon_illumination = moon_illumination
             
@@ -345,7 +355,7 @@ def generate_ics():
         
         raw_description = (
             f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\n"
-            f"Bewölkung (Nacht): Tiefe {int(avg_low)}% | Mid {int(avg_mid)}% | High {int(avg_high)}% (Schnitt: {int(avg_cloud)}%)\n"
+            f"Bewölkung (Nacht): Schnitt {int(avg_cloud)}% | Spitze {int(max_cloud)}% (Low {int(avg_low)}% / High {int(avg_high)}%)\n"
             f"Mond: ~{moon_illumination}% | Aufgang: {m_rise} | Untergang: {m_set}\n"
             f"Niederschlag: {precip_str}\n"
             f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\n\n"
