@@ -191,33 +191,48 @@ def get_sorted_targets(date_str, month, moon_illumination):
     formatted = [f"• {t['cat']} ({t['name']}) {t['rec_tag']} - Max: {t['max_alt']}° (Zenit: {t['transit']} Uhr)" for t in top_targets]
     return formatted if formatted else ["• Keine Objekte gelistet"]
 
-def format_time_str(iso_str):
+def format_time_str(iso_val):
+    if isinstance(iso_val, list):
+        iso_val = iso_val if iso_val else ""
+    iso_str = str(iso_val) if iso_val else ""
     if not iso_str or iso_str == "N/A" or len(iso_str) < 16:
         return "N/A"
     return iso_str[-5:]
 
-def extract_numbers(data_list, indices):
+def safe_float(val, default=None):
+    if isinstance(val, list):
+        val = val if val else None
+    if val is None:
+        return default
+    try:
+        return float(val)
+    except (ValueError, TypeError):
+        return default
+
+def parse_time_str(val):
+    if isinstance(val, list):
+        val = val if val else ""
+    return str(val) if val else ""
+
+def extract_numbers(data_list, indices, default=None):
     result = []
+    if not isinstance(data_list, list):
+        return result
     for k in indices:
-        if k < len(data_list):
-            val = data_list
-            if isinstance(val, list):
-                val = val if val else 0.0
-            try:
-                result.append(float(val))
-            except (ValueError, TypeError):
-                result.append(0.0)
+        if 0 <= k < len(data_list):
+            val = safe_float(data_list[k], default)
+            if val is not None:
+                result.append(val)
     return result
 
 def generate_ics():
-    # Exakte API-URL ohne unnötige Zusatz-Parameter
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={LATITUDE}&longitude={LONGITUDE}&"
         f"hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,"
         f"relative_humidity_2m,precipitation_probability,precipitation&"
         f"daily=sunset,sunrise,moonrise,moonset,moon_phase&"
-        f"forecast_days=7&timezone=UTC"
+        f"forecast_days=7&timezone=Europe/Berlin"
     )
     
     headers = {
@@ -263,27 +278,41 @@ def generate_ics():
     vevents = []
     print("=== VORHERSAGE FÜR DIE NÄCHSTEN 7 TAGE ===", flush=True)
 
+    daily_times = daily.get("time", [])
+
     for day in range(7):
-        start_idx = day * 24
-        end_idx = start_idx + 24
+        if day < len(daily_times):
+            date_str = parse_time_str(daily_times[day])[:10]
+        elif (day * 24) < len(times_hourly):
+            date_str = parse_time_str(times_hourly[day * 24])[:10]
+        else:
+            dt_fallback = datetime.now() + timedelta(days=day)
+            date_str = dt_fallback.strftime("%Y-%m-%d")
+            
+        dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
+        next_date_str = (dt_obj + timedelta(days=1)).strftime("%Y-%m-%d")
         
-        # Nachtstunden direkt über ISO-Zeit (19:00 bis 05:00 UTC) filtern
         night_indices = []
-        for k in range(start_idx, end_idx):
-            if k < len(times_hourly):
-                time_str = times_hourly
-                hour = int(time_str[11:13])
-                if hour >= 19 or hour <= 5:
+        for k, t_raw in enumerate(times_hourly):
+            t_str = parse_time_str(t_raw)
+            if len(t_str) >= 13:
+                d_part = t_str[:10]
+                try:
+                    h_part = int(t_str[11:13])
+                except ValueError:
+                    continue
+                
+                if (d_part == date_str and h_part >= 19) or (d_part == next_date_str and h_part <= 5):
                     night_indices.append(k)
                     
         if not night_indices:
-            night_indices = list(range(start_idx, min(end_idx, len(times_hourly))))
+            start_k = day * 24
+            night_indices = list(range(start_k, min(start_k + 24, len(times_hourly))))
             
         n_clouds = extract_numbers(clouds_hourly, night_indices)
-        n_low = extract_numbers(clouds_low, night_indices) if clouds_low else n_clouds
-        n_mid = extract_numbers(clouds_mid, night_indices) if clouds_mid else n_clouds
-        n_high = extract_numbers(clouds_high, night_indices) if clouds_high else n_clouds
-        
+        n_low = extract_numbers(clouds_low, night_indices)
+        n_mid = extract_numbers(clouds_mid, night_indices)
+        n_high = extract_numbers(clouds_high, night_indices)
         n_humidity = extract_numbers(humidity_hourly, night_indices)
         n_precip_prob = extract_numbers(precip_prob_hourly, night_indices)
         n_precip = extract_numbers(precip_hourly, night_indices)
@@ -293,9 +322,9 @@ def generate_ics():
         avg_mid = sum(n_mid) / len(n_mid) if n_mid else avg_cloud
         avg_high = sum(n_high) / len(n_high) if n_high else avg_cloud
         
-        max_cloud = max(n_clouds) if n_clouds else 0.0
-        max_low = max(n_low) if n_low else 0.0
-        max_mid = max(n_mid) if n_mid else 0.0
+        max_cloud = max(n_clouds) if n_clouds else avg_cloud
+        max_low = max(n_low) if n_low else avg_low
+        max_mid = max(n_mid) if n_mid else avg_mid
         
         weighted_avg_cloud = (avg_low * 0.4) + (avg_mid * 0.3) + (avg_high * 0.2) + (avg_cloud * 0.1)
         weighted_max_cloud = (max_low * 0.5) + (max_mid * 0.3) + (max_cloud * 0.2)
@@ -307,10 +336,9 @@ def generate_ics():
         max_precip_prob = max(n_precip_prob) if n_precip_prob else 0.0
         total_precip = sum(n_precip) if n_precip else 0.0
         
-        moon_phase_val = moon_phases[day] if day < len(moon_phases) else 0.5
-        if isinstance(moon_phase_val, list):
-            moon_phase_val = moon_phase_val if moon_phase_val else 0.5
-        moon_illumination = int((1 - abs(float(moon_phase_val) - 0.5) * 2) * 100)
+        moon_phase_raw = moon_phases[day] if day < len(moon_phases) else 0.5
+        moon_phase_val = safe_float(moon_phase_raw, default=0.5)
+        moon_illumination = int((1 - abs(moon_phase_val - 0.5) * 2) * 100)
         
         m_rise = format_time_str(moonrises[day] if day < len(moonrises) else "")
         m_set = format_time_str(moonsets[day] if day < len(moonsets) else "")
@@ -326,8 +354,6 @@ def generate_ics():
         
         total_score = max(0, min(100, int(cloud_score + moon_score + humidity_score - precip_penalty)))
         
-        date_str = times_hourly[start_idx][:10] if start_idx < len(times_hourly) else f"Tag {day+1}"
-        
         if total_score <= 60:
             print(f"[GEFILTERT] {date_str}: Score {total_score}% | Schnitt Wolken: {int(avg_cloud)}%, Spitze: {int(max_cloud)}%, Feuchte: {int(avg_humidity)}%", flush=True)
             continue
@@ -335,7 +361,6 @@ def generate_ics():
         status_symbol = "GRUEN" if total_score > 80 else "GELB"
         print(f"[{status_symbol}] {date_str}: Score {total_score}% | Schnitt Wolken: {int(avg_cloud)}%, Spitze: {int(max_cloud)}%, Feuchte: {int(avg_humidity)}%", flush=True)
             
-        dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
         status_icon = "🟢" if total_score > 80 else "🟡"
         summary = f"🔭 {status_icon} Deep Sky: {total_score}%"
         
