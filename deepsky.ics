@@ -4,40 +4,4 @@ PRODID:-//DeepSkyForecast//DE
 X-WR-CALNAME:Deep Sky Vorhersage
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:astro-2026-10-15@deepsky
-DTSTAMP:20261011T061112Z
-DTSTART:20261015T180755Z
-DTEND:20261016T034010Z
-SUMMARY:🔭 🟡 Deep Sky: 63%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:07 - 03:40 UTC\nBewölkun
- g (Nacht): Schnitt 53% | Spitze 96% (Low 15% / High 38%)\nMond: ~30% | Aufg
- ang: 13:15 | Untergang: 20:06\nNiederschlag: 6% (0.0 mm)\nLuftfeuchtigkeit:
-  91% ⚠️ (Tau-Risiko)\n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n
- • IC 5146 (Kokon-Nebel (B168)) [🟢 DWARF 3: Astro Filter] - Max: 87° (
- Zenit: 21:24 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟢 DWAR
- F 3: Astro Filter] - Max: 84° (Zenit: 01:49 Uhr)\n• NGC 7789 (Caroline's
-  Rose) [🟢 DWARF 3: Astro Filter] - Max: 84° (Zenit: 23:27 Uhr)\n• NGC
-  7000 (Nordamerika-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zeni
- t: 20:30 Uhr)\n• IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] -
-  Max: 84° (Zenit: 20:22 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Du
- o-Band Filter] - Max: 84° (Zenit: 00:23 Uhr)\n• IC 1396 (Elefantenrüsse
- lnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 21:07 Uhr)\n•
-  NGC 457 (Eulenhaufen / ET-Cluster) [🟢 DWARF 3: Astro Filter] - Max: 82
- ° (Zenit: 00:50 Uhr)\n• M92 (Kugelsternhaufen Herkules) [🟢 DWARF 3: A
- stro Filter] - Max: 82° (Zenit: 16:48 Uhr)\n• M34 (Offener Haufen Perseu
- s) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 02:16 Uhr)\n• NGC 891
-  (Outer Line Galaxie) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 01:5
- 3 Uhr)\n• Sh2-157 (Hummernebel (Lobster)) [🟢 DWARF 3: Duo-Band Filter]
-  - Max: 81° (Zenit: 22:46 Uhr)\n• NGC 6946 (Supernova-Galaxie) [🟢 DWA
- RF 3: Astro Filter] - Max: 81° (Zenit: 20:06 Uhr)\n• IC 1848 (Seelennebe
- l) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 02:25 Uhr)\n• NGC 
- 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Ze
- nit: 22:51 Uhr)\n\nErstellt via Open-Meteo Astro API
-BEGIN:VALARM
-TRIGGER:-PT6H
-ACTION:DISPLAY
-DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
-END:VALARM
-END:VEVENT
 END:VCALENDAR
