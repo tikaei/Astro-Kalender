@@ -201,9 +201,9 @@ def extract_numbers(data_list, indices):
     result = []
     for k in indices:
         if k < len(data_list):
-            val = data_list[k]
+            val = data_list
             if isinstance(val, list):
-                val = val[0] if val else 0.0
+                val = val if val else 0.0
             try:
                 result.append(float(val))
             except (ValueError, TypeError):
@@ -266,6 +266,7 @@ def generate_ics():
     moon_phases = daily.get("moon_phase", [])
 
     vevents = []
+    print("\n--- PROGNOSE FÜR DIE NÄCHSTEN 7 TAGE ---")
 
     for day in range(7):
         start_idx = day * 24
@@ -284,7 +285,6 @@ def generate_ics():
         n_precip_prob = extract_numbers(precip_prob_hourly, night_indices)
         n_precip = extract_numbers(precip_hourly, night_indices)
         
-        # --- STRENGERE WOLKEN-LOGIK (MAX & DURCHSCHNITT) ---
         avg_cloud = sum(n_clouds) / len(n_clouds) if n_clouds else 50.0
         avg_low = sum(n_low) / len(n_low) if n_low else avg_cloud
         avg_mid = sum(n_mid) / len(n_mid) if n_mid else avg_cloud
@@ -294,88 +294,11 @@ def generate_ics():
         max_low = max(n_low) if n_low else 0.0
         max_mid = max(n_mid) if n_mid else 0.0
         
-        # Gewichtiges Mittel + Malus für die stärkste Wolkenstunde der Nacht
         weighted_avg_cloud = (avg_low * 0.4) + (avg_mid * 0.3) + (avg_high * 0.2) + (avg_cloud * 0.1)
         weighted_max_cloud = (max_low * 0.5) + (max_mid * 0.3) + (max_cloud * 0.2)
         
-        # Kombination: 60% Nachtschnitt, 40% schlechteste Stunde
         effective_cloud = (weighted_avg_cloud * 0.6) + (weighted_max_cloud * 0.4)
         cloud_score = (100 - effective_cloud) * 0.75
         
         avg_humidity = sum(n_humidity) / len(n_humidity) if n_humidity else 50.0
-        max_precip_prob = max(n_precip_prob) if n_precip_prob else 0.0
-        total_precip = sum(n_precip) if n_precip else 0.0
-        
-        moon_phase_val = moon_phases[day] if day < len(moon_phases) else 0.5
-        if isinstance(moon_phase_val, list):
-            moon_phase_val = moon_phase_val[0] if moon_phase_val else 0.5
-        moon_illumination = int((1 - abs(float(moon_phase_val) - 0.5) * 2) * 100)
-        
-        m_rise = format_time_str(moonrises[day] if day < len(moonrises) else "")
-        m_set = format_time_str(moonsets[day] if day < len(moonsets) else "")
-        
-        # Mond-Drosselung NUR bei wirklich klarem Himmel (<15% effektive Wolken)
-        if effective_cloud < 15:
-            effective_moon_illumination = moon_illumination * 0.20
-        else:
-            effective_moon_illumination = moon_illumination
-            
-        moon_score = (100 - effective_moon_illumination) * 0.15
-        humidity_score = (100 - max(0, avg_humidity - 70) * 3.33) * 0.10
-        precip_penalty = (max_precip_prob / 100.0) * 30
-        
-        total_score = max(0, min(100, int(cloud_score + moon_score + humidity_score - precip_penalty)))
-        
-        if total_score <= 60:
-            continue
-            
-        status_icon = "🟢" if total_score > 80 else "🟡"
-            
-        date_str = times_hourly[start_idx][:10]
-        dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
-        
-        summary = f"🔭 {status_icon} Deep Sky: {total_score}%"
-        
-        dusk_utc, dawn_utc = calculate_astronomical_night(date_str)
-        sunset_raw = sunsets[day] if day < len(sunsets) else ""
-        sunrise_raw = sunrises[day+1] if (day+1) < len(sunrises) else (sunrises[day] if day < len(sunrises) else "")
-        sunset_time = format_time_str(sunset_raw)
-        sunrise_time = format_time_str(sunrise_raw)
-        
-        if dusk_utc and dawn_utc:
-            astro_str = f"{dusk_utc.strftime('%H:%M')} - {dawn_utc.strftime('%H:%M')} UTC"
-        else:
-            astro_str = f"Sommernacht (Sonnenuntergang: {sunset_time} - {sunrise_time})"
-
-        targets = get_sorted_targets(date_str, dt_obj.month, moon_illumination)
-        targets_str = "\n".join(targets)
-        
-        dew_warning = " ⚠️ (Tau-Risiko)" if avg_humidity >= 85 else ""
-        precip_str = f"{int(max_precip_prob)}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
-        
-        raw_description = (
-            f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\n"
-            f"Bewölkung (Nacht): Schnitt {int(avg_cloud)}% | Spitze {int(max_cloud)}% (Low {int(avg_low)}% / High {int(avg_high)}%)\n"
-            f"Mond: ~{moon_illumination}% | Aufgang: {m_rise} | Untergang: {m_set}\n"
-            f"Niederschlag: {precip_str}\n"
-            f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\n\n"
-            f"DWARF 3 Empfehlungen & Filter (nach Zenit):\n"
-            f"{targets_str}\n\n"
-            f"Erstellt via Open-Meteo Astro API"
-        )
-        
-        vevent_str = ics_builder.create_vevent(
-            uid=f"astro-{date_str}@deepsky",
-            dt_start_utc=dusk_utc,
-            dt_end_utc=dawn_utc,
-            summary=summary,
-            description_text=raw_description,
-            alarm_hours_before=6
-        )
-        vevents.append(vevent_str)
-
-    vcal_str = ics_builder.build_calendar_ics(vevents)
-    ics_builder.save_ics("deepsky.ics", vcal_str)
-
-if __name__ == "__main__":
-    generate_ics()
+        max_precip
