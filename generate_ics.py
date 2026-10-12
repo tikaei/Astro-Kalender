@@ -52,6 +52,7 @@ DSO_CATALOG = [
     {"cat": "M97", "name": "Eulennebel", "ra": 11.25, "dec": 55.0, "months": [1, 2, 3, 4, 5, 6], "type": "narrowband"},
     {"cat": "NGC 7293", "name": "Helixnebel", "ra": 22.49, "dec": -20.8, "months": [8, 9, 10, 11], "type": "narrowband"},
     {"cat": "Sh2-157", "name": "Hummernebel (Lobster)", "ra": 23.26, "dec": 60.0, "months": [7, 8, 9, 10, 11, 12, 1], "type": "narrowband"},
+    {"cat": "IC 1795", "name": "Fischkopfnebel (Fishhead Nebula)", "ra": 2.45, "dec": 61.4, "months": [8, 9, 10, 11, 12, 1, 2], "type": "narrowband"},
 
     # --- HYBRID (DWARF 3 Filter: Duo-Band oder Astro) ---
     {"cat": "M42 / M43", "name": "Orionnebel", "ra": 5.59, "dec": -5.4, "months": [10, 11, 12, 1, 2, 3, 4], "type": "hybrid"},
@@ -79,7 +80,8 @@ DSO_CATALOG = [
     {"cat": "NGC 891", "name": "Outer Line Galaxie", "ra": 2.38, "dec": 42.4, "months": [8, 9, 10, 11, 12, 1], "type": "broadband"},
     {"cat": "M74", "name": "Phantom-Galaxie", "ra": 1.61, "dec": 15.8, "months": [8, 9, 10, 11, 12, 1], "type": "broadband"},
     {"cat": "NGC 2403", "name": "Spiralgalaxie Camelopardalis", "ra": 7.61, "dec": 65.6, "months": [10, 11, 12, 1, 2, 3, 4, 5], "type": "broadband"},
-    {"cat": "M65 / M66", "name": "Leo-Triplett Galaxien", "ra": 11.33, "dec": 13.1, "months": [1, 2, 3, 4, 5], "type": "broadband"}
+    {"cat": "M65 / M66", "name": "Leo-Triplett Galaxien", "ra": 11.33, "dec": 13.1, "months": [1, 2, 3, 4, 5], "type": "broadband"},
+    {"cat": "IC 342", "name": "Verborgene Galaxie (Hidden Galaxy)", "ra": 3.78, "dec": 68.1, "months": [9, 10, 11, 12, 1, 2, 3], "type": "broadband"}
 ]
 
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
