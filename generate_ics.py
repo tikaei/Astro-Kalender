@@ -151,7 +151,6 @@ def get_sorted_targets(date_str, month, moon_illumination):
                 transit_time = calculate_transit_time_str(date_str, t['ra'])
                 obj_type = t.get("type", "broadband")
                 
-                # Explizite DWARF 3 Filter-Zuweisung
                 if moon_illumination >= 50:
                     if obj_type == "narrowband":
                         rec_tag = "[🟢 DWARF 3: Duo-Band Filter]"
@@ -211,19 +210,18 @@ def extract_numbers(data_list, indices):
     return result
 
 def generate_ics():
-    # KORREKTUR: Explizite Anforderung des DWD ICON-Modells zur Vermeidung von Nullen
+    # Exakte API-URL ohne unnötige Zusatz-Parameter
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={LATITUDE}&longitude={LONGITUDE}&"
         f"hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,"
-        f"relative_humidity_2m,precipitation_probability,precipitation,is_day&"
-        f"daily=sunrise,sunset,moonrise,moonset,moon_phase&"
-        f"models=icon_seamless&"
-        f"forecast_days=7&timezone=auto"
+        f"relative_humidity_2m,precipitation_probability,precipitation&"
+        f"daily=sunset,sunrise,moonrise,moonset,moon_phase&"
+        f"forecast_days=7&timezone=UTC"
     )
     
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
         'Accept': 'application/json'
     }
     
@@ -232,18 +230,14 @@ def generate_ics():
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    print("Lade Wetter- & Astrodaten vom DWD (ICON)...", flush=True)
+    print("Lade Wetterdaten von Open-Meteo...", flush=True)
     try:
         with urllib.request.urlopen(req, context=ctx, timeout=15) as response:
             raw_response = response.read().decode('utf-8')
             if not raw_response or not raw_response.strip().startswith('{'):
-                print("Fehler: API hat kein gueltiges JSON geliefert.", file=sys.stderr, flush=True)
+                print("Fehler: API hat kein gültiges JSON geliefert.", file=sys.stderr, flush=True)
                 return
             data = json.loads(raw_response)
-    except urllib.error.HTTPError as e:
-        error_body = e.read().decode('utf-8')
-        print(f"API Fehler: {error_body}", file=sys.stderr, flush=True)
-        raise e
     except Exception as e:
         print(f"Netzwerk- oder Parsing-Fehler: {e}", file=sys.stderr, flush=True)
         return
@@ -258,7 +252,6 @@ def generate_ics():
     humidity_hourly = hourly.get("relative_humidity_2m", [])
     precip_prob_hourly = hourly.get("precipitation_probability", [])
     precip_hourly = hourly.get("precipitation", [])
-    is_day_hourly = hourly.get("is_day", [])
     times_hourly = hourly.get("time", [])
     
     sunsets = daily.get("sunset", [])
@@ -268,15 +261,23 @@ def generate_ics():
     moon_phases = daily.get("moon_phase", [])
 
     vevents = []
-    print("=== VORHERSAGE FÜR DIE NÄCHSTEN 7 TAGE (DWD ICON) ===", flush=True)
+    print("=== VORHERSAGE FÜR DIE NÄCHSTEN 7 TAGE ===", flush=True)
 
     for day in range(7):
         start_idx = day * 24
         end_idx = start_idx + 24
         
-        night_indices = [k for k in range(start_idx, end_idx) if k < len(is_day_hourly) and is_day_hourly[k] == 0]
+        # Nachtstunden direkt über ISO-Zeit (19:00 bis 05:00 UTC) filtern
+        night_indices = []
+        for k in range(start_idx, end_idx):
+            if k < len(times_hourly):
+                time_str = times_hourly
+                hour = int(time_str[11:13])
+                if hour >= 19 or hour <= 5:
+                    night_indices.append(k)
+                    
         if not night_indices:
-            night_indices = [k for k in range(start_idx, end_idx) if k < len(times_hourly)]
+            night_indices = list(range(start_idx, min(end_idx, len(times_hourly))))
             
         n_clouds = extract_numbers(clouds_hourly, night_indices)
         n_low = extract_numbers(clouds_low, night_indices) if clouds_low else n_clouds
@@ -327,7 +328,6 @@ def generate_ics():
         
         date_str = times_hourly[start_idx][:10] if start_idx < len(times_hourly) else f"Tag {day+1}"
         
-        # PROTOKOLLEINTRAG
         if total_score <= 60:
             print(f"[GEFILTERT] {date_str}: Score {total_score}% | Schnitt Wolken: {int(avg_cloud)}%, Spitze: {int(max_cloud)}%, Feuchte: {int(avg_humidity)}%", flush=True)
             continue
@@ -364,7 +364,7 @@ def generate_ics():
             f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\n\n"
             f"DWARF 3 Empfehlungen & Filter (nach Zenit):\n"
             f"{targets_str}\n\n"
-            f"Erstellt via Open-Meteo Astro API (DWD ICON)"
+            f"Erstellt via Open-Meteo Astro API"
         )
         
         vevent_str = ics_builder.create_vevent(
