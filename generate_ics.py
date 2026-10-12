@@ -211,12 +211,14 @@ def extract_numbers(data_list, indices):
     return result
 
 def generate_ics():
+    # KORREKTUR: Explizite Anforderung des DWD ICON-Modells zur Vermeidung von Nullen
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={LATITUDE}&longitude={LONGITUDE}&"
         f"hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,"
         f"relative_humidity_2m,precipitation_probability,precipitation,is_day&"
         f"daily=sunrise,sunset,moonrise,moonset,moon_phase&"
+        f"models=icon_seamless&"
         f"forecast_days=7&timezone=auto"
     )
     
@@ -230,7 +232,7 @@ def generate_ics():
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    print("Lade Wetter- & Astrodaten von Open-Meteo...", flush=True)
+    print("Lade Wetter- & Astrodaten vom DWD (ICON)...", flush=True)
     try:
         with urllib.request.urlopen(req, context=ctx, timeout=15) as response:
             raw_response = response.read().decode('utf-8')
@@ -266,7 +268,7 @@ def generate_ics():
     moon_phases = daily.get("moon_phase", [])
 
     vevents = []
-    print("=== VORHERSAGE FÜR DIE NÄCHSTEN 7 TAGE ===", flush=True)
+    print("=== VORHERSAGE FÜR DIE NÄCHSTEN 7 TAGE (DWD ICON) ===", flush=True)
 
     for day in range(7):
         start_idx = day * 24
@@ -362,7 +364,7 @@ def generate_ics():
             f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\n\n"
             f"DWARF 3 Empfehlungen & Filter (nach Zenit):\n"
             f"{targets_str}\n\n"
-            f"Erstellt via Open-Meteo Astro API"
+            f"Erstellt via Open-Meteo Astro API (DWD ICON)"
         )
         
         vevent_str = ics_builder.create_vevent(
