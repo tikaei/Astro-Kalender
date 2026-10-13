@@ -24,7 +24,8 @@ jobs:
       - name: Python-Code mit Ruff prüfen
         uses: astral-sh/ruff-action@v3
         with:
-          args: "check ."
+          args: "check . --fix"
+
 
       - name: ICS Kalender generieren
         run: python generate_ics.py
