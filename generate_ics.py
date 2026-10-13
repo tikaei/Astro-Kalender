@@ -1,6 +1,5 @@
 import json
 import urllib.request
-import urllib.error
 import ssl
 import sys
 import math
@@ -125,7 +124,7 @@ def get_sorted_targets(date_str, month, moon_illumination):
 
 def format_time_str(iso_val):
     if isinstance(iso_val, list):
-        iso_val = iso_val if iso_val else ""
+        iso_val = iso_val[0] if iso_val else ""
     iso_str = str(iso_val) if iso_val else ""
     if not iso_str or iso_str == "N/A" or len(iso_str) < 16:
         return "N/A"
@@ -133,7 +132,7 @@ def format_time_str(iso_val):
 
 def safe_float(val, default=None):
     if isinstance(val, list):
-        val = val if val else None
+        val = val[0] if val else None
     if val is None:
         return default
     try:
@@ -143,7 +142,7 @@ def safe_float(val, default=None):
 
 def parse_time_str(val):
     if isinstance(val, list):
-        val = val if val else ""
+        val = val[0] if val else ""
     return str(val) if val else ""
 
 def extract_numbers(data_list, indices, default=None):
