@@ -187,13 +187,14 @@ def extract_numbers(data_list, indices, default=None):
 
 
 def generate_ics():
+    # Abfrage in UTC zur präzisen mathematischen Übereinstimmung mit dusk_utc & dawn_utc
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={LATITUDE}&longitude={LONGITUDE}&"
         f"hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,"
         f"relative_humidity_2m,precipitation_probability,precipitation&"
         f"daily=sunset,sunrise,moonrise,moonset,moon_phase&"
-        f"forecast_days=7&timezone=Europe/Berlin"
+        f"forecast_days=7&timezone=UTC"
     )
 
     headers = {
@@ -237,7 +238,7 @@ def generate_ics():
     moon_phases = daily.get("moon_phase", [])
 
     vevents = []
-    print("=== VORHERSAGE FÜR DIE NÄCHSTEN 7 TAGE ===", flush=True)
+    print("=== VORHERSAGE FÜR DIE NÄCHSTEN 7 TAGE (DYNAMISCHE ASTRO-NACHT) ===", flush=True)
 
     daily_times = daily.get("time", [])
 
@@ -247,24 +248,31 @@ def generate_ics():
         elif (day * 24) < len(times_hourly):
             date_str = parse_time_str(times_hourly[day * 24])[:10]
         else:
-            dt_fallback = datetime.now() + timedelta(days=day)
+            dt_fallback = datetime.now(UTC) + timedelta(days=day)
             date_str = dt_fallback.strftime("%Y-%m-%d")
 
         dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
-        next_date_str = (dt_obj + timedelta(days=1)).strftime("%Y-%m-%d")
+        dusk_utc, dawn_utc = calculate_astronomical_night(date_str)
 
+        # SELEKTION: Nur Stunden innerhalb der astronomischen Nacht (dusk_utc bis dawn_utc)
         night_indices = []
         for k, t_raw in enumerate(times_hourly):
             t_str = parse_time_str(t_raw)
-            if len(t_str) >= 13:
-                d_part = t_str[:10]
+            if len(t_str) >= 16:
                 try:
-                    h_part = int(t_str[11:13])
+                    slot_dt = datetime.strptime(t_str[:16], "%Y-%m-%dT%H:%M").replace(tzinfo=UTC)
+                    if dusk_utc and dawn_utc:
+                        if dusk_utc <= slot_dt <= dawn_utc:
+                            night_indices.append(k)
+                    else:
+                        # Fallback für helle Sommernächte ohne echte Dämmerung (-18°)
+                        next_date_str = (dt_obj + timedelta(days=1)).strftime("%Y-%m-%d")
+                        d_part = t_str[:10]
+                        h_part = int(t_str[11:13])
+                        if (d_part == date_str and h_part >= 22) or (d_part == next_date_str and h_part <= 3):
+                            night_indices.append(k)
                 except ValueError:
                     continue
-
-                if (d_part == date_str and h_part >= 19) or (d_part == next_date_str and h_part <= 5):
-                    night_indices.append(k)
 
         if not night_indices:
             start_k = day * 24
@@ -331,7 +339,6 @@ def generate_ics():
         status_icon = "🟢" if total_score > 80 else "🟡"
         summary = f"🔭 {status_icon} Deep Sky: {total_score}%"
 
-        dusk_utc, dawn_utc = calculate_astronomical_night(date_str)
         sunset_raw = sunsets[day] if day < len(sunsets) else ""
         sunrise_raw = (
             sunrises[day + 1]
