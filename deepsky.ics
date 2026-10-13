@@ -1,80 +1,21 @@
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//DeepSkyForecast//DE
-X-WR-CALNAME:Deep Sky Vorhersage
-REFRESH-INTERVAL;VALUE=DURATION:PT6H
-X-PUBLISHED-TTL:PT6H
-BEGIN:VEVENT
-UID:astro-2026-10-12@deepsky
-DTSTAMP:20261012T185904Z
-DTSTART:20261012T181415Z
-DTEND:20261013T033514Z
-SUMMARY:🔭 🟡 Deep Sky: 63%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:14 - 03:35 UTC\nBewölkun
- g (Nacht): Schnitt 47% | Spitze 80% (Low 43% / High 8%)\nMond: ~11% | Aufga
- ng: 09:43 | Untergang: 18:30\nNiederschlag: 7% (0.0 mm)\nLuftfeuchtigkeit: 
- 92% ⚠️ (Tau-Risiko)\n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n•
-  M76 (Kleine Hantel (Little Dumbbell)) [🟢 DWARF 3: Duo-Band Filter] - Ma
- x: 89° (Zenit: 01:24 Uhr)\n• M39 (Pyramiden-Haufen Schwan) [🟢 DWARF 3
- : Astro Filter] - Max: 88° (Zenit: 21:14 Uhr)\n• IC 5146 (Kokon-Nebel (B
- 168)) [🟢 DWARF 3: Astro Filter] - Max: 87° (Zenit: 21:36 Uhr)\n• Sh2-
- 132 (Löwennebel (Lion Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 85°
-  (Zenit: 22:02 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟢 DW
- ARF 3: Astro Filter] - Max: 84° (Zenit: 02:05 Uhr)\n• NGC 7789 (Caroline
- 's Rose) [🟢 DWARF 3: Astro Filter] - Max: 84° (Zenit: 23:39 Uhr)\n• N
- GC 7000 (Nordamerika-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Ze
- nit: 20:41 Uhr)\n• IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter]
-  - Max: 84° (Zenit: 20:34 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: 
- Duo-Band Filter] - Max: 84° (Zenit: 00:35 Uhr)\n• IC 1396 (Elefantenrüs
- selnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 21:18 Uhr)\n
- • Sh2-142 (Zauberer-Nebel (Wizard Nebula)) [🟢 DWARF 3: Duo-Band Filter
- ] - Max: 83° (Zenit: 22:29 Uhr)\n• NGC 457 (Eulenhaufen / ET-Cluster) [
- 🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 01:02 Uhr)\n• M92 (Kugels
- ternhaufen Herkules) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 17:00
-  Uhr)\n• M34 (Offener Haufen Perseus) [🟢 DWARF 3: Astro Filter] - Max:
-  82° (Zenit: 02:28 Uhr)\n• NGC 891 (Outer Line Galaxie) [🟢 DWARF 3: A
- stro Filter] - Max: 82° (Zenit: 02:08 Uhr)\n\nErstellt via Open-Meteo Astr
- o API
-BEGIN:VALARM
-TRIGGER:-PT6H
-ACTION:DISPLAY
-DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:astro-2026-10-16@deepsky
-DTSTAMP:20261012T185904Z
-DTSTART:20261016T180552Z
-DTEND:20261017T034148Z
-SUMMARY:🔭 🟡 Deep Sky: 67%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:05 - 03:41 UTC\nBewölkun
- g (Nacht): Schnitt 65% | Spitze 100% (Low 0% / High 65%)\nMond: ~36% | Aufg
- ang: 14:08 | Untergang: 21:00\nNiederschlag: 22% (0.0 mm)\nLuftfeuchtigkeit
- : 72%\n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• M76 (Kleine Hante
- l (Little Dumbbell)) [🟢 DWARF 3: Duo-Band Filter] - Max: 89° (Zenit: 01
- :08 Uhr)\n• M39 (Pyramiden-Haufen Schwan) [🟢 DWARF 3: Astro Filter] - 
- Max: 88° (Zenit: 20:59 Uhr)\n• IC 5146 (Kokon-Nebel (B168)) [🟢 DWARF 
- 3: Astro Filter] - Max: 87° (Zenit: 21:20 Uhr)\n• Sh2-132 (Löwennebel (
- Lion Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 85° (Zenit: 21:46 Uhr
- )\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟢 DWARF 3: Astro Filte
- r] - Max: 84° (Zenit: 01:45 Uhr)\n• NGC 7789 (Caroline's Rose) [🟢 DWA
- RF 3: Astro Filter] - Max: 84° (Zenit: 23:23 Uhr)\n• NGC 7000 (Nordameri
- ka-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:26 Uhr)\n
- • IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zen
- it: 20:18 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] 
- - Max: 84° (Zenit: 00:19 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 D
- WARF 3: Duo-Band Filter] - Max: 83° (Zenit: 21:03 Uhr)\n• Sh2-142 (Zaube
- rer-Nebel (Wizard Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zen
- it: 22:13 Uhr)\n• NGC 457 (Eulenhaufen / ET-Cluster) [🟢 DWARF 3: Astro
-  Filter] - Max: 82° (Zenit: 00:46 Uhr)\n• M92 (Kugelsternhaufen Herkules
- ) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 16:44 Uhr)\n• M34 (Off
- ener Haufen Perseus) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 02:12
-  Uhr)\n• NGC 891 (Outer Line Galaxie) [🟢 DWARF 3: Astro Filter] - Max:
-  82° (Zenit: 01:49 Uhr)\n\nErstellt via Open-Meteo Astro API
-BEGIN:VALARM
-TRIGGER:-PT6H
-ACTION:DISPLAY
-DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!
-END:VALARM
-END:VEVENT
-END:VCALENDAR
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Astro-Kalender Adorf//DWARF 3//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Astro-Wetter & DWARF 3
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:astro-2026-10-15@deepsky
+DTSTAMP:20261013T083930Z
+DTSTART:20261015T180755Z
+DTEND:20261016T034010Z
+SUMMARY:🔭 🟡 Deep Sky: 71%
+DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 18:07 - 03:40 UTC\nBewölkung (Nacht): Schnitt 42% | Spitze 97% (Low 0% / High 30%)\nMond: ~30% | Aufgang: 13:15 | Untergang: 20:06\nNiederschlag: 0% (Trocken)\nLuftfeuchtigkeit: 77%\n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• M76 (Kleine Hantel (Little Dumbbell)) [🟢 DWARF 3: Duo-Band Filter] - Max: 89° (Zenit: 01:12 Uhr)\n• M39 (Pyramiden-Haufen Schwan) [🟢 DWARF 3: Astro Filter] - Max: 88° (Zenit: 21:02 Uhr)\n• IC 5146 (Kokon-Nebel (B168)) [🟢 DWARF 3: Astro Filter] - Max: 87° (Zenit: 21:24 Uhr)\n• Sh2-132 (Löwennebel (Lion Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 85° (Zenit: 21:50 Uhr)\n• NGC 869 / 884 (Doppelsternhaufen h & chi) [🟢 DWARF 3: Astro Filter] - Max: 84° (Zenit: 01:49 Uhr)\n• NGC 7789 (Caroline's Rose) [🟢 DWARF 3: Astro Filter] - Max: 84° (Zenit: 23:27 Uhr)\n• NGC 7000 (Nordamerika-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:30 Uhr)\n• IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:22 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 00:23 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 21:07 Uhr)\n• Sh2-142 (Zauberer-Nebel (Wizard Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 22:17 Uhr)\n• NGC 457 (Eulenhaufen / ET-Cluster) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 00:50 Uhr)\n• M92 (Kugelsternhaufen Herkules) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 16:48 Uhr)\n• M34 (Offener Haufen Perseus) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 02:16 Uhr)\n• NGC 891 (Outer Line Galaxie) [🟢 DWARF 3: Astro Filter] - Max: 82° (Zenit: 01:53 Uhr)\n\nErstellt via Open-Meteo Astro API
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Astro-Wetter Erinnerung
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
