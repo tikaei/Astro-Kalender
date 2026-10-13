@@ -1,81 +1,59 @@
-import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
-def fold_line(text, limit=75):
-    """ RFC 5545 strikt konformes Line-Folding ohne doppelte Leerzeichen """
-    encoded = text.encode('utf-8')
-    if len(encoded) <= limit:
-        return text
-    lines = []
-    while len(encoded) > limit:
-        split_at = limit
-        # UTF-8 Fortsetzungsbytes (0x80-0xBF) nicht mitten entzweischneiden
-        while split_at > 0 and (encoded[split_at] & 0xC0) == 0x80:
-            split_at -= 1
-        lines.append(encoded[:split_at].decode('utf-8'))
-        # KORREKTUR: Kein zusätzliches b' ' einfügen, da "\r\n " bereits das Trennzeichen bildet
-        encoded = encoded[split_at:]
-    if encoded:
-        lines.append(encoded.decode('utf-8'))
-    return "\r\n ".join(lines)
-
-def escape_text(text):
-    """ Escaping von Sonderzeichen nach iCalendar Standard """
-    return text.replace('\\', '\\\\').replace(';', '\\;').replace(',', '\\,').replace('\n', '\\n')
 
 def create_vevent(uid, dt_start_utc, dt_end_utc, summary, description_text, alarm_hours_before=6):
-    """ Erstellt einen RFC 5545-konformen VEVENT-Eintrag für Apple iCloud """
+    now_utc = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+
     if dt_start_utc and dt_end_utc:
-        if dt_end_utc <= dt_start_utc:
-            raise ValueError(f"Sicherheitsblockade: DTEND ({dt_end_utc}) liegt nicht nach DTSTART ({dt_start_utc})!")
-        
-        dt_start_str = dt_start_utc.strftime('%Y%m%dT%H%M%SZ')
-        dt_end_str = dt_end_utc.strftime('%Y%m%dT%H%M%SZ')
-        dt_lines = [f"DTSTART:{dt_start_str}", f"DTEND:{dt_end_str}"]
+        dtstart = dt_start_utc.strftime("%Y%m%dT%H%M%SZ")
+        dtend = dt_end_utc.strftime("%Y%m%dT%H%M%SZ")
     else:
-        date_str = uid.split('-')[1] if '-' in uid else datetime.now(timezone.utc).strftime('%Y%m%d')
-        dt_lines = [f"DTSTART;VALUE=DATE:{date_str.replace('-', '')}"]
+        dtstart = now_utc
+        dtend = now_utc
 
-    escaped_desc = escape_text(description_text)
+    description_formatted = description_text.replace("\n", "\\n")
 
-    vevent = [
-        "BEGIN:VEVENT",
-        f"UID:{uid}",
-        f"DTSTAMP:{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
-    ]
-    vevent.extend(dt_lines)
-    vevent.append(fold_line(f"SUMMARY:{summary}"))
-    vevent.append(fold_line(f"DESCRIPTION:{escaped_desc}"))
-
+    alarm_block = ""
     if alarm_hours_before:
-        vevent.extend([
-            "BEGIN:VALARM",
-            f"TRIGGER:-PT{alarm_hours_before}H",
-            "ACTION:DISPLAY",
-            fold_line("DESCRIPTION:🔭 Deep Sky Fotografie: Gute Bedingungen heute Nacht!"),
-            "END:VALARM"
-        ])
+        alarm_block = (
+            "BEGIN:VALARM\r\n"
+            "ACTION:DISPLAY\r\n"
+            "DESCRIPTION:Astro-Wetter Erinnerung\r\n"
+            f"TRIGGER:-PT{alarm_hours_before}H\r\n"
+            "END:VALARM\r\n"
+        )
 
-    vevent.append("END:VEVENT")
-    return "\r\n".join(vevent)
+    vevent = (
+        "BEGIN:VEVENT\r\n"
+        f"UID:{uid}\r\n"
+        f"DTSTAMP:{now_utc}\r\n"
+        f"DTSTART:{dtstart}\r\n"
+        f"DTEND:{dtend}\r\n"
+        f"SUMMARY:{summary}\r\n"
+        f"DESCRIPTION:{description_formatted}\r\n"
+        f"{alarm_block}"
+        "END:VEVENT\r\n"
+    )
+    return vevent
 
-def build_calendar_ics(vevents, calendar_name="Deep Sky Vorhersage"):
-    """ Baut das vollständige VCALENDAR Dokument mit CRLF-Zeilenendungen """
-    vcal = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//DeepSkyForecast//DE",
-        f"X-WR-CALNAME:{calendar_name}",
-        "REFRESH-INTERVAL;VALUE=DURATION:PT6H",
-        "X-PUBLISHED-TTL:PT6H"
-    ]
-    if vevents:
-        vcal_str = "\r\n".join(vcal) + "\r\n" + "\r\n".join(vevents) + "\r\nEND:VCALENDAR\r\n"
-    else:
-        vcal_str = "\r\n".join(vcal) + "\r\nEND:VCALENDAR\r\n"
-    return vcal_str
 
-def save_ics(filepath, content):
-    with open(filepath, "w", encoding="utf-8") as f:
+def build_calendar_ics(vevents_list):
+    events_str = "".join(vevents_list)
+    vcal = (
+        "BEGIN:VCALENDAR\r\n"
+        "VERSION:2.0\r\n"
+        "PRODID:-//Astro-Kalender Adorf//DWARF 3//DE\r\n"
+        "CALSCALE:GREGORIAN\r\n"
+        "METHOD:PUBLISH\r\n"
+        "X-WR-CALNAME:Astro-Wetter & DWARF 3\r\n"
+        "X-WR-TIMEZONE:Europe/Berlin\r\n"
+        f"{events_str}"
+        "END:VCALENDAR\r\n"
+    )
+    return vcal
+
+
+def save_ics(filename, content):
+    with open(filename, "w", encoding="utf-8", newline="\r\n") as f:
         f.write(content)
-    print(f"Datei erfolgreich als '{filepath}' gespeichert.")
+    print(f"Datei erfolgreich als '{filename}' gespeichert.", flush=True)
