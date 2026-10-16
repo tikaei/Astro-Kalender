@@ -5,30 +5,4 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Astro-Wetter & DWARF 3
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:astro-2026-10-19@deepsky
-DTSTAMP:20261015T042658Z
-DTSTART:20261019T175951Z
-DTEND:20261020T034640Z
-SUMMARY:🔭 🟡 Deep Sky: 77%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 17:59 - 03:46 UTC\nBewölkung (Nacht): Schnitt 34% | Spitze 86% (Low 0% / High 32%)\nMond: ~55% | Aufgang: 13:42 | Untergang: 22:26\nNiederschlag: 18% (0.0 mm)\nLuftfeuchtigkeit: 88% ⚠️ (Tau-Risiko)\n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• M76 (Kleine Hantel (Little Dumbbell)) [🟢 DWARF 3: Duo-Band Filter] - Max: 89° (Zenit: 00:56 Uhr)\n• Sh2-132 (Löwennebel (Lion Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 85° (Zenit: 21:34 Uhr)\n• NGC 7000 (Nordamerika-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:14 Uhr)\n• IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:06 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 00:07 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 20:51 Uhr)\n• Sh2-142 (Zauberer-Nebel (Wizard Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 22:02 Uhr)\n• Sh2-157 (Hummernebel (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 22:30 Uhr)\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 02:09 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 22:36 Uhr)\n• IC 1318 (Sadr-Region (Schwan)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 19:37 Uhr)\n• IC 1805 (Herznebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 01:47 Uhr)\n• IC 1795 (Fischkopfnebel (Fishhead Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 01:41 Uhr)\n• NGC 6888 (Crescent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 19:27 Uhr)\n• Sh2-155 (Höhlennebel (Cave Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 22:12 Uhr)\n\nErstellt via Open-Meteo Astro API
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:Astro-Wetter Erinnerung
-TRIGGER:-PT6H
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:astro-2026-10-20@deepsky
-DTSTAMP:20261015T042658Z
-DTSTART:20261020T175755Z
-DTEND:20261021T034817Z
-SUMMARY:🔭 🟡 Deep Sky: 69%
-DESCRIPTION:Astro-Dunkelheit (Sonne <= -18°): 17:57 - 03:48 UTC\nBewölkung (Nacht): Schnitt 17% | Spitze 56% (Low 14% / High 4%)\nMond: ~61% | Aufgang: 14:00 | Untergang: 23:41\nNiederschlag: 5% (0.0 mm)\nLuftfeuchtigkeit: 89% ⚠️ (Tau-Risiko)\n\nDWARF 3 Empfehlungen & Filter (nach Zenit):\n• M76 (Kleine Hantel (Little Dumbbell)) [🟢 DWARF 3: Duo-Band Filter] - Max: 89° (Zenit: 00:52 Uhr)\n• Sh2-132 (Löwennebel (Lion Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 85° (Zenit: 21:30 Uhr)\n• NGC 7000 (Nordamerika-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:10 Uhr)\n• IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:02 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 00:03 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 20:47 Uhr)\n• Sh2-142 (Zauberer-Nebel (Wizard Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 21:58 Uhr)\n• Sh2-157 (Hummernebel (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 22:26 Uhr)\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 02:05 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 22:32 Uhr)\n• IC 1318 (Sadr-Region (Schwan)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 19:33 Uhr)\n• IC 1805 (Herznebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 01:43 Uhr)\n• IC 1795 (Fischkopfnebel (Fishhead Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 01:37 Uhr)\n• NGC 6888 (Crescent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 19:23 Uhr)\n• Sh2-155 (Höhlennebel (Cave Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 22:08 Uhr)\n\nErstellt via Open-Meteo Astro API
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:Astro-Wetter Erinnerung
-TRIGGER:-PT6H
-END:VALARM
-END:VEVENT
 END:VCALENDAR
