@@ -42,7 +42,7 @@ def build_calendar_ics(vevents_list):
     vcal = (
         "BEGIN:VCALENDAR\r\n"
         "VERSION:2.0\r\n"
-        "PRODID:-//Astro-Kalender Adorf//DWARF 3//DE\r\n"
+        "PRODID:-//Astro-Kalender//DE\r\n"
         "CALSCALE:GREGORIAN\r\n"
         "METHOD:PUBLISH\r\n"
         "X-WR-CALNAME:Astro-Wetter & DWARF 3\r\n"
