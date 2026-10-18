@@ -3,7 +3,19 @@
 # Standort-Basis: Nördliche Hemisphäre (z. B. Neukirchen/Adorf)
 # ==============================================================================
 
-DSO_CATALOG = [
+from typing import TypedDict
+
+
+class DSOTarget(TypedDict):
+    cat: str
+    name: str
+    ra: float
+    dec: float
+    months: list[int]
+    type: str
+
+
+DSO_CATALOG: list[DSOTarget] = [
     # --- STERNHAUFEN & ASTERISMEN (DWARF 3 Filter: Astro) ---
     {"cat": "NGC 457", "name": "Eulenhaufen / ET-Cluster", "ra": 1.33, "dec": 58.3, "months": [8, 9, 10, 11, 12, 1], "type": "cluster"},
     {"cat": "NGC 869 / 884", "name": "Doppelsternhaufen h & chi", "ra": 2.32, "dec": 57.1, "months": [8, 9, 10, 11, 12, 1, 2], "type": "cluster"},
@@ -93,5 +105,5 @@ DSO_CATALOG = [
     {"cat": "NGC 5907", "name": "Splitter-Galaxie Drache", "ra": 15.26, "dec": 56.3, "months": [2, 3, 4, 5, 6, 7, 8], "type": "broadband"},
     {"cat": "M102", "name": "Spindel-Galaxie Drache", "ra": 15.11, "dec": 55.8, "months": [2, 3, 4, 5, 6, 7, 8], "type": "broadband"},
     {"cat": "LDN 1235", "name": "Dunkelhai (Dark Shark Nebula)", "ra": 22.23, "dec": 73.0, "months": [7, 8, 9, 10, 11, 12, 1], "type": "broadband"},
-    {"cat": "M110", "name": "Begleiter der Andromeda-Galaxie", "ra": 0.67, "dec": 41.7, "months": [8, 9, 10, 11, 12, 1], "type": "broadband"}
+    {"cat": "M110", "name": "Begleiter der Andromeda-Galaxie", "ra": 0.67, "dec": 41.7, "months": [8, 9, 10, 11, 12, 1], "type": "broadband"},
 ]
