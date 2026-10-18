@@ -16,9 +16,9 @@ except ImportError:
 import ics_builder
 from dso_catalog import DSO_CATALOG
 
-# --- KOORDINATEN (Neukirchen OT Adorf) ---
-LATITUDE = 50.7725
-LONGITUDE = 12.8860
+# --- KOORDINATEN Standort ---
+LATITUDE = float(os.environ.get("LATITUDE", 50.0))
+LONGITUDE = float(os.environ.get("LONGITUDE", 10.0))
 
 
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
