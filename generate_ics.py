@@ -3,7 +3,15 @@ import math
 import ssl
 import sys
 import urllib.request
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
+try:
+    from datetime import UTC
+except ImportError:
+    from datetime import timezone
+
+    UTC = timezone.utc
 
 import ics_builder
 from dso_catalog import DSO_CATALOG
@@ -83,15 +91,8 @@ def calculate_transit_time_str(date_str, ra_hours, lon=LONGITUDE):
         hours=transit_utc_hours
     )
 
-    m_last_sun = 31 - (datetime(dt.year, 3, 31).weekday() + 1) % 7
-    o_last_sun = 31 - (datetime(dt.year, 10, 31).weekday() + 1) % 7
-    dst_start = datetime(dt.year, 3, m_last_sun, 2, 0, tzinfo=UTC)
-    dst_end = datetime(dt.year, 10, o_last_sun, 3, 0, tzinfo=UTC)
-
-    is_dst = dst_start <= transit_dt_utc < dst_end
-    local_offset = timedelta(hours=2 if is_dst else 1)
-
-    transit_dt_local = transit_dt_utc + local_offset
+    # Automatische & exakte Umrechnung in die lokale Zeit (inkl. DST)
+    transit_dt_local = transit_dt_utc.astimezone(ZoneInfo("Europe/Berlin"))
     return transit_dt_local.strftime("%H:%M")
 
 
@@ -150,7 +151,7 @@ def get_sorted_targets(date_str, month, moon_illumination):
 
 def format_time_str(iso_val):
     if isinstance(iso_val, list):
-        iso_val = iso_val[0] if iso_val else ""
+        iso_val = iso_val if iso_val else ""
     iso_str = str(iso_val) if iso_val else ""
     if not iso_str or iso_str == "N/A" or len(iso_str) < 16:
         return "N/A"
@@ -159,7 +160,7 @@ def format_time_str(iso_val):
 
 def safe_float(val, default=None):
     if isinstance(val, list):
-        val = val[0] if val else None
+        val = val if val else None
     if val is None:
         return default
     try:
@@ -170,7 +171,7 @@ def safe_float(val, default=None):
 
 def parse_time_str(val):
     if isinstance(val, list):
-        val = val[0] if val else ""
+        val = val if val else ""
     return str(val) if val else ""
 
 
@@ -187,7 +188,6 @@ def extract_numbers(data_list, indices, default=None):
 
 
 def generate_ics():
-    # Abfrage in UTC zur präzisen mathematischen Übereinstimmung mit dusk_utc & dawn_utc
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={LATITUDE}&longitude={LONGITUDE}&"
@@ -208,15 +208,24 @@ def generate_ics():
     ctx.verify_mode = ssl.CERT_NONE
 
     print("Lade Wetterdaten von Open-Meteo...", flush=True)
+    raw_response = None
+    for attempt in range(1, 4):
+        try:
+            with urllib.request.urlopen(req, context=ctx, timeout=15) as response:
+                raw_response = response.read().decode("utf-8")
+                if raw_response and raw_response.strip().startswith("{"):
+                    break
+        except Exception as e:  # noqa: BLE001
+            print(f"Versuch {attempt}/3 fehlgeschlagen: {e}", file=sys.stderr, flush=True)
+
+    if not raw_response:
+        print("Fehler: API-Abfrage nach 3 Versuchen abgebrochen.", file=sys.stderr, flush=True)
+        return
+
     try:
-        with urllib.request.urlopen(req, context=ctx, timeout=15) as response:
-            raw_response = response.read().decode("utf-8")
-            if not raw_response or not raw_response.strip().startswith("{"):
-                print("Fehler: API hat kein gültiges JSON geliefert.", file=sys.stderr, flush=True)
-                return
-            data = json.loads(raw_response)
-    except Exception as e:  # noqa: BLE001
-        print(f"Netzwerk- oder Parsing-Fehler: {e}", file=sys.stderr, flush=True)
+        data = json.loads(raw_response)
+    except json.JSONDecodeError as e:
+        print(f"JSON-Parsing-Fehler: {e}", file=sys.stderr, flush=True)
         return
 
     hourly = data.get("hourly", {})
@@ -254,7 +263,6 @@ def generate_ics():
         dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
         dusk_utc, dawn_utc = calculate_astronomical_night(date_str)
 
-        # SELEKTION: Nur Stunden innerhalb der astronomischen Nacht (dusk_utc bis dawn_utc)
         night_indices = []
         for k, t_raw in enumerate(times_hourly):
             t_str = parse_time_str(t_raw)
@@ -265,7 +273,6 @@ def generate_ics():
                         if dusk_utc <= slot_dt <= dawn_utc:
                             night_indices.append(k)
                     else:
-                        # Fallback für helle Sommernächte ohne echte Dämmerung (-18°)
                         next_date_str = (dt_obj + timedelta(days=1)).strftime("%Y-%m-%d")
                         d_part = t_str[:10]
                         h_part = int(t_str[11:13])
