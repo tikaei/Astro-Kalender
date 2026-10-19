@@ -1,24 +1,18 @@
+from datetime import UTC, datetime, timedelta
 import json
 import math
+import os
 import ssl
 import sys
 import urllib.request
-from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-
-try:
-    from datetime import UTC
-except ImportError:
-    from datetime import timezone
-
-    UTC = timezone.utc
 
 import ics_builder
 from dso_catalog import DSO_CATALOG
 
-# --- KOORDINATEN Standort ---
-LATITUDE = float(os.environ.get("LATITUDE", 50.0))
-LONGITUDE = float(os.environ.get("LONGITUDE", 10.0))
+# --- KOORDINATEN (Laden aus Secrets / Umgebungsvariablen mit Fallback) ---
+LATITUDE = float(os.environ.get("LATITUDE", 50.7725))
+LONGITUDE = float(os.environ.get("LONGITUDE", 12.8860))
 
 
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
@@ -91,7 +85,6 @@ def calculate_transit_time_str(date_str, ra_hours, lon=LONGITUDE):
         hours=transit_utc_hours
     )
 
-    # Automatische & exakte Umrechnung in die lokale Zeit (inkl. DST)
     transit_dt_local = transit_dt_utc.astimezone(ZoneInfo("Europe/Berlin"))
     return transit_dt_local.strftime("%H:%M")
 
