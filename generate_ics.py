@@ -1,7 +1,6 @@
 from datetime import UTC, datetime, timedelta
 import json
 import math
-import os
 import ssl
 import sys
 import urllib.request
@@ -10,9 +9,9 @@ from zoneinfo import ZoneInfo
 import ics_builder
 from dso_catalog import DSO_CATALOG
 
-# --- KOORDINATEN (Laden aus Secrets / Umgebungsvariablen mit Fallback) ---
-LATITUDE = float(os.environ.get("LATITUDE", "50.75"))
-LONGITUDE = float(os.environ.get("LONGITUDE", "12.90"))
+# --- KOORDINATEN (Anonymisierte Umgebungskoordinaten) ---
+LATITUDE = 50.7545
+LONGITUDE = 12.8855
 
 
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
