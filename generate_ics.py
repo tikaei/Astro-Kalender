@@ -11,8 +11,8 @@ import ics_builder
 from dso_catalog import DSO_CATALOG
 
 # --- KOORDINATEN (Laden aus Secrets / Umgebungsvariablen mit Fallback) ---
-LATITUDE = float(os.environ.get("LATITUDE", 50.7725))
-LONGITUDE = float(os.environ.get("LONGITUDE", 12.8860))
+LATITUDE = float(os.environ.get("LATITUDE", "50.75"))
+LONGITUDE = float(os.environ.get("LONGITUDE", "12.90"))
 
 
 def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
