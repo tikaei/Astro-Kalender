@@ -28,9 +28,6 @@ jobs:
 
 
       - name: ICS Kalender generieren
-        env:
-          LATITUDE: ${{ secrets.LATITUDE }}
-          LONGITUDE: ${{ secrets.LONGITUDE }}
         run: python generate_ics.py
 
       - name: ICS-Datei auf GitHub speichern
