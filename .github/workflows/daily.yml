@@ -2,7 +2,7 @@ name: Tägliches Kalender-Update
 
 on:
   schedule:
-    - cron: '0 4 * * *'  # Täglich um 04:00 UTC
+    - cron: '0 4,12,16 * * *'
   workflow_dispatch:
 
 permissions:
