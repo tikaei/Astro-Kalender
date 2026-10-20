@@ -30,10 +30,14 @@ jobs:
       - name: ICS Kalender generieren
         run: python generate_ics.py
 
-      - name: ICS-Datei auf GitHub speichern
+      - name: Kalender committen und pushen
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add deepsky.ics
-          git diff-index --quiet HEAD || git commit -m "Tägliches Update der Deep Sky Vorausschau"
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "Tägliches Update der Deep Sky Vorausschau"
+            git push
+          else
+            echo "Keine Änderungen in deepsky.ics – Commit übersprungen."
+          fi
