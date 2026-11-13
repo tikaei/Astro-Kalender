@@ -106,4 +106,40 @@ DSO_CATALOG: list[DSOTarget] = [
     {"cat": "M102", "name": "Spindel-Galaxie Drache", "ra": 15.11, "dec": 55.8, "months": [2, 3, 4, 5, 6, 7, 8], "type": "broadband"},
     {"cat": "LDN 1235", "name": "Dunkelhai (Dark Shark Nebula)", "ra": 22.23, "dec": 73.0, "months": [7, 8, 9, 10, 11, 12, 1], "type": "broadband"},
     {"cat": "M110", "name": "Begleiter der Andromeda-Galaxie", "ra": 0.67, "dec": 41.7, "months": [8, 9, 10, 11, 12, 1], "type": "broadband"},
+
+    # --- SÜDHALBKUGEL: STERNHAUFEN (DWARF 3 Filter: Astro) ---
+    {"cat": "NGC 104", "name": "47 Tucanae (Kugelsternhaufen)", "ra": 0.40, "dec": -72.1, "months": [9, 10, 11, 12, 1], "type": "cluster"},
+    {"cat": "NGC 5139", "name": "Omega Centauri", "ra": 13.45, "dec": -47.5, "months": [2, 3, 4, 5, 6, 7], "type": "cluster"},
+    {"cat": "NGC 4755", "name": "Schmuckkästchen (Jewel Box)", "ra": 12.89, "dec": -60.4, "months": [2, 3, 4, 5, 6, 7], "type": "cluster"},
+    {"cat": "NGC 3532", "name": "Wunschbrunnen-Haufen (Wishing Well)", "ra": 11.09, "dec": -58.7, "months": [1, 2, 3, 4, 5, 6], "type": "cluster"},
+    {"cat": "IC 2602", "name": "Südliche Plejaden", "ra": 10.72, "dec": -64.4, "months": [1, 2, 3, 4, 5, 6], "type": "cluster"},
+    {"cat": "NGC 2477", "name": "Offener Haufen Puppis", "ra": 7.87, "dec": -38.5, "months": [11, 12, 1, 2, 3, 4], "type": "cluster"},
+    {"cat": "M6", "name": "Schmetterlingshaufen", "ra": 17.67, "dec": -32.3, "months": [5, 6, 7, 8, 9], "type": "cluster"},
+    {"cat": "M7", "name": "Ptolemäus-Haufen", "ra": 17.90, "dec": -34.8, "months": [5, 6, 7, 8, 9], "type": "cluster"},
+
+    # --- SÜDHALBKUGEL: EMISSIONSNEBEL (DWARF 3 Filter: Duo-Band) ---
+    {"cat": "NGC 2070", "name": "Tarantelnebel (LMC)", "ra": 5.65, "dec": -69.1, "months": [10, 11, 12, 1, 2, 3], "type": "narrowband"},
+    {"cat": "IC 2177", "name": "Möwennebel (Seagull Nebula)", "ra": 7.07, "dec": -10.5, "months": [11, 12, 1, 2, 3, 4], "type": "narrowband"},
+    {"cat": "NGC 3372", "name": "Carinanebel (Eta Carinae)", "ra": 10.75, "dec": -59.9, "months": [11, 12, 1, 2, 3, 4, 5, 6], "type": "narrowband"},
+    {"cat": "IC 2944", "name": "Laufendes-Huhn-Nebel (Running Chicken)", "ra": 11.64, "dec": -63.4, "months": [1, 2, 3, 4, 5, 6], "type": "narrowband"},
+    {"cat": "NGC 2736", "name": "Bleistiftnebel (Pencil Nebula / Vela)", "ra": 9.01, "dec": -46.0, "months": [12, 1, 2, 3, 4, 5], "type": "narrowband"},
+    {"cat": "NGC 3132", "name": "Südlicher Ringnebel (Eight-Burst)", "ra": 10.12, "dec": -40.4, "months": [12, 1, 2, 3, 4, 5], "type": "narrowband"},
+    {"cat": "NGC 6334", "name": "Katzenpfotennebel (Cat's Paw)", "ra": 17.34, "dec": -35.7, "months": [4, 5, 6, 7, 8], "type": "narrowband"},
+    {"cat": "NGC 6357", "name": "Hummernebel Süd (War & Peace)", "ra": 17.41, "dec": -34.2, "months": [4, 5, 6, 7, 8], "type": "narrowband"},
+    {"cat": "M8", "name": "Lagunennebel", "ra": 18.06, "dec": -24.4, "months": [5, 6, 7, 8, 9], "type": "narrowband"},
+    {"cat": "M16", "name": "Adlernebel (Säulen der Schöpfung)", "ra": 18.31, "dec": -13.8, "months": [5, 6, 7, 8, 9], "type": "narrowband"},
+    {"cat": "M17", "name": "Omeganebel (Schwanennebel)", "ra": 18.35, "dec": -16.2, "months": [5, 6, 7, 8, 9], "type": "narrowband"},
+
+    # --- SÜDHALBKUGEL: HYBRID-NEBEL (DWARF 3 Filter: Duo-Band oder Astro) ---
+    {"cat": "M20", "name": "Trifidnebel", "ra": 18.04, "dec": -23.0, "months": [5, 6, 7, 8, 9], "type": "hybrid"},
+
+    # --- SÜDHALBKUGEL: GALAXIEN & WOLKEN (DWARF 3 Filter: Astro) ---
+    {"cat": "NGC 253", "name": "Sculptor-Galaxie (Silbermünze)", "ra": 0.79, "dec": -25.3, "months": [9, 10, 11, 12, 1], "type": "broadband"},
+    {"cat": "NGC 55", "name": "String of Pearls Galaxie", "ra": 0.25, "dec": -39.2, "months": [9, 10, 11, 12, 1], "type": "broadband"},
+    {"cat": "NGC 300", "name": "Südliche Dreiecksgalaxie", "ra": 0.91, "dec": -37.7, "months": [9, 10, 11, 12, 1], "type": "broadband"},
+    {"cat": "NGC 1365", "name": "Große Balkenspirale Fornax", "ra": 3.56, "dec": -36.1, "months": [10, 11, 12, 1, 2], "type": "broadband"},
+    {"cat": "LMC", "name": "Große Magellansche Wolke (Zentrum)", "ra": 5.39, "dec": -69.8, "months": [10, 11, 12, 1, 2, 3], "type": "broadband"},
+    {"cat": "SMC", "name": "Kleine Magellansche Wolke", "ra": 0.88, "dec": -72.8, "months": [9, 10, 11, 12, 1], "type": "broadband"},
+    {"cat": "NGC 5128", "name": "Centaurus A", "ra": 13.42, "dec": -43.0, "months": [2, 3, 4, 5, 6, 7], "type": "broadband"},
+    {"cat": "M83", "name": "Südliche Feuerrad-Galaxie", "ra": 13.62, "dec": -29.9, "months": [2, 3, 4, 5, 6, 7], "type": "broadband"},
 ]
