@@ -9,12 +9,35 @@ from zoneinfo import ZoneInfo
 import ics_builder
 from dso_catalog import DSO_CATALOG
 
-# --- KOORDINATEN (Anonymisierte Umgebungskoordinaten) ---
-LATITUDE = 50.7545
-LONGITUDE = 12.8855
+# --- STANDORT- & REISE-KONFIGURATION ---
+HOME_LOCATION = {
+    "name": "Neukirchen",
+    "lat": 50.7545,
+    "lon": 12.8855,
+    "tz": "Europe/Berlin",
+    "model": "best_match",  # Nutzt in Europa automatisch DWD ICON
+}
+
+TRAVEL_LOCATION = {
+    "name": "Elaidhoo (Malediven)",
+    "lat": 4.0063,
+    "lon": 72.9491,
+    "tz": "Indian/Maldives",
+    "model": "ecmwf_ifs025",  # Hochauflösendes globales ECMWF-Modell
+}
+
+# Zeitraum der Reise (Format: JJJJ-MM-TT) – hier deine exakten Daten eintragen:
+TRIP_START = "2026-11-17"
+TRIP_END = "2026-11-25"
 
 
-def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
+def get_location_for_date(date_str):
+    if TRIP_START <= date_str <= TRIP_END:
+        return TRAVEL_LOCATION
+    return HOME_LOCATION
+
+
+def calculate_astronomical_night(date_str, lat, lon):
     try:
         dt = datetime.strptime(date_str, "%Y-%m-%d")
         day_of_year = dt.timetuple().tm_yday
@@ -61,7 +84,7 @@ def calculate_astronomical_night(date_str, lat=LATITUDE, lon=LONGITUDE):
         return None, None
 
 
-def calculate_transit_time_str(date_str, ra_hours, lon=LONGITUDE):
+def calculate_transit_time_str(date_str, ra_hours, lon, tz_name):
     dt = datetime.strptime(date_str, "%Y-%m-%d")
     Y, M, D = dt.year, dt.month, dt.day
     if M <= 2:
@@ -84,17 +107,21 @@ def calculate_transit_time_str(date_str, ra_hours, lon=LONGITUDE):
         hours=transit_utc_hours
     )
 
-    transit_dt_local = transit_dt_utc.astimezone(ZoneInfo("Europe/Berlin"))
+    transit_dt_local = transit_dt_utc.astimezone(ZoneInfo(tz_name))
     return transit_dt_local.strftime("%H:%M")
 
 
-def get_sorted_targets(date_str, month, moon_illumination):
+def get_sorted_targets(date_str, month, moon_illumination, loc):
     matched = []
+    lat = loc["lat"]
+    lon = loc["lon"]
+    tz_name = loc["tz"]
+
     for t in DSO_CATALOG:
         if month in t["months"]:
-            max_alt = round(90.0 - abs(LATITUDE - t["dec"]))
+            max_alt = round(90.0 - abs(lat - t["dec"]))
             if max_alt > 10:
-                transit_time = calculate_transit_time_str(date_str, t["ra"])
+                transit_time = calculate_transit_time_str(date_str, t["ra"], lon, tz_name)
                 obj_type = t.get("type", "broadband")
 
                 if moon_illumination >= 50:
@@ -179,10 +206,11 @@ def extract_numbers(data_list, indices, default=None):
     return result
 
 
-def generate_ics():
+def fetch_weather_data(loc):
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
-        f"latitude={LATITUDE}&longitude={LONGITUDE}&"
+        f"latitude={loc['lat']}&longitude={loc['lon']}&"
+        f"models={loc['model']}&"
         f"hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,"
         f"relative_humidity_2m,precipitation_probability,precipitation&"
         f"daily=sunset,sunrise,moonrise,moonset,moon_phase&"
@@ -199,7 +227,7 @@ def generate_ics():
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    print("Lade Wetterdaten von Open-Meteo...", flush=True)
+    print(f"Lade Wetterdaten von Open-Meteo ({loc['name']}, Modell: {loc['model']})...", flush=True)
     raw_response = None
     for attempt in range(1, 4):
         try:
@@ -211,49 +239,59 @@ def generate_ics():
             print(f"Versuch {attempt}/3 fehlgeschlagen: {e}", file=sys.stderr, flush=True)
 
     if not raw_response:
-        print("Fehler: API-Abfrage nach 3 Versuchen abgebrochen.", file=sys.stderr, flush=True)
-        return
+        print(f"Fehler: API-Abfrage für {loc['name']} abgebrochen.", file=sys.stderr, flush=True)
+        return None
 
     try:
-        data = json.loads(raw_response)
+        return json.loads(raw_response)
     except json.JSONDecodeError as e:
         print(f"JSON-Parsing-Fehler: {e}", file=sys.stderr, flush=True)
-        return
+        return None
 
-    hourly = data.get("hourly", {})
-    daily = data.get("daily", {})
 
-    clouds_hourly = hourly.get("cloud_cover", [])
-    clouds_low = hourly.get("cloud_cover_low", [])
-    clouds_mid = hourly.get("cloud_cover_mid", [])
-    clouds_high = hourly.get("cloud_cover_high", [])
-    humidity_hourly = hourly.get("relative_humidity_2m", [])
-    precip_prob_hourly = hourly.get("precipitation_probability", [])
-    precip_hourly = hourly.get("precipitation", [])
-    times_hourly = hourly.get("time", [])
-
-    sunsets = daily.get("sunset", [])
-    sunrises = daily.get("sunrise", [])
-    moonrises = daily.get("moonrise", [])
-    moonsets = daily.get("moonset", [])
-    moon_phases = daily.get("moon_phase", [])
-
+def generate_ics():
+    weather_cache = {}
     vevents = []
     print("=== VORHERSAGE FÜR DIE NÄCHSTEN 7 TAGE (DYNAMISCHE ASTRO-NACHT) ===", flush=True)
 
-    daily_times = daily.get("time", [])
+    base_utc = datetime.now(UTC)
 
     for day in range(7):
+        date_str = (base_utc + timedelta(days=day)).strftime("%Y-%m-%d")
+        loc = get_location_for_date(date_str)
+
+        if loc["name"] not in weather_cache:
+            weather_cache[loc["name"]] = fetch_weather_data(loc)
+
+        data = weather_cache.get(loc["name"])
+        if not data:
+            continue
+
+        hourly = data.get("hourly", {})
+        daily = data.get("daily", {})
+
+        clouds_hourly = hourly.get("cloud_cover", [])
+        clouds_low = hourly.get("cloud_cover_low", [])
+        clouds_mid = hourly.get("cloud_cover_mid", [])
+        clouds_high = hourly.get("cloud_cover_high", [])
+        humidity_hourly = hourly.get("relative_humidity_2m", [])
+        precip_prob_hourly = hourly.get("precipitation_probability", [])
+        precip_hourly = hourly.get("precipitation", [])
+        times_hourly = hourly.get("time", [])
+
+        sunsets = daily.get("sunset", [])
+        sunrises = daily.get("sunrise", [])
+        moonrises = daily.get("moonrise", [])
+        moonsets = daily.get("moonset", [])
+        moon_phases = daily.get("moon_phase", [])
+        daily_times = daily.get("time", [])
+
         if day < len(daily_times):
             date_str = parse_time_str(daily_times[day])[:10]
-        elif (day * 24) < len(times_hourly):
-            date_str = parse_time_str(times_hourly[day * 24])[:10]
-        else:
-            dt_fallback = datetime.now(UTC) + timedelta(days=day)
-            date_str = dt_fallback.strftime("%Y-%m-%d")
+            loc = get_location_for_date(date_str)
 
         dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
-        dusk_utc, dawn_utc = calculate_astronomical_night(date_str)
+        dusk_utc, dawn_utc = calculate_astronomical_night(date_str, loc["lat"], loc["lon"])
 
         night_indices = []
         for k, t_raw in enumerate(times_hourly):
@@ -324,19 +362,19 @@ def generate_ics():
 
         if total_score <= 60:
             print(
-                f"[GEFILTERT] {date_str}: Score {total_score}% | Schnitt Wolken: {int(avg_cloud)}%, Spitze: {int(max_cloud)}%, Feuchte: {int(avg_humidity)}%",
+                f"[GEFILTERT] {date_str} ({loc['name']}): Score {total_score}% | Schnitt Wolken: {int(avg_cloud)}%, Spitze: {int(max_cloud)}%, Feuchte: {int(avg_humidity)}%",
                 flush=True,
             )
             continue
 
         status_symbol = "GRUEN" if total_score > 80 else "GELB"
         print(
-            f"[{status_symbol}] {date_str}: Score {total_score}% | Schnitt Wolken: {int(avg_cloud)}%, Spitze: {int(max_cloud)}%, Feuchte: {int(avg_humidity)}%",
+            f"[{status_symbol}] {date_str} ({loc['name']}): Score {total_score}% | Schnitt Wolken: {int(avg_cloud)}%, Spitze: {int(max_cloud)}%, Feuchte: {int(avg_humidity)}%",
             flush=True,
         )
 
         status_icon = "🟢" if total_score > 80 else "🟡"
-        summary = f"🔭 {status_icon} Deep Sky: {total_score}%"
+        summary = f"🔭 {status_icon} Deep Sky ({loc['name']}): {total_score}%"
 
         sunset_raw = sunsets[day] if day < len(sunsets) else ""
         sunrise_raw = (
@@ -352,21 +390,22 @@ def generate_ics():
         else:
             astro_str = f"Sommernacht (Sonnenuntergang: {sunset_time} - {sunrise_time})"
 
-        targets = get_sorted_targets(date_str, dt_obj.month, moon_illumination)
+        targets = get_sorted_targets(date_str, dt_obj.month, moon_illumination, loc)
         targets_str = "\n".join(targets)
 
         dew_warning = " ⚠️ (Tau-Risiko)" if avg_humidity >= 85 else ""
         precip_str = f"{int(max_precip_prob)}% ({total_precip:.1f} mm)" if max_precip_prob > 0 else "0% (Trocken)"
 
         raw_description = (
+            f"Standort: {loc['name']} ({loc['lat']}, {loc['lon']})\n"
             f"Astro-Dunkelheit (Sonne <= -18°): {astro_str}\n"
             f"Bewölkung (Nacht): Schnitt {int(avg_cloud)}% | Spitze {int(max_cloud)}% (Low {int(avg_low)}% / High {int(avg_high)}%)\n"
             f"Mond: ~{moon_illumination}% | Aufgang: {m_rise} | Untergang: {m_set}\n"
             f"Niederschlag: {precip_str}\n"
             f"Luftfeuchtigkeit: {int(avg_humidity)}%{dew_warning}\n\n"
-            f"DWARF 3 Empfehlungen & Filter (nach Zenit):\n"
+            f"DWARF 3 Empfehlungen & Filter (nach Zenit, {loc['tz']}):\n"
             f"{targets_str}\n\n"
-            f"Erstellt via Open-Meteo Astro API"
+            f"Erstellt via Open-Meteo Astro API ({loc['model']})"
         )
 
         vevent_str = ics_builder.create_vevent(
