@@ -116,6 +116,7 @@ def get_sorted_targets(date_str, month, moon_illumination, loc):
     lat = loc["lat"]
     lon = loc["lon"]
     tz_name = loc["tz"]
+    is_south_trip = lat < 15.0
 
     for t in DSO_CATALOG:
         if month in t["months"]:
@@ -149,6 +150,7 @@ def get_sorted_targets(date_str, month, moon_illumination, loc):
                 matched.append({
                     "cat": t["cat"],
                     "name": t["name"],
+                    "dec": t["dec"],
                     "max_alt": max_alt,
                     "transit": transit_time,
                     "rec_tag": rec_tag,
@@ -156,9 +158,20 @@ def get_sorted_targets(date_str, month, moon_illumination, loc):
                 })
 
     if moon_illumination >= 50:
-        matched.sort(key=lambda x: (x["priority"], -x["max_alt"]))
+        matched.sort(
+            key=lambda x: (
+                x["priority"],
+                0 if (is_south_trip and x["dec"] < 0) else 1,
+                -x["max_alt"],
+            )
+        )
     else:
-        matched.sort(key=lambda x: -x["max_alt"])
+        matched.sort(
+            key=lambda x: (
+                0 if (is_south_trip and x["dec"] < 0) else 1,
+                -x["max_alt"],
+            )
+        )
 
     top_targets = matched[:15]
     formatted = [
