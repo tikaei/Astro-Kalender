@@ -5,4 +5,43 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Astro-Wetter & DWARF 3
 X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:astro-2026-11-28@deepsky
+DTSTAMP:20261124T024509Z
+DTSTART:20261128T170803Z
+DTEND:20261129T044521Z
+SUMMARY:🔭 🟡 Deep Sky (Neukirchen): 72%
+DESCRIPTION:Standort: Neukirchen (50.7545, 12.8855)\nAstro-Dunkelheit (Sonne <= -18°): 17:08 - 04:45 UTC\nBewölkung (Nacht): Schnitt 13% | Spitze 43% (Low 13% / High 0%)\nMond: ~70% | Aufgang: 19:18 | Untergang: 10:47\nNiederschlag: 1% (0.0 mm)\nLuftfeuchtigkeit: 83%\n\nDWARF 3 Empfehlungen & Filter (nach Zenit, Europe/Berlin):\n• M76 (Kleine Hantel (Little Dumbbell)) [🟢 DWARF 3: Duo-Band Filter] - Max: 89° (Zenit: 21:19 Uhr)\n• Sh2-132 (Löwennebel (Lion Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 85° (Zenit: 17:57 Uhr)\n• NGC 7000 (Nordamerika-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 16:37 Uhr)\n• IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 16:29 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:30 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 17:14 Uhr)\n• Sh2-142 (Zauberer-Nebel (Wizard Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 18:24 Uhr)\n• Sh2-157 (Hummernebel (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 18:53 Uhr)\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 22:28 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 18:58 Uhr)\n• IC 1318 (Sadr-Region (Schwan)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 16:00 Uhr)\n• IC 1805 (Herznebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 22:10 Uhr)\n• IC 1795 (Fischkopfnebel (Fishhead Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 22:04 Uhr)\n• NGC 6888 (Crescent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 15:50 Uhr)\n• Sh2-155 (Höhlennebel (Cave Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 18:34 Uhr)\n\nErstellt via Open-Meteo Astro API (best_match)
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Astro-Wetter Erinnerung
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-11-29@deepsky
+DTSTAMP:20261124T024509Z
+DTSTART:20261129T170732Z
+DTEND:20261130T044632Z
+SUMMARY:🔭 🟡 Deep Sky (Neukirchen): 73%
+DESCRIPTION:Standort: Neukirchen (50.7545, 12.8855)\nAstro-Dunkelheit (Sonne <= -18°): 17:07 - 04:46 UTC\nBewölkung (Nacht): Schnitt 10% | Spitze 42% (Low 10% / High 0%)\nMond: ~62% | Aufgang: 20:46 | Untergang: 11:12\nNiederschlag: 32% (0.0 mm)\nLuftfeuchtigkeit: 81%\n\nDWARF 3 Empfehlungen & Filter (nach Zenit, Europe/Berlin):\n• M76 (Kleine Hantel (Little Dumbbell)) [🟢 DWARF 3: Duo-Band Filter] - Max: 89° (Zenit: 21:15 Uhr)\n• Sh2-132 (Löwennebel (Lion Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 85° (Zenit: 17:53 Uhr)\n• NGC 7000 (Nordamerika-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 16:33 Uhr)\n• IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 16:25 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:26 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 17:10 Uhr)\n• Sh2-142 (Zauberer-Nebel (Wizard Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 18:20 Uhr)\n• Sh2-157 (Hummernebel (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 18:49 Uhr)\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 22:24 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 18:54 Uhr)\n• IC 1318 (Sadr-Region (Schwan)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 15:56 Uhr)\n• IC 1805 (Herznebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 22:06 Uhr)\n• IC 1795 (Fischkopfnebel (Fishhead Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 22:00 Uhr)\n• NGC 6888 (Crescent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 15:46 Uhr)\n• Sh2-155 (Höhlennebel (Cave Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 18:30 Uhr)\n\nErstellt via Open-Meteo Astro API (best_match)
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Astro-Wetter Erinnerung
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:astro-2026-11-30@deepsky
+DTSTAMP:20261124T024509Z
+DTSTART:20261130T170703Z
+DTEND:20261201T044743Z
+SUMMARY:🔭 🟢 Deep Sky (Neukirchen): 91%
+DESCRIPTION:Standort: Neukirchen (50.7545, 12.8855)\nAstro-Dunkelheit (Sonne <= -18°): 17:07 - 04:47 UTC\nBewölkung (Nacht): Schnitt 0% | Spitze 0% (Low 0% / High 0%)\nMond: ~55% | Aufgang: 22:09 | Untergang: 11:30\nNiederschlag: 24% (0.0 mm)\nLuftfeuchtigkeit: 60%\n\nDWARF 3 Empfehlungen & Filter (nach Zenit, Europe/Berlin):\n• M76 (Kleine Hantel (Little Dumbbell)) [🟢 DWARF 3: Duo-Band Filter] - Max: 89° (Zenit: 21:11 Uhr)\n• Sh2-132 (Löwennebel (Lion Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 85° (Zenit: 17:49 Uhr)\n• NGC 7000 (Nordamerika-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 16:29 Uhr)\n• IC 5070 (Pelikannebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 16:21 Uhr)\n• NGC 281 (Pacman-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 84° (Zenit: 20:22 Uhr)\n• IC 1396 (Elefantenrüsselnebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 17:06 Uhr)\n• Sh2-142 (Zauberer-Nebel (Wizard Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 83° (Zenit: 18:16 Uhr)\n• Sh2-157 (Hummernebel (Lobster)) [🟢 DWARF 3: Duo-Band Filter] - Max: 81° (Zenit: 18:45 Uhr)\n• IC 1848 (Seelennebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 22:20 Uhr)\n• NGC 7635 (Blasennebel (Bubble)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 18:50 Uhr)\n• IC 1318 (Sadr-Region (Schwan)) [🟢 DWARF 3: Duo-Band Filter] - Max: 80° (Zenit: 15:52 Uhr)\n• IC 1805 (Herznebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 22:02 Uhr)\n• IC 1795 (Fischkopfnebel (Fishhead Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 79° (Zenit: 21:56 Uhr)\n• NGC 6888 (Crescent-Nebel) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 15:42 Uhr)\n• Sh2-155 (Höhlennebel (Cave Nebula)) [🟢 DWARF 3: Duo-Band Filter] - Max: 78° (Zenit: 18:27 Uhr)\n\nErstellt via Open-Meteo Astro API (best_match)
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Astro-Wetter Erinnerung
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
 END:VCALENDAR
